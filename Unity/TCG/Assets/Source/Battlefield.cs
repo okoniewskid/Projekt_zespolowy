@@ -7,10 +7,8 @@ namespace Assets.Source
     public class Battlefield : MonoBehaviour
     {
         public int bf_id;
-        public List<Card> cards_on_bf;
-        public Player bf_owner;
-
-
+        public List<Carda> cards_on_bf;
+        
         void Start()
         {
 
@@ -21,10 +19,19 @@ namespace Assets.Source
 
         }
 
-        public void AddCard(Card added_card)
+
+        public void AddCard(Carda added_card)
         {
             cards_on_bf.Add(added_card);
         }
+
+        public void RemoveCard(Carda removed_card)
+        {
+            cards_on_bf.Remove(removed_card);
+        }
+
+
+
 
 
     }

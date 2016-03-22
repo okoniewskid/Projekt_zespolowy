@@ -2,13 +2,13 @@
 using System.Collections;
 
 
-namespace Assets.Source
-{
-    public class Card : MonoBehaviour
+    public class Carda : MonoBehaviour
     {
-
-        public Sprite card_artwork;
-
+        SpriteRenderer spriteRenderer;
+    
+        public Sprite[] faces;
+        public Sprite cardBack;
+    
         //wartosci bazowe
         public int card_id;
         public string card_name;
@@ -49,4 +49,4 @@ namespace Assets.Source
 
     }
 
-}
+

@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Source;
 
-namespace Assets.Source
-{
-    public class Enemy : MonoBehaviour {
+public class Enemy : MonoBehaviour {
 
         public static int starting_life = 20;
         public static int starting_mana = 0;
@@ -18,7 +17,7 @@ namespace Assets.Source
         public static Hand enemy_hand;
         public static Exile enemy_exile;
 
-        public static List<Card> enemy_library;
+        public static List<Carda> enemy_library;
 
         public static int number_of_cards_in_hand = 0;
         public static int number_of_cards_in_library = 0;
@@ -36,4 +35,4 @@ namespace Assets.Source
 
         }
     }
-}
+
