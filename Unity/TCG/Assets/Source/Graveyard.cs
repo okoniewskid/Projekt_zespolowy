@@ -19,9 +19,6 @@ public class Graveyard : MonoBehaviour {
         cards_in_grave.Remove(removed_card);
     }
 
-
-
-
     // Use this for initialization
     void Start () {
 	
