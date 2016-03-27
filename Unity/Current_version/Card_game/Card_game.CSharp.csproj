@@ -58,12 +58,6 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -123,9 +117,6 @@
     <None Include="Assets\Plugins\Photon3Unity3D.xml" />
     <None Include="Assets\Plugins\release_history.txt" />
     <None Include="Assets\TCG\Databases and decklists\demodb.xml" />
-    <None Include="Assets\TCG\Free art\readme - important.txt" />
-    <None Include="Assets\TCG\Mana icons\all icons are by Lorc from lorcblog.blogspot.com Get more CC-BY icons at game-icons.net!.txt" />
-    <None Include="Assets\TCG\Mana icons\how to add your own mana icons.txt" />
     <None Include="Assets\TCG\Misc\Textured text.shader" />
     <None Include="Assets\TCG\Misc\bw.shader" />
     <None Include="Assets\TCG\Photon Unity Networking\changelog.txt" />
