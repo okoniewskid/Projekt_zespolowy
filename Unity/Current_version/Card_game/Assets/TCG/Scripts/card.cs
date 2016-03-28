@@ -1941,17 +1941,13 @@ public class card : MonoBehaviour {
 		}
 		else need_colorless++;
 
-		if (AI) while (need_colorless > 0)
+		while (need_colorless > 0)
 		{
 			list_to_use.RemoveAt(0);
 			need_colorless--;
 		}
-		else
-		{
-			foreach (card foundcard in Player.cards_in_hand)
-				foundcard.checked_for_highlight = false;
-		}
-
+		foreach (card foundcard in Player.cards_in_hand)
+		    foundcard.checked_for_highlight = false;
 	}
 
 	public IEnumerator FromHandEnchantment(bool AI=false)	
