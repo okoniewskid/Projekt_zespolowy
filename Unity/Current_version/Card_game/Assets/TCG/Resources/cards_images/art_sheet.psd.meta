@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: ee36f1a6cbcd0e943a742e151749eb5a
-timeCreated: 1459192712
+timeCreated: 1459241455
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,6 +8,7 @@ TextureImporter:
     21300002: art_sheet_1
     21300004: art_sheet_2
     21300006: art_sheet_3
+    21300008: art_sheet_4
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -114,6 +115,21 @@ TextureImporter:
         - {x: -100, y: -79.5}
         - {x: 100, y: -79.5}
         - {x: 100, y: 79.5}
+    - name: art_sheet_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 695
+        width: 200
+        height: 161
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -100, y: 80.5}
+        - {x: -100, y: -80.5}
+        - {x: 100, y: -80.5}
+        - {x: 100, y: 80.5}
     outline: []
   spritePackingTag: 
   userData: 
