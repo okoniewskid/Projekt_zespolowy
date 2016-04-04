@@ -31,8 +31,8 @@ public class VictoryDefeat : MonoBehaviour {
 	void OnGUI()
 	{
 		Rect windowRect = new Rect(400,300,300,90);
-		if (Player.Life <= 0)  windowRect = GUI.Window(0, windowRect, DoMyWindow, "You've received " + DefeatCurrency +  " silver!"); 
-		if (Enemy.Life <= 0)  windowRect = GUI.Window(0, windowRect, DoMyWindow, "You've received " + VictoryCurrency +  " silver!"); 	
+		if (Player.Life <= 0)  windowRect = GUI.Window(0, windowRect, DoMyWindow, "Otrzymałeś " + DefeatCurrency +  " srebra!"); 
+		if (Enemy.Life <= 0)  windowRect = GUI.Window(0, windowRect, DoMyWindow, "Otrzymałeś " + VictoryCurrency +  " srebra!"); 	
 		//Rect victoryDefeatBox = new Rect (Screen.width * 0.5f, Screen.height * 0.5f, 370, 324);
 		//if (Enemy.Lost)
 					//	GUI.DrawTexture (victoryDefeatBox, (Texture)Resources.Load ("Victory1"));
