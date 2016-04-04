@@ -483,10 +483,10 @@ public  class Enemy : MonoBehaviour {
 	void OnGUI () {
 				
 						GUI.skin = GameObject.FindWithTag ("Player").GetComponent<Player> ().customskin;
-			GUI.Label(new Rect(4,130,260,20), Enemy.EnemyName);
-			GUI.Label(new Rect(4,150,60,20), "Zycie: "+ Life.ToString());
-			GUI.Label(new Rect(4,170,160,20), "Karty w reku: "+ CardsInHand.ToString()); //important for multi, don't change CardsInHand to Count or smth
-		GUI.Label(new Rect(4,190,160,20), "Karty w talii: "+ NumberOfCardsInDeck.ToString()); //important for multi, don't change NumberOfCardsInDeck to Count or smth
+			GUI.Label(new Rect(4,210,260,20), Enemy.EnemyName);
+			GUI.Label(new Rect(4,230,60,20), "Zycie: "+ Life.ToString());
+			GUI.Label(new Rect(4,250,160,20), "Karty w reku: "+ CardsInHand.ToString()); //important for multi, don't change CardsInHand to Count or smth
+		GUI.Label(new Rect(4,270,160,20), "Karty w talii: "+ NumberOfCardsInDeck.ToString()); //important for multi, don't change NumberOfCardsInDeck to Count or smth
 
 		if (MainMenu.TCGMaker.core.UseManaColors) 
 		{
@@ -510,7 +510,7 @@ public  class Enemy : MonoBehaviour {
 				}
 			}
 		}
-		else GUI.Label(new Rect(4,210,200,20), "Skarbiec: "+ mana.Count);
+		else GUI.Label(new Rect(4,290,200,20), "Skarbiec: "+ mana.Count);
 
         /*	if (MainMenu.TCGMaker.core.OptionGraveyard) GUI.Label(new Rect(800,210,180,30), "Cards in graveyard: " + cards_in_graveyard.Count.ToString());
                             //GUI.Label (new Rect (4, 150, 160, 25), "Actions: " + Actions.ToString ());

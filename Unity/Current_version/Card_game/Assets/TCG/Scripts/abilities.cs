@@ -153,8 +153,8 @@ public class abilities : MonoBehaviour {
 				Effect effect = thiscard.Effects[activated_abilities[i]];
 				Cost = effect.cost.Count;
 
-				if (effect.name == null) ability_text =  "Use ability";
-					else if (effect.name == "") ability_text =  "Use ability";
+				if (effect.name == null) ability_text = "Uzyj umiejetnosc";
+					else if (effect.name == "") ability_text =  "Uzyj umiejetnosc";
 						else  ability_text =  effect.name.ToString();
 
 				GUIContent content = new GUIContent(); 
@@ -182,10 +182,10 @@ public class abilities : MonoBehaviour {
 				
 					if (thiscard.IsTurned) 
 					{
-						if (thiscard.IsACreature())Player.Warning = "This creature has already commited this turn";
-						else Player.Warning = "This card has already commited this turn";
+						if (thiscard.IsACreature())Player.Warning = "Ten stwor zostal uzyty w tej turze";
+						else Player.Warning = "Ten stwor zostal uzyty w tej turze";
 					}
-					else if (thiscard.FirstTurnSickness()) Player.Warning = "A creature cannot use its abilities on its first turn";
+					else if (thiscard.FirstTurnSickness()) Player.Warning = "Stwor nie moze uzywac umiejetnosci w turze w ktorej wszedk do gry";
 					else if (Cost <= Player.mana.Count) 
 					{	
 						if (Cost>0)Player.mana.RemoveAt(0);
@@ -193,14 +193,14 @@ public class abilities : MonoBehaviour {
 						Player.CanDoStack = true;
 					
 					}
-					else Player.Warning = "You don't have enough mana";
+					else Player.Warning = "Nie masz wystarczajaco zlota w skarbcu";
 					CloseMenu();
 				}
 			}
 		
 			if (activated_abilities.Length + GridOffset >0 || thiscard.GrowID!="") 
 			{
-				if (GUI.Button(new Rect(p.x+20,Screen.height-p.y+(activated_abilities.Length+GridOffset)*30,270,30), "Cancel")) DisplayMenu = false;
+				if (GUI.Button(new Rect(p.x+20,Screen.height-p.y+(activated_abilities.Length+GridOffset)*30,270,30), "Anuluj")) DisplayMenu = false;
 			}	
 				else CloseMenu();
 

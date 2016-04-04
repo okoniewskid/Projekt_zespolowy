@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: ee36f1a6cbcd0e943a742e151749eb5a
-timeCreated: 1459241455
+timeCreated: 1459801639
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -9,6 +9,11 @@ TextureImporter:
     21300004: art_sheet_2
     21300006: art_sheet_3
     21300008: art_sheet_4
+    21300010: art_sheet_5
+    21300012: art_sheet_6
+    21300014: art_sheet_7
+    21300016: art_sheet_8
+    21300018: art_sheet_9
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -130,6 +135,81 @@ TextureImporter:
         - {x: -100, y: -80.5}
         - {x: 100, y: -80.5}
         - {x: 100, y: 80.5}
+    - name: art_sheet_5
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 694
+        width: 200
+        height: 162
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -100, y: 81}
+        - {x: -100, y: -81}
+        - {x: 100, y: -81}
+        - {x: 100, y: 81}
+    - name: art_sheet_6
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 694
+        width: 200
+        height: 162
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -100, y: 81}
+        - {x: -100, y: -81}
+        - {x: 100, y: -81}
+        - {x: 100, y: 81}
+    - name: art_sheet_7
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 693
+        width: 200
+        height: 163
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -100, y: 81.5}
+        - {x: -100, y: -81.5}
+        - {x: 100, y: -81.5}
+        - {x: 100, y: 81.5}
+    - name: art_sheet_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 531
+        width: 201
+        height: 162
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -100.5, y: 81}
+        - {x: -100.5, y: -81}
+        - {x: 100.5, y: -81}
+        - {x: 100.5, y: 81}
+    - name: art_sheet_9
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 531
+        width: 200
+        height: 162
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -100, y: 81}
+        - {x: -100, y: -81}
+        - {x: 100, y: -81}
+        - {x: 100, y: 81}
     outline: []
   spritePackingTag: 
   userData: 

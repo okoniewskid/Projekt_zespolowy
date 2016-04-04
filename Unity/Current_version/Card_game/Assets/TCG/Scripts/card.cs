@@ -759,7 +759,7 @@ public class card : MonoBehaviour {
 	void BadTarget()
 	{
 		Debug.Log ("bad target");
-		Player.Warning = "This is not a valid target for this spell";
+		Player.Warning = "To nie jest poprawny cel.";
 	}
 
 	public void OnMouseDown() {
@@ -797,7 +797,7 @@ public class card : MonoBehaviour {
 								Slot attacker_slot = Player.AttackerCreature.slot;
 								
 							if (attacker_slot.IsAdjacent(slot) || (Player.AttackerCreature.Ranged && attacker_slot.IsInALine(slot).Count > 0) ) AssignTarget();
-										else Player.Warning = "This is not a valid target for attacking"; 
+										else Player.Warning = "To nie jest poprawny cel ataku."; 
 							}
 					   
 						else AssignTarget(); 
@@ -805,7 +805,7 @@ public class card : MonoBehaviour {
 					else 	//not an enemy creature
 					{
 						Debug.Log ("bad target");
-						Player.Warning = "This is not a valid target for attacking";
+						Player.Warning = "To nie jest poprawny cel ataku.";
 					}
 
 
@@ -932,10 +932,10 @@ public class card : MonoBehaviour {
 
 					if (IsACreatureOrHeroInGame() && MainMenu.TCGMaker.core.UseGrid && !abilities.DisplayMenu)
 					{
-						if (IsTurned)Player.Warning = "This creature cannot move because it has commited this turn";
+						if (IsTurned)Player.Warning = "Ten stwor wykonal juz akcje w tej turze";
 							else if (MovedThisTurn>1) Player.Warning = "This creature can't move any more this turn";
 								else if (MovedThisTurn>0 && !extramovement) Player.Warning = "This creature has already moved this turn";
-									else if (FirstTurnSickness()) Player.Warning = "A creature cannot move on its first turn";
+									else if (FirstTurnSickness()) Player.Warning = "Stwor nie moze zostac uzyty w turze w ktorej wszedl do gry";
 										else  
 											{	
 												
@@ -1146,10 +1146,10 @@ public class card : MonoBehaviour {
 			
 			
 			if (Player.LandsPlayedThisTurn > 0) 
-					Player.Warning = "You've already played a land this turn!";
+					Player.Warning = "Zagrales juz karte zasobu w tej turze!";
 			
 				else if (!Player.LandsZone.CanPlace())
-					Player.Warning = "You don't have enough slots to place a land!";
+					Player.Warning = "Za malo miejsca na zasoby!";
 			else {
 					FromHandLand ();
 					if (MainMenu.IsMulti)  SendHandCard(); //sending played card to the other player
@@ -1171,7 +1171,7 @@ public class card : MonoBehaviour {
 					Player.Warning = "You don't have enough slots to place a secret!";
 				else StartCoroutine(PayAdditionalCostAndPlay());
 		}
-			else Player.Warning = "You don't have enough mana";
+			else Player.Warning = "Za malo zlota w skarbcu";
 	}
 		// the card is a creature in game
 		else if (IsACreatureOrHeroInGame())
@@ -1190,9 +1190,9 @@ public class card : MonoBehaviour {
 	public void TryToAttack()
 	{
 		if (!IsTurned && !FirstTurnSickness() && !cant_attack) CreatureAttack();
-				else if (cant_attack) Player.Warning = "This creature cannot attack";
-					else if (FirstTurnSickness()) Player.Warning = "A creature can't attack the first turn it is in game";
-						else if (IsTurned) Player.Warning = "A tapped creature can't attack";
+				else if (cant_attack) Player.Warning = "Ten stwor nie moze atakowac";
+					else if (FirstTurnSickness()) Player.Warning = "Stwor nie moze atakowac w turze w ktorej wszedl do gry";
+						else if (IsTurned) Player.Warning = "Uzyty stwor nie moze atakowac";
 	}
 
 	bool CanAttack()
@@ -1870,52 +1870,52 @@ public class card : MonoBehaviour {
 			else if (target == 203 || target == 16) //random enemy creature or hero
 			{
 				if (!Enemy.HasACreature() && !Enemy.HasAHero()){
-					if (warning) Player.Warning = "There are no enemies to target with this spell";
+					if (warning) Player.Warning = "Nie ma celu dla tej karty";
 					return false;
 				}
 			}
 			else if (target == 202) { //random enemy creature with cost <= x
 							
 				if (!Enemy.RandomCreatureWithCostEqualOrLowerThan(foundeffect.targetparam0)) {
-					if (warning) Player.Warning = "There are no creatures to target with this spell";
+					if (warning) Player.Warning = "Nie ma celu dla tej karty";
 					return false;
 				}
 			}
 				else if (target == 200 || target == 201 || target == 14 ){ //random enemy creature (no heroes)
 				
 								if (!Enemy.HasACreature ()) {
-										if (warning) Player.Warning = "There are no enemy creatures to target with this spell";
+										if (warning) Player.Warning = "Nie ma celu dla tej karty";
 										return false;
 									}
 					}
 				else if (target == 230) { //random ally
 								if (!Player.HasACreature () && !Player.HasAHero()) {
-									if (warning) Player.Warning = "There are no allies to target with this spell";
+									if (warning) Player.Warning = "Nie ma celu dla tej karty";
 									return false;
 								}
 				}
 				else if (target == 261) //random x creatures
 				{
 					if (EffectManager.CreaturesInGame().Count < foundeffect.targetparam0) {
-					if (warning) Player.Warning = "There are not enough creatures to target with this spell";
+					if (warning) Player.Warning = "Nie ma celu dla tej karty";
 						return false;
 					}
 				}
 				else if (target == 13) { //from all creatures
 								if (!Player.HasACreature () && !Enemy.HasACreature()) {
-								if (warning) Player.Warning = "There are no creatures to target with this spell";
+								if (warning) Player.Warning = "Nie ma celu dla tej karty";
 									return false;
 								}
 				}
 				else if (target == 302) {//random creature from graveyard
 							if (EffectManager.RandomCard(Player.cards_in_graveyard, 1) == null) {
-								if (warning) Player.Warning = "You have no creatures in the graveyard to target";
+								if (warning) Player.Warning = "Nie ma celu dla tej karty";
 								return false;
 							}
 				}
 				else if (target == 303) //random spell from graveyard
 				if (EffectManager.RandomCard(Player.cards_in_graveyard, 2) == null) {
-					if (warning) Player.Warning = "You have no spells in the graveyard to target";
+					if (warning) Player.Warning = "Nie ma celu dla tej karty";
 					return false;
 				} 
 						
