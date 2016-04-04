@@ -43,7 +43,7 @@ public class VictoryDefeat : MonoBehaviour {
 
 
 	void DoMyWindow(int windowID) {
-		//if (GUILayout.Button("Back to main menu"))  Application.LoadLevel(MainMenu.SceneNameMainMenu);
+		if (GUILayout.Button("Wróć do menu."))  Application.LoadLevel(MainMenu.SceneNameMainMenu);
 			
 		
 	}

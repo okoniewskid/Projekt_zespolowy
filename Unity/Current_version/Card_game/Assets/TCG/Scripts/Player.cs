@@ -687,7 +687,7 @@ public class Player : MonoBehaviour {
 		if (MainMenu.TCGMaker.core.OptionPlayerTurnPopup) {
 						GUI.skin.label.alignment = TextAnchor.MiddleCenter; 
 						GUI.skin.label.fontStyle = FontStyle.Bold;
-						GUI.Label (new Rect (50, 10, 152, 25), "Your Turn");
+						GUI.Label (new Rect (50, 10, 152, 25), "Twoja tura");
 		
 						GUI.skin.label.alignment = TextAnchor.MiddleLeft; 
 						GUI.skin.label.fontStyle = FontStyle.Normal;
@@ -707,7 +707,7 @@ public class Player : MonoBehaviour {
 
 	void OnGUI () {
 
-		if (GUI.Button(new Rect(Screen.width * (1f/130f),Screen.height * (7.41f/8f),Screen.width * (1f/15f),Screen.height * (1f/14f)), "End Turn")) 
+		if (GUI.Button(new Rect(Screen.width * (1f/130f),Screen.height * (7.41f/8f),Screen.width * (1f/13f),Screen.height * (1f/14f)), "Koniec tury")) 
 			{	
 				if (PlayersTurn == true)	StartCoroutine("EndTurn");
 								
@@ -726,15 +726,15 @@ public class Player : MonoBehaviour {
 		
 				if (NeedTarget == 4) 
 						{
-							if (targets.Count == 0) GUI.Label (new Rect (400, 5, 200, 30), "Choose first target creature");
-								else   GUI.Label (new Rect (400, 5, 200, 30), "Choose second target creature");
+							if (targets.Count == 0) GUI.Label (new Rect (400, 5, 200, 30), "Wybierz pierwszy cel.");
+								else   GUI.Label (new Rect (400, 5, 200, 30), "Wybierz drugi cel.");
 										
 						} 
 				else if (NeedTarget == 7)
 										GUI.Label (new Rect (400, 5, 200, 30), "Choose a hero");
 				else if (NeedTarget == 21)
 										GUI.Label (new Rect (400, 5, 200, 30), "Choose a card to discard");					
-				else	GUI.Label (new Rect (400, 5, 200, 30), "Choose a target");
+				else	GUI.Label (new Rect (400, 5, 200, 30), "Wybierz cel.");
 								
 			Cursor.SetCursor (TargetCursorTexture, new Vector2 (5, 0), CursorMode.Auto);
 						} 
@@ -743,20 +743,20 @@ public class Player : MonoBehaviour {
 
 		string activeplayer = "";
 
-		if (Player.PlayersTurn == true) activeplayer = "Player";
-						 else activeplayer = "Enemy";
+		if (Player.PlayersTurn == true) activeplayer = "Gracz";
+						 else activeplayer = "Przeciwnik";
 						
-		GUI.Label (new Rect (4, 275, 200, 25), "Turn " + Player.Turn + ": " + activeplayer);
+		GUI.Label (new Rect (4, 275, 200, 25), "Tura " + Player.Turn + ": " + activeplayer);
 
 		if (MainMenu.IsMulti)
 								GUI.Label (new Rect (4, 440, 200, 20), PhotonNetwork.playerName);
 						else
-								GUI.Label (new Rect (4, 440, 60, 20), "Player");
+								GUI.Label (new Rect (4, 440, 60, 20), "Gracz");
 
-		GUI.Label(new Rect(60,440,60,20), "Life: "+ Player.Life.ToString());
+		GUI.Label(new Rect(4,460,60,20), "Zycie: "+ Player.Life.ToString());
 			
-		GUI.Label(new Rect(4,460,140,20), "Cards in deck: "+ playerDeck.pD.Deck.Count.ToString());
-		GUI.Label(new Rect(4,480,140,20), "Cards in hand: "+ Player.cards_in_hand.Count.ToString());
+		GUI.Label(new Rect(4,480,140,20), "Karty w talii: "+ playerDeck.pD.Deck.Count.ToString());
+		GUI.Label(new Rect(4,500,140,20), "Karty w reku: "+ Player.cards_in_hand.Count.ToString());
 						
 		if (MainMenu.TCGMaker.core.UseManaColors) 
 			{
@@ -780,11 +780,11 @@ public class Player : MonoBehaviour {
 					}
 				}
 			}
-		else GUI.Label(new Rect(4,500,200,20), "Mana: "+ Player.mana.Count);				
+		else GUI.Label(new Rect(4,520,200,20), "Skarbiec: "+ Player.mana.Count);				
 
-		if (MainMenu.TCGMaker.core.OptionGraveyard) GUI.Label(new Rect(800,400,180,30), "Cards in graveyard: " + cards_in_graveyard.Count.ToString());
+		//if (MainMenu.TCGMaker.core.OptionGraveyard) GUI.Label(new Rect(800,400,180,30), "Karty w cmentarzu: " + cards_in_graveyard.Count.ToString());
 
-		GUI.Label(new Rect(740,2,300,100), "Tap lands to gain mana\nUse mana to cast creatures and spells\nTap creatures to attack\nRMB on a creature to use its abilities\nHave fun!");
+		//GUI.Label(new Rect(740,2,300,100), "Tap lands to gain mana\nUse mana to cast creatures and spells\nTap creatures to attack\nRMB on a creature to use its abilities\nHave fun!");
 
 		
 

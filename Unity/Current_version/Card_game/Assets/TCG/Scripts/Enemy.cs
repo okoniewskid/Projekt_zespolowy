@@ -76,7 +76,7 @@ public  class Enemy : MonoBehaviour {
 		NumberOfCardsInDeck = 0;
 		PotentialMana = 0;
 		CardsInHand = 0;
-		EnemyName = "Enemy";
+		EnemyName = "Przeciwnik";
 
 		lands_in_game.Clear();
 		lands_in_game = Enemy.LandsZone.cards;
@@ -186,11 +186,11 @@ public  class Enemy : MonoBehaviour {
 	{
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter; 
 		GUI.skin.label.fontStyle = FontStyle.Bold;
-		GUI.Label(new Rect(50,10, 152, 25), "Opponent's Turn");
+		GUI.Label(new Rect(50,10, 152, 25), "Tura przeciwnika");
 		
 		GUI.skin.label.alignment = TextAnchor.MiddleLeft; 
 		GUI.skin.label.fontStyle = FontStyle.Normal;
-		GUI.Label(new Rect(16, 36, 220, 50), "The enemy is now taking its turn.");
+		GUI.Label(new Rect(16, 36, 220, 50), "Przeciwnik wykonuje swoja ture");
 	}
 
 	public static void TriggerCardAbilities(int ability_trigger, int subtype = -1)
@@ -216,7 +216,7 @@ public  class Enemy : MonoBehaviour {
 
 	public static void ChooseTarget(int Effect)
 	{
-		Debug.Log ("AI is choosing target for effect:"+Effect);
+		Debug.Log ("AI wybiera cel dla efektu:"+Effect);
 		targets.Clear ();
 		bool NegativeEffect = true;
 		if (Effect == 11 || Effect == 0)	NegativeEffect = false; //buff or heal 
@@ -484,9 +484,9 @@ public  class Enemy : MonoBehaviour {
 				
 						GUI.skin = GameObject.FindWithTag ("Player").GetComponent<Player> ().customskin;
 			GUI.Label(new Rect(4,130,260,20), Enemy.EnemyName);
-			GUI.Label(new Rect(4,150,60,20), "Life: "+ Life.ToString());
-			GUI.Label(new Rect(4,170,160,20), "Cards in hand: "+ CardsInHand.ToString()); //important for multi, don't change CardsInHand to Count or smth
-		GUI.Label(new Rect(4,190,160,20), "Cards in deck: "+ NumberOfCardsInDeck.ToString()); //important for multi, don't change NumberOfCardsInDeck to Count or smth
+			GUI.Label(new Rect(4,150,60,20), "Zycie: "+ Life.ToString());
+			GUI.Label(new Rect(4,170,160,20), "Karty w reku: "+ CardsInHand.ToString()); //important for multi, don't change CardsInHand to Count or smth
+		GUI.Label(new Rect(4,190,160,20), "Karty w talii: "+ NumberOfCardsInDeck.ToString()); //important for multi, don't change NumberOfCardsInDeck to Count or smth
 
 		if (MainMenu.TCGMaker.core.UseManaColors) 
 		{
@@ -510,20 +510,20 @@ public  class Enemy : MonoBehaviour {
 				}
 			}
 		}
-		else GUI.Label(new Rect(4,210,200,20), "Mana: "+ mana.Count);
+		else GUI.Label(new Rect(4,210,200,20), "Skarbiec: "+ mana.Count);
 
-		if (MainMenu.TCGMaker.core.OptionGraveyard) GUI.Label(new Rect(800,210,180,30), "Cards in graveyard: " + cards_in_graveyard.Count.ToString());
-						//GUI.Label (new Rect (4, 150, 160, 25), "Actions: " + Actions.ToString ());
-	
-						//if (Grid.UseGrid) GUI.Label(new Rect(800,210,180,30), "Cards in graveyard: " + cards_in_graveyard.Count.ToString());
+        /*	if (MainMenu.TCGMaker.core.OptionGraveyard) GUI.Label(new Rect(800,210,180,30), "Cards in graveyard: " + cards_in_graveyard.Count.ToString());
+                            //GUI.Label (new Rect (4, 150, 160, 25), "Actions: " + Actions.ToString ());
 
-						if ((TurnPopUpTimer < TurnPopUpTimerMax) && !Player.TutorialOn) {
-								//GUI.Window (0, new Rect ((Screen.width * 0.5f) - 160, (Screen.height * 0.5f) - 50		                       
-			                     //  , 250, 100), OpponentTurnPopup, "");
-						}
-				
-		}
+                            //if (Grid.UseGrid) GUI.Label(new Rect(800,210,180,30), "Cards in graveyard: " + cards_in_graveyard.Count.ToString());
 
+                            if ((TurnPopUpTimer < TurnPopUpTimerMax) && !Player.TutorialOn) {
+                                    //GUI.Window (0, new Rect ((Screen.width * 0.5f) - 160, (Screen.height * 0.5f) - 50		                       
+                                     //  , 250, 100), OpponentTurnPopup, "");
+                            }
+        */
+    }
+    
 	public void GainsMana (int amount)
 	{
 		for (int i=0; i < amount; i++)

@@ -351,14 +351,14 @@ public class MainMenu : MonoBehaviour
 
 		GUI.Label(new Rect(Screen.width / 2 -30, ((Screen.height - 350) / 2)+300, 600, 150), Currency.messagecurrency);
         GUI.skin.box.fontStyle = FontStyle.Bold;
-        GUI.Box(new Rect((Screen.width - 400) / 2, (Screen.height - 350) / 2, 400, 300), "TCG Maker 1.3 Demo");
+        GUI.Box(new Rect((Screen.width - 400) / 2, (Screen.height - 350) / 2, 400, 300), "Tarotia, gra karciana");
         GUILayout.BeginArea(new Rect((Screen.width - 400) / 2, (Screen.height - 350) / 2, 400, 250));
 
         GUILayout.Space(50);
 
 		GUILayout.BeginHorizontal();
 
-		if (message!="") GUILayout.Box(message);
+		//if (message!="") GUILayout.Box(message);
 		GUILayout.EndHorizontal();
 	
 		if (register)
@@ -404,7 +404,7 @@ public class MainMenu : MonoBehaviour
 
 			GUILayout.BeginHorizontal();
 			GUILayout.FlexibleSpace();
-			if (GUILayout.Button("Single Game", GUILayout.Width(200)))
+			if (GUILayout.Button("Gra jednoosobowa", GUILayout.Width(200)))
 			{
 				
 				IsMulti = false;
@@ -419,7 +419,7 @@ public class MainMenu : MonoBehaviour
 			{
 				GUILayout.BeginHorizontal();
 				GUILayout.FlexibleSpace();
-				if (GUILayout.Button("Multiplayer Game", GUILayout.Width(200)))
+				if (GUILayout.Button("Gra wieloosobowa", GUILayout.Width(200)))
 			{
 				IsMulti = true;
 				Application.LoadLevel(SceneNameMenu);
@@ -431,7 +431,7 @@ public class MainMenu : MonoBehaviour
 
 			GUILayout.BeginHorizontal();
 			GUILayout.FlexibleSpace();
-			if (GUILayout.Button("Change deck", GUILayout.Width(200)))
+			if (GUILayout.Button("Zmiana talii", GUILayout.Width(200)))
 			{
 				
 				Application.LoadLevel(SceneNameEditDeck);
@@ -474,13 +474,22 @@ public class MainMenu : MonoBehaviour
 			
 			}
 
-       
 
 
 
 
 
 
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        if (GUILayout.Button("Zamknij program", GUILayout.Width(200)))
+        {
+
+            IsMulti = false;
+            Application.Quit();
+        }
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
 
         GUILayout.EndArea();
     }
