@@ -483,10 +483,10 @@ public  class Enemy : MonoBehaviour {
 	void OnGUI () {
 				
 						GUI.skin = GameObject.FindWithTag ("Player").GetComponent<Player> ().customskin;
-			GUI.Label(new Rect(4,210,260,20), Enemy.EnemyName);
-			GUI.Label(new Rect(4,230,60,20), "Zycie: "+ Life.ToString());
-			GUI.Label(new Rect(4,250,160,20), "Karty w reku: "+ CardsInHand.ToString()); //important for multi, don't change CardsInHand to Count or smth
-		GUI.Label(new Rect(4,270,160,20), "Karty w talii: "+ NumberOfCardsInDeck.ToString()); //important for multi, don't change NumberOfCardsInDeck to Count or smth
+			GUI.Label(new Rect(Screen.width * (0.5f / 130f), Screen.height * (1.4f / 8f), Screen.width * (1f / 13f), Screen.height * (1f / 14f)), Enemy.EnemyName);
+			GUI.Label(new Rect(Screen.width * (0.5f / 130f), Screen.height * (1.6f / 8f), Screen.width * (1.5f / 13f), Screen.height * (1f / 14f)), "Zycie: "+ Life.ToString());
+			GUI.Label(new Rect(Screen.width * (0.5f / 130f), Screen.height * (1.8f / 8f), Screen.width * (1.5f / 13f), Screen.height * (1f / 14f)), "Karty w reku: "+ CardsInHand.ToString()); //important for multi, don't change CardsInHand to Count or smth
+		GUI.Label(new Rect(Screen.width * (0.5f / 130f), Screen.height * (2f / 8f), Screen.width * (1.5f / 13f), Screen.height * (1f / 14f)), "Karty w talii: "+ NumberOfCardsInDeck.ToString()); //important for multi, don't change NumberOfCardsInDeck to Count or smth
 
 		if (MainMenu.TCGMaker.core.UseManaColors) 
 		{
@@ -510,7 +510,7 @@ public  class Enemy : MonoBehaviour {
 				}
 			}
 		}
-		else GUI.Label(new Rect(4,290,200,20), "Skarbiec: "+ mana.Count);
+		else GUI.Label(new Rect(Screen.width * (0.5f / 130f), Screen.height * (2.2f / 8f), Screen.width * (1.5f / 13f), Screen.height * (1f / 14f)), "Skarbiec: "+ mana.Count);
 
         /*	if (MainMenu.TCGMaker.core.OptionGraveyard) GUI.Label(new Rect(800,210,180,30), "Cards in graveyard: " + cards_in_graveyard.Count.ToString());
                             //GUI.Label (new Rect (4, 150, 160, 25), "Actions: " + Actions.ToString ());

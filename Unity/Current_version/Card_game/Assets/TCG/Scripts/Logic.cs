@@ -83,7 +83,7 @@ public class Logic : MonoBehaviour
 						} else
 								GUI.Label (new Rect (440, 2, 200, 20), PhotonNetwork.connectionStateDetailed.ToString ());
 				}
-		else if (GUILayout.Button ("Return to Main Menu")) {
+		else if (GUILayout.Button ("Powrot do menu")) {
 			playerDeck.pD.LoadSavedDeck();
 			Application.LoadLevel(SceneNameMainMenu);
 		}

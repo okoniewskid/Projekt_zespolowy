@@ -746,17 +746,17 @@ public class Player : MonoBehaviour {
 		if (Player.PlayersTurn == true) activeplayer = "Gracz";
 						 else activeplayer = "Przeciwnik";
 						
-		GUI.Label (new Rect (4, 450, 200, 25), "Tura " + Player.Turn + ": " + activeplayer);
+		GUI.Label (new Rect (Screen.width * (0.5f / 130f), Screen.height * (3.5f / 8f), Screen.width * (1f / 13f), Screen.height * (1f / 14f)), "Tura " + Player.Turn + ": " + activeplayer);
 
 		if (MainMenu.IsMulti)
 								GUI.Label (new Rect (4, 440, 200, 20), PhotonNetwork.playerName);
 						else
-								GUI.Label (new Rect (4, 740, 60, 20), "Gracz");
+								GUI.Label (new Rect (Screen.width * (0.5f / 130f), Screen.height * (5.3f / 8f), Screen.width * (1f / 13f), Screen.height * (1f / 14f)), "Gracz");
 
-		GUI.Label(new Rect(4,760,60,20), "Zycie: "+ Player.Life.ToString());
+		GUI.Label(new Rect(Screen.width * (0.5f / 130f), Screen.height * (5.5f / 8f), Screen.width * (1.5f / 13f), Screen.height * (1f / 14f)), "Zycie: "+ Player.Life.ToString());
 			
-		GUI.Label(new Rect(4,780,140,20), "Karty w talii: "+ playerDeck.pD.Deck.Count.ToString());
-		GUI.Label(new Rect(4,800,140,20), "Karty w reku: "+ Player.cards_in_hand.Count.ToString());
+		GUI.Label(new Rect(Screen.width * (0.5f / 130f), Screen.height * (5.7f / 8f), Screen.width * (1.5f / 13f), Screen.height * (1f / 14f)), "Karty w talii: "+ playerDeck.pD.Deck.Count.ToString());
+		GUI.Label(new Rect(Screen.width * (0.5f / 130f), Screen.height * (5.9f / 8f), Screen.width * (1.5f / 13f), Screen.height * (1f / 14f)), "Karty w reku: "+ Player.cards_in_hand.Count.ToString());
 						
 		if (MainMenu.TCGMaker.core.UseManaColors) 
 			{
@@ -780,7 +780,7 @@ public class Player : MonoBehaviour {
 					}
 				}
 			}
-		else GUI.Label(new Rect(4,820,200,20), "Skarbiec: "+ Player.mana.Count);				
+		else GUI.Label(new Rect(Screen.width * (0.5f / 130f), Screen.height * (6.1f / 8f), Screen.width * (1.5f / 13f), Screen.height * (1f / 14f)), "Skarbiec: "+ Player.mana.Count);				
 
 		//if (MainMenu.TCGMaker.core.OptionGraveyard) GUI.Label(new Rect(800,400,180,30), "Karty w cmentarzu: " + cards_in_graveyard.Count.ToString());
 

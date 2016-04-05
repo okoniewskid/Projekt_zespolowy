@@ -145,7 +145,7 @@ public class card : MonoBehaviour {
 
 	// Seconds the mouse is hovering over a card
 	float mouseHoverSeconds = 0;
-	float mouseHoverZoomTime = 0.5f; // amount of time of mousehover before showing full card
+	float mouseHoverZoomTime = 1.5f; // amount of time of mousehover before showing full card
 
 	static List<int> NoTargetEffects = new List<int> {2, 12, 15};
 
