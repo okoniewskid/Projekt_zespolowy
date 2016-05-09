@@ -43,11 +43,9 @@ public class EditDeckScripts : MonoBehaviour {
 	public static string searchname="";
 	public static bool FilterOn = false;
 
-
 	public static bool Zoomed = false;
 	public static bool CardsNeedArrange = false;
 	private bool CanExitNow = false;
-
 
 	public static void MoveCard(card card_to_move)
 	{
@@ -55,11 +53,9 @@ public class EditDeckScripts : MonoBehaviour {
 		//move the card from collection to deck or from deck to collection 
 		if (card_to_move.InCollection) 
 		{
-			Debug.Log("mouse down collection");
-			
-			
+			Debug.Log("mouse down collection");			
 			card foundcard = EditDeckScripts.cards_in_deck.Find(x => x.Index == card_to_move.Index);
-			
+            		
 			if (foundcard) { Debug.Log("found, adding amount"); foundcard.Amount++;}
 			else 
 			{ 	//Debug.Log("cloning");
@@ -68,9 +64,7 @@ public class EditDeckScripts : MonoBehaviour {
 				//foundcard = EditDeckScripts.cards_in_deck.Find(x => x.Index == Index);
 				clone.GetComponent<card>().Amount=1;
 			}
-			card_to_move.Amount--;
-			
-			
+			card_to_move.Amount--;						
 		}
 		else 
 		{
@@ -78,33 +72,23 @@ public class EditDeckScripts : MonoBehaviour {
 			EditDeckScripts.cards_in_collection.Find(x => x.Index == card_to_move.Index).Amount++;
 			Debug.Log("amount in coll: "+ 	EditDeckScripts.cards_in_collection.Find(x => x.Index == card_to_move.Index).Amount);
 			card_to_move.Amount--;
-			
-			
-			
-			if (EditDeckScripts.FilterOn)
+
+            if (EditDeckScripts.FilterOn)
 			{
 				if (card_to_move.Name.ToString().ToLower().Contains(EditDeckScripts.searchname.ToLower())) { EditDeckScripts.cards_in_collection.Add(card_to_move); }
 				else { 
 					EditDeckScripts.cards_filtered_out.Add(card_to_move); 
 					card_to_move.GetComponent<SpriteRenderer>().enabled = false; 
 				}
-			}
-			
+			}	
 		}
-		
-		
-		EditDeckScripts.ArrangeCards();
-		
+			
+		EditDeckScripts.ArrangeCards();	
 	}
-
-
 
 	// Use this for initialization
 	void Start () {
 		Debug.Log("startind editdeckscripts");
-
-
-		
 
 		Camera.main.orthographicSize = Screen.height / 2.0f /100f;
 		GetComponent<Camera>().orthographicSize = Screen.height / 2.0f /100f;
@@ -124,8 +108,7 @@ public class EditDeckScripts : MonoBehaviour {
 		foreach (int card in playerDeck.pD.Deck)
 		{
 			output+=card.ToString()+",";
-		}
-		
+		}	
 		return output;
 	}
 
@@ -144,10 +127,9 @@ public class EditDeckScripts : MonoBehaviour {
 		WWW w = new WWW(MainMenu.url_update_deck, form);
 		
 		StartCoroutine(UpdateDeck(w));
-
 	}
 	
-	 IEnumerator UpdateDeck( WWW w)
+	IEnumerator UpdateDeck( WWW w)
 	{
 		Debug.Log("ienum updating");
 		yield return w;
@@ -164,17 +146,12 @@ public class EditDeckScripts : MonoBehaviour {
 
 	}
 
-
-	void OnGUI()
-		
+	void OnGUI()		
 	{
 		GUI.skin = customskin;
-
-	
-		// 							displaying the deck
+		//displaying the deck
 		
 		if (CardsNeedArrange)
-
 		{ 
 			guivector.Clear();
 			guiamount.Clear();
@@ -189,11 +166,12 @@ public class EditDeckScripts : MonoBehaviour {
 			
 			{
 			if (i>=cards_in_deck.Count) break;
-				if (cards_in_deck[i].Amount<=0) { foreach (Transform child in cards_in_deck[i].transform)	child.gameObject.GetComponent<Renderer>().enabled = false; //hiding the offense/defense text
+				if (cards_in_deck[i].Amount<=0) { foreach (Transform child in cards_in_deck[i].transform)
+                    child.gameObject.GetComponent<Renderer>().enabled = false; //hiding the offense/defense text
 				}
-			else //showing the card
-
-				{	foreach (Transform child in cards_in_deck[i].transform)	child.gameObject.GetComponent<Renderer>().enabled = true; //showing the offense/defense text 
+			    else //showing the card
+				{
+                    foreach (Transform child in cards_in_deck[i].transform)	child.gameObject.GetComponent<Renderer>().enabled = true; //showing the offense/defense text 
 					Debug.Log("name deck card: "+ cards_in_deck[i].Name );
 					cards_in_deck[i].InCollection = false;
 					cards_in_deck[i].GetComponent<Renderer>().enabled = true;
@@ -203,16 +181,12 @@ public class EditDeckScripts : MonoBehaviour {
 					foreach (Transform child in cards_in_deck[i].transform) child.GetComponent<Renderer>().sortingOrder = 50-(cardsdisplayed*2)+1; 
 					cards_in_deck[i].transform.Find ("CardArt").GetComponent<Renderer>().sortingOrder = 50-(cardsdisplayed*2); 
 					cards_in_deck[i].GetComponent<Renderer>().sortingOrder = 50-(cardsdisplayed*2)+1; // this ensures the cards will overlap each other in the right order
-
-					
-				
 					}
 					else
 					{
 						cards_in_deck[i].GetComponent<Renderer>().sortingOrder = 50-(cardsdisplayed*2); 
 						foreach (Transform child in cards_in_deck[i].transform) child.GetComponent<Renderer>().sortingOrder = 50-(cardsdisplayed*2)+1; 
 					}
-
 
 					collider = cards_in_deck[i].GetComponent<BoxCollider2D> () as BoxCollider2D;
 					collider.enabled = true;
@@ -224,9 +198,6 @@ public class EditDeckScripts : MonoBehaviour {
 						//Debug.Log("amount " + cards_in_deck[i].Amount.ToString());
 						guivector.Add(Camera.main.WorldToScreenPoint(cards_in_deck[i].transform.position));
 						guiamount.Add( cards_in_deck[i].Amount.ToString());
-
-
-
 					}
 									
 					if (i==0) { //the first card is fully showing and needs a bigger collider
@@ -238,7 +209,7 @@ public class EditDeckScripts : MonoBehaviour {
 			} 
 		}	
 		
-		//						 now displaying the collection
+		//now displaying the collection
 		if (TableMode) {}
 		else 
 		{
@@ -248,12 +219,13 @@ public class EditDeckScripts : MonoBehaviour {
 			Debug.Log("cards_in_collection.Count " + cards_in_collection.Count);
 			Debug.Log("StartIndex " + StartIndex);
 			Debug.Log("StartIndex+CardsInARow :" + (StartIndex+CardsInARow).ToString());
-				for ( i = StartIndex; cardsdisplayed<(StartIndex+CardsInARow); i++)
+			for ( i = StartIndex; cardsdisplayed<(StartIndex+CardsInARow); i++)
 			{
-
 				if (i>=cards_in_collection.Count) break;
-					Debug.Log("collection card  " + 	cards_in_collection[i].GetComponent<card>().Index);
-					if (cards_in_collection[i].GetComponent<card>().Amount<=0) {  foreach (Transform child in cards_in_collection[i].transform)	child.gameObject.GetComponent<Renderer>().enabled = false; //hiding the offense/defense text 
+					Debug.Log("collection card  " + cards_in_collection[i].GetComponent<card>().Index);
+					if (cards_in_collection[i].GetComponent<card>().Amount<=0)
+                    {
+                        foreach (Transform child in cards_in_collection[i].transform) child.gameObject.GetComponent<Renderer>().enabled = false; //hiding the offense/defense text 
 					}  
 				else if (cards_in_collection[i].GetComponent<card>().FilteredOut) {}
 				else {
@@ -285,33 +257,20 @@ public class EditDeckScripts : MonoBehaviour {
 						{
 							//Debug.Log("amount " + cards_in_collection[i].Amount.ToString());
 							guivector.Add(Camera.main.WorldToScreenPoint(cards_in_collection[i].transform.position));
-							guiamount.Add( cards_in_collection[i].Amount.ToString());
-
-							
-							
-						}
-					
-						if (i==0) { //the first card is fully showing and needs a bigger collider
-						
+							guiamount.Add( cards_in_collection[i].Amount.ToString());						
+						}				
+						if (i==0)
+                        { //the first card is fully showing and needs a bigger collider	
 						collider.size = FirstCardColliderSize;
-						collider.offset =new Vector2(0,0);
-						
-											} 
-					
+						collider.offset =new Vector2(0,0);					
+						} 					
 					cardsdisplayed++;
 					}
-				}
-			
-			
+				}		
 			}
 
 			CardsNeedArrange = false; //finished arranging cards
-
 		}
-
-
-
-
 
 		if (TableMode) 
 		{
@@ -319,33 +278,26 @@ public class EditDeckScripts : MonoBehaviour {
 			int rows_in_column = 7;
 			int column = 0;
 			foreach (card foundcard in cards_in_collection)
-
 			{	
 				if ((foundcard.FilteredOut)||(foundcard.Amount<=0)) {}
 				else
 				{
-
-
 				//Debug.Log(foundcard.GetComponent<card>().Name);	
-				if ((row!=0)&&(row%rows_in_column == 0))  { column++; row = 0; }  //if we should start a new column, start it and reset rows
+				if ((row!=0)&&(row%rows_in_column == 0)) { column++; row = 0; }  //if we should start a new column, start it and reset rows
 			
-					string amounttext = "";
+				string amounttext = "";
 				if (foundcard.Amount>1)
 				{
 						amounttext = " x"+foundcard.Amount;
 						//GUI.Label(new Rect(100+200*column,110+22*row,200,20),foundcard.Amount.ToString());
 						//guivector.Add(new Vector3(45+200*column, Screen.height-(110+22*row), 0));
-						//guiamount.Add(foundcard.Amount.ToString());
-						
-						
+						//guiamount.Add(foundcard.Amount.ToString());		
 				}
 				if (GUI.Button(new Rect(35+200*column,110+22*row,200,20), foundcard.GetComponent<card>().Name.ToString()+amounttext, "tablemodecard" ))  //just the names of our cards, without images
 				{
-					foundcard.OnMouseDown(); 
-				
+					foundcard.OnMouseDown(); 		
 					break;
 				}
-
 				row++;
 				}
 			}
@@ -359,8 +311,6 @@ public class EditDeckScripts : MonoBehaviour {
 			GUI.Label(new Rect(p.x+15,Screen.height-p.y+50,200,30), "x"+guiamount[i], "amount");
 			}
 		//}
-
-	
 	
 		GUI.Label(new Rect(10,4, 228, 30), "EDIT DECK", "title");
 
@@ -376,8 +326,7 @@ public class EditDeckScripts : MonoBehaviour {
 					for (int i = 0; i<foundcard.Amount; i++)
 					{	 playerDeck.pD.Deck.Add(foundcard.Index); 
 						Debug.Log("adding card:"+ foundcard.Index.ToString());
-					} //adding cards to the new deck
-				
+					} //adding cards to the new deck		
 				}
 			}
 
@@ -392,7 +341,7 @@ public class EditDeckScripts : MonoBehaviour {
 		if (GUI.Button(new Rect(475,555, 100, 50), "CANCEL", "nobg"))
 		{ Application.LoadLevel(MainMenu.SceneNameMainMenu);}
 	
-		if (GUI.Button(new Rect(120 ,40, 150, 50), "Table View"))
+		/*if (GUI.Button(new Rect(120 ,40, 150, 50), "Table View"))
 		{
 			if (TableMode) {
 				TableMode = false; 
@@ -415,7 +364,7 @@ public class EditDeckScripts : MonoBehaviour {
 						foundcard.GetComponent<SpriteRenderer>().enabled = false; 
 					}
 			}
-		}
+		}*/
 		GUI.Label(new Rect(7,46, 228, 30), "COLLECTION");
 		GUI.Label(new Rect(7,306, 228, 30), "DECK");
 		GUI.Label(new Rect(275,46, 228, 30), "SEARCH BY NAME");
@@ -489,12 +438,10 @@ public class EditDeckScripts : MonoBehaviour {
 
 	void UnFilterCollection()
 	{
-
 		foreach (card foundcard in cards_in_collection) 
 		{
 			foundcard.GetComponent<card>().FilteredOut = false;
 		}
-	
 	}
 
 	void FilterCollection()
@@ -539,15 +486,7 @@ public class EditDeckScripts : MonoBehaviour {
 				collection.Add(foundcardID);
 				collection_amount.Add(1);
 			}
-				}
-
-
-		foreach (int foundcardID in playerDeck.pD.Deck) {
-
-				i =	collection.IndexOf(foundcardID);
-				collection_amount[i]--;  //removing the deck cards from visible colllection
 		}
-
 
 		i = 0;
 
@@ -680,10 +619,7 @@ public class EditDeckScripts : MonoBehaviour {
 	public static void ArrangeCards()
 	{
 		HideAllCards();
-
 		CardsNeedArrange = true;
-
-
 	}
 
 

@@ -59,8 +59,6 @@ public class MainMenu : MonoBehaviour
 	private string url_player_collection = "http://losange-vision.com/playercollection.php"; 
 	public static string url_update_deck = "http://losange-vision.com/updatedeck.php"; 
 
-
-
 	private Hashtable[] promocards; 
 	public static List <string> promo_prices= new List<string>();
 	public static List <Vector3> promo_vector= new List<Vector3>();
@@ -77,25 +75,20 @@ public class MainMenu : MonoBehaviour
 
 	public static float ColliderWidth, ColliderHeight;
 
-
     public void Awake()
-    {
-	
+    {	
 		CardTemplate instance = CardTemplate.Instance; 
-
     }
-
 
 	public void Start()
 	{
-		if (FirstLoadMenu) {
-			Debug.Log ("firstload");
-						
-
-			playerDeck.pD.LoadPlayerDeckOffline ();
-						
-				} else {
-
+		if (FirstLoadMenu)
+        {
+			Debug.Log ("firstload");			
+			playerDeck.pD.LoadPlayerDeckOffline ();		
+		}
+        else
+        {
 			if (LoggedIn) 
 			{
 				Currency.GetCurrency();
@@ -103,7 +96,7 @@ public class MainMenu : MonoBehaviour
 				DoGetPlayerDeck();
 				DoGetPlayerCollection();
 			}
-				}
+		}
 		Debug.Log ("is logged in = " + LoggedIn);
 		FirstLoadMenu = false;
 	}
@@ -114,9 +107,7 @@ public class MainMenu : MonoBehaviour
 			CollectionNeedsUpdate = false;
 	}
 
-
-	public static Texture2D SpriteToTexture(Sprite sprite)
-		
+	public static Texture2D SpriteToTexture(Sprite sprite)	
 	{
 		Texture2D croppedTexture = new Texture2D ((int)sprite.rect.width, (int)sprite.rect.height);
 		
@@ -127,13 +118,11 @@ public class MainMenu : MonoBehaviour
 		
 		croppedTexture.SetPixels (pixels);
 		croppedTexture.Apply ();
-		return croppedTexture;
-		
+		return croppedTexture;		
 	}
 
 	static public Hashtable[] ParsePromocards (string cardsstring)
-	{
-		
+	{		
 		string[] lines = cardsstring.Split("\n"[0]); 
 		string[] linearray;
 		// finds the number of cards
@@ -141,14 +130,12 @@ public class MainMenu : MonoBehaviour
 		Hashtable[] output = new Hashtable[lines.Length-1];
 		for (int i = 0; i < (lines.Length-1); i++)
 		{
-
 			output[i]=new Hashtable();
 			linearray = lines[i].Split(","[0]);
 			output[i]["id"] = linearray[0];
 			Debug.Log("linearray[0]"+ linearray[0]);
 			Debug.Log("linearray[1]"+ linearray[1]);
 			output[i]["cost"] = linearray[1]; 
-
 		}
 		return output;
 	}
@@ -160,9 +147,7 @@ public class MainMenu : MonoBehaviour
 		form.AddField("userid", userid);
 		WWW w = new WWW(url_player_collection, form);
 		Debug.Log("downloading collection for user id: "+ userid);
-		StartCoroutine(GetPlayerCollection(w));
-		
-		
+		StartCoroutine(GetPlayerCollection(w));	
 	}
 	
 	IEnumerator GetPlayerCollection( WWW w)
@@ -189,8 +174,6 @@ public class MainMenu : MonoBehaviour
 		WWW w = new WWW(url_player_deck, form);
 		Debug.Log("downloading deck for user id: "+ userid);
 		StartCoroutine(GetPlayerDeck(w));
-		
-		
 	}
 
 	IEnumerator GetPlayerDeck( WWW w)
@@ -199,29 +182,19 @@ public class MainMenu : MonoBehaviour
 		if (w.error ==null)
 		{
 			deckstring = w.text;
-			Debug.Log("downloaded deck: "+ w.text);
-			
+			Debug.Log("downloaded deck: "+ w.text);		
 			DownloadedPlayerDeck = true;
-
 			playerDeck.pD.Deck =  playerDeck.pD.LoadDeck(deckstring);
-			
-		
 		}
 		else message +="ERROR:" +w.error + "\n";
 		Debug.Log(message);
 	}
 
-
 	public void DoGetLatestCards()
-	{
-		
-		WWW w = new WWW(url_latest_cards);
-		
-		StartCoroutine(GetLatestCards(w));
-		
-
+	{	
+		WWW w = new WWW(url_latest_cards);	
+		StartCoroutine(GetLatestCards(w));	
 	}
-
 
 	IEnumerator GetLatestCards( WWW w)
 	{
@@ -272,7 +245,6 @@ public class MainMenu : MonoBehaviour
 		Debug.Log(message);
 	}
 
-
 	public void DoRegister()
 	{
 		WWWForm form = new WWWForm();
@@ -312,8 +284,6 @@ public class MainMenu : MonoBehaviour
 		StartCoroutine(Login(w));
 	}
 
-
-
 	 IEnumerator Login (WWW w)
 	{
 		yield return w;
@@ -334,6 +304,7 @@ public class MainMenu : MonoBehaviour
 		}
 		else message +="ERROR:" +w.error + "\n";
 	}
+
     public void OnGUI()
     {
 		if (LoggedIn) {
@@ -346,8 +317,6 @@ public class MainMenu : MonoBehaviour
 
 		}
 		//GUILayout.Label("deck count" + playerDeck.Deck.Count.ToString());
-
-
 
 		GUI.Label(new Rect(Screen.width / 2 -30, ((Screen.height - 350) / 2)+300, 600, 150), Currency.messagecurrency);
         GUI.skin.box.fontStyle = FontStyle.Bold;
@@ -383,8 +352,6 @@ public class MainMenu : MonoBehaviour
 			repass = GUILayout.TextField(repass);
 			GUILayout.EndHorizontal();
 
-		
-
 			GUILayout.BeginHorizontal();
 			
 			if (GUILayout.Button("Back")) register=false;
@@ -396,12 +363,9 @@ public class MainMenu : MonoBehaviour
 				else if (pswd==repass) DoRegister();       			  // Registration
 				else message+="Your password does not match \n";
 			}
-			GUILayout.EndHorizontal();
-			
+			GUILayout.EndHorizontal();	
 		}
 		else if ((LoggedIn)||(PlayOffline==true)) {
-		
-
 			GUILayout.BeginHorizontal();
 			GUILayout.FlexibleSpace();
 			if (GUILayout.Button("Gra jednoosobowa", GUILayout.Width(200)))
@@ -412,31 +376,23 @@ public class MainMenu : MonoBehaviour
 			}
 			GUILayout.FlexibleSpace();
 			GUILayout.EndHorizontal();
-			
-			
-
 			if (!PlayOffline)
 			{
 				GUILayout.BeginHorizontal();
 				GUILayout.FlexibleSpace();
 				if (GUILayout.Button("Gra wieloosobowa", GUILayout.Width(200)))
 			{
-				IsMulti = true;
-				Application.LoadLevel(SceneNameMenu);
+			IsMulti = true;
+			Application.LoadLevel(SceneNameMenu);
 			}
 				GUILayout.FlexibleSpace();
 				GUILayout.EndHorizontal();
 			}
-		
-
-			GUILayout.BeginHorizontal();
+    		GUILayout.BeginHorizontal();
 			GUILayout.FlexibleSpace();
 			if (GUILayout.Button("Zmiana talii", GUILayout.Width(200)))
-			{
-				
-				Application.LoadLevel(SceneNameEditDeck);
-				
-				
+			{	
+				Application.LoadLevel(SceneNameEditDeck);	
 			}
 			GUILayout.FlexibleSpace();
 			GUILayout.EndHorizontal();
@@ -465,34 +421,20 @@ public class MainMenu : MonoBehaviour
 			if (GUILayout.Button("Login")) {
 					if (username=="" || pswd=="") message+="Please enter all the fields \n";
 					else DoLogin();           // Login
-				
-				}
-			
-			if (GUILayout.Button("Register"))	{ register=true; } 
+			}
+			if (GUILayout.Button("Register")){ register=true; } 
 			GUILayout.FlexibleSpace();
 			GUILayout.EndHorizontal();
-			
 			}
-
-
-
-
-
-
-
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
         if (GUILayout.Button("Zamknij program", GUILayout.Width(200)))
         {
-
             IsMulti = false;
             Application.Quit();
         }
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
-
         GUILayout.EndArea();
     }
-
-
 }

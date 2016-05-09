@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-   public class AITurn : MonoBehaviour{
+public class AITurn : MonoBehaviour{
 	static public AITurn instance; //the instance of our class that will do the work
 
 	bool OK_to_do_next_AI_action = false; 
@@ -11,8 +11,6 @@ using System.Linq;
 	void Awake(){ //called when an instance awakes in the game
 		instance = this; //set our static reference to our newly initialized instance
 	}
-
-
 
 	IEnumerator TryToAttack()
 	{
@@ -79,7 +77,6 @@ using System.Linq;
 
 	IEnumerator AIPlays()
 	{	
-
 		OK_to_do_next_AI_action = false;
 		instance.StartCoroutine("PayCostAndPlay");
 		while (!OK_to_do_next_AI_action) 	yield return new WaitForSeconds(0.2f); 
@@ -101,11 +98,9 @@ using System.Linq;
 
 		Enemy.TriggerCardAbilities(abilities.ON_END_OF_YOUR_TURN);
 
-
 		if (!Player.GameEnded) {
 			Enemy.EnemyTurn = false;
-			Player.PlayersTurn = true; //it's the player's turn now
-		
+			Player.PlayersTurn = true; //it's the player's turn now		
 			Player.NewTurn ();
 		}
 	}
@@ -145,8 +140,7 @@ using System.Linq;
 				if (!foundland.IsTurned) potential_mana++;
 
 			if (card_to_check.Cost.Count <= potential_mana) return true;
-		}
-		
+		}	
 		return false;
 	}
 	IEnumerator PayCostAndPlay()
@@ -211,22 +205,14 @@ using System.Linq;
 
 	}
 
-
-
-
 	static public void DoCoroutine(){
-
 		instance.StartCoroutine("AIPlays"); //this will launch the coroutine on our instance
-
-	
 	}
 
 
 	static public bool CheckCard(card card_to_check)
 	{
 		//Debug.Log ("AI is checking card:" +card_to_check.Name);
-
-	
 		if (card_to_check.Level > 0) { //if it's an upgrade
 			foreach (card foundcard in Enemy.cards_in_game) 
 				if (foundcard.Level == (card_to_check.Level-1) && foundcard.GrowID == card_to_check.GrowID) return true;
@@ -406,7 +392,4 @@ using System.Linq;
 		Debug.Log("finished checking, returning true");
 		return true;
 	}
-
-
-
 }

@@ -3,16 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class GameScript : MonoBehaviour {
-
-
 	void Awake()	{
-	
-
-
 		int i;
 		bool foundname;	
 		foreach (Zone foundzone in Object.FindObjectsOfType(typeof(Zone)) as Zone[]) {
-						
 						foundname = false;
 						foreach (DBZone dbz in MainMenu.TCGMaker.core.zones)
 							if (dbz.Name == foundzone.dbzone.Name) {

@@ -207,8 +207,6 @@ public class abilities : MonoBehaviour {
 		}
 	}
 
-
-
 	public void OnEnter(bool AI=false)
 	{
 		int i = 0;
@@ -219,34 +217,24 @@ public class abilities : MonoBehaviour {
 			int target = effect.target;
 			Debug.Log ("found effect");
 
-						if (effect.trigger == ON_ENTER) 
-						{
-							foundability = true;
-							Player.SpellInProcess = true;
-							Debug.Log("found onenter");
+				if (effect.trigger == ON_ENTER) 
+				{
+					foundability = true;
+					Player.SpellInProcess = true;
+					Debug.Log("found onenter");
 
 					if (AI && MainMenu.IsMulti){
-							if 	( effect.type == 13 || effect.type == 5 )	{ Debug.Log ("waiting for enemy to send target"); Enemy.NeedTarget = 100; } //gonna wait for multiplayer opponent to choose a target
-							
-							else if ( target == 2 || target == 5 || target == 8 || target == 9 || target == 201)	{ Debug.Log ("waiting for enemy to send target"); Enemy.NeedTarget = 100; } //gonna wait for multiplayer opponent to choose a target					
+						if 	( effect.type == 13 || effect.type == 5 )	{ Debug.Log ("waiting for enemy to send target"); Enemy.NeedTarget = 100; } //gonna wait for multiplayer opponent to choose a target
+						else if ( target == 2 || target == 5 || target == 8 || target == 9 || target == 201)	{ Debug.Log ("waiting for enemy to send target"); Enemy.NeedTarget = 100; } //gonna wait for multiplayer opponent to choose a target					
 					}
-							 thiscard.ApplyEffect (i, AI);
-						}
-						i++;
+					thiscard.ApplyEffect (i, AI);
 				}
-	
+				i++;
+		}
 		if (foundability) Player.CanDoStack = true;
-
 	}
-
-
-
-
-
 	// Use this for initialization
 	void Start () {
 	
 	}
-	
-
 }

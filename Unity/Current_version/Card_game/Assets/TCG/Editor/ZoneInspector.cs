@@ -5,11 +5,9 @@ using UnityEditor;
 [CustomEditor(typeof(Zone))]
  class ZoneInspector : Editor 
 {
-
 	public override void OnInspectorGUI()
 	{
 				Zone myTarget = (Zone)target;
-
 				DBZone selected = myTarget.dbzone;
 				
 				foreach (DBZone foundzone in MainMenu.TCGMaker.core.zones)
@@ -22,11 +20,8 @@ using UnityEditor;
 				foreach (DBZone foundzone in MainMenu.TCGMaker.core.enemy_zones)
 						if (GUILayout.Button (foundzone.Name)) {
 								myTarget.dbzone = foundzone;
-								myTarget.name = "Zone - " + foundzone.Name.ToLower(); //gameobject's name
-								
+								myTarget.name = "Zone - " + foundzone.Name.ToLower(); //gameobject's name					
 		}
-
 		GUILayout.Label ("Selected zone: "+selected.Name);
-	}
-		
+	}		
 }

@@ -123,7 +123,6 @@
     <None Include="Assets\TCG\Photon Unity Networking\readme.txt" />
     <None Include="Assets\TCG\Resources\audio\sounds\these sounds cannot be used without attribution, readme!.txt" />
     <None Include="Assets\TCG\User Guide\effects numbers.txt" />
-    <None Include="Assets\TCG\important - read me first !.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

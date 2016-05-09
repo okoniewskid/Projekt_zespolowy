@@ -3,16 +3,9 @@ using System.Collections;
 using UnityEditor;
 
 public class SceneScripts : MonoBehaviour {
-
-
-	
-	
-	
-
 		[DrawGizmo(GizmoType.NotInSelectionHierarchy | GizmoType.Pickable)]
 		
 		private static void Draw(GameObject gObj, GizmoType gizmoType)	//drawing an outline for all slots and zones
-			
 		{
 				GUIStyle style = new GUIStyle();
 				
@@ -27,9 +20,7 @@ public class SceneScripts : MonoBehaviour {
 								Gizmos.color = Color.yellow;
 					
 								Gizmos.DrawWireCube (bounds.center, bounds.size);
-					
 						//}
-				
 				} else if (gObj.GetComponent<Slot> () != null) {
 						if (gObj.transform.parent != null)
 						if (gObj.transform.parent.GetComponent<Zone> () != null)
@@ -43,12 +34,8 @@ public class SceneScripts : MonoBehaviour {
 								Gizmos.DrawWireCube (bounds.center, bounds.size);
 						//}
 				}
-			
-			
 		}	
 
-		
-	
 	// Use this for initialization
 	void Start () {
 	

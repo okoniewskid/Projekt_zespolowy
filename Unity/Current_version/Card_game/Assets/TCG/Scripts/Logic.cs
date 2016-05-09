@@ -107,10 +107,6 @@ public class Logic : MonoBehaviour
         }
     }
 
-
-
-
-
 	[RPC]
 	public void UpdateEnemyCardsInHand(int numcards)
 	{	

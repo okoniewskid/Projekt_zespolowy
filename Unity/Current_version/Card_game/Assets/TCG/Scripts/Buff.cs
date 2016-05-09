@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 
 public class Buff  {
-
 	public int type;
 	public int param;
 	public bool EOT;
@@ -29,9 +28,4 @@ public class Buff  {
 	public const int TAKES_NO_DMG_FROM_SPELLS = 4;
 	public const int FIRST_ATTACK_DOESNT_TURN = 5;
 	public const int EXTRA_MOVEMENT = 101;
-
-
-
-
-
 }

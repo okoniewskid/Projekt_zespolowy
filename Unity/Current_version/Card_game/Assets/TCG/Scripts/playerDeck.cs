@@ -4,7 +4,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-
 public class playerDeck : MonoBehaviour   {
 
 	public static playerDeck pD ; //instance of this singleton
@@ -24,8 +23,6 @@ public class playerDeck : MonoBehaviour   {
 	 
 	//this setting is parsed from the database:
 
-
-
 	[HideInInspector] 
 	public  Slot[,] Grid = new Slot[7,7];
 	[HideInInspector] 
@@ -44,12 +41,10 @@ public class playerDeck : MonoBehaviour   {
 	public Transform firefx;
 	public Transform manafx;
 
-
 	public TextAsset offlineDeck;
 	public TextAsset offlineCollection;
 
 	public TextAsset database;
-
 
 	public  Sprite cardback;
 
@@ -69,20 +64,15 @@ public class playerDeck : MonoBehaviour   {
 
 	Transform templateTransform;
 
-	void Awake()
-		
+	void Awake()	
 	{
-
 		DontDestroyOnLoad(gameObject);
-		
+	
 		Debug.Log("awaking playerdeck");
 		if (playerDeck.pD == null)	playerDeck.pD = this;	//singleton
 		
 		templateTransform = CardTemplate.Instance.transform;
-		
 	}
-
-
 
 	public void SaveDeckBeforePlaying()
 	{
@@ -98,13 +88,10 @@ public class playerDeck : MonoBehaviour   {
 			Deck.Add(foundcard);
 	}
 
-	
 	public  void LoadPlayerDeckOffline()
 	{
-	
 		string deckstring;
-
-		
+	
 		deckstring = pD.offlineDeck.text;
 		Debug.Log("loading offline deck");
 			
@@ -113,13 +100,11 @@ public class playerDeck : MonoBehaviour   {
 		deckstring = pD.offlineCollection.text;
 			
 		pD.Collection = LoadDeck(deckstring);
-
-
 	}
 
 
 
-	public    List<int> LoadDeck (string deckstring)
+	public List<int> LoadDeck (string deckstring)
 	{
 		List<int> tempdeck = new List<int>();
 		string[] temparray = deckstring.Split(","[0]);
@@ -130,7 +115,7 @@ public class playerDeck : MonoBehaviour   {
 		return tempdeck;
 	}
 
-	 public  void ShuffleDeck(List<int> DeckToShuffle)
+	 public void ShuffleDeck(List<int> DeckToShuffle)
 	{
 		for (int i = 0; i < DeckToShuffle.Count; i++) {
 			int temp = DeckToShuffle[i];
@@ -181,29 +166,22 @@ public class playerDeck : MonoBehaviour   {
 	}
 
 
-	 public  void PlaceCreatureInGame(card creaturecard, bool ForEnemy=false) //utility 
+	public  void PlaceCreatureInGame(card creaturecard, bool ForEnemy=false) //utility 
 	{
 		if (ForEnemy == false) {
 
 			Player.AddCreature(creaturecard);   
 
-		} else 
-			
-		{ 				//it's the enemy who is placing a creature
-						
-			Enemy.AddCreature(creaturecard); 
-
 		}
-		
-
+        else		
+		{ 				//it's the enemy who is placing a creature						
+			Enemy.AddCreature(creaturecard); 
+		}
 		creaturecard.id_ingame = System.Int32.Parse("4"+nexttokenid.ToString());
-		nexttokenid++;
-				
+		nexttokenid++;			
 	}
 
-
-
-	  public void LoadCardStats(card temp_card)
+	public void LoadCardStats(card temp_card)
 	{
 		int Index = temp_card.Index;
 		Debug.Log ("index:"+Index);
@@ -237,14 +215,12 @@ public class playerDeck : MonoBehaviour   {
 
 		temp_card.DiscardCost = dbcard.discardcost;
 
-//		Debug.Log("gonna update effects");
-		
-		
+//		Debug.Log("gonna update effects");		
 		foreach (Effect effect in dbcard.effects){
 //			Debug.Log("added effect");
 			temp_card.Effects.Add(effect);
 		}
-					
+				
 //		Debug.Log ("updated effects on card "+temp_card.Name);
 		if (!temp_card.abilities ) temp_card.abilities = temp_card.gameObject.AddComponent <abilities>() as abilities;
 				
@@ -275,8 +251,6 @@ public class playerDeck : MonoBehaviour   {
 			temp_card.less_dmg_from_ranged = dbcard.less_dmg_from_ranged;
 			temp_card.no_dmg_from_ranged = dbcard.no_dmg_from_ranged;
 			temp_card.takes_no_spell_dmg = dbcard.takes_no_spell_dmg;
-			//
-
 
 			temp_card.CreatureStartingOffense = temp_card.CreatureOffense = dbcard.offense;
 			temp_card.CreatureStartingDefense = temp_card.CreatureDefense = dbcard.defense;
@@ -299,11 +273,7 @@ public class playerDeck : MonoBehaviour   {
 			//if (cardsDB [Index] ["defender"].ToString() == "1") temp_card.GetComponent<card> ().CanAttack = false;
 			//if (cardsDB [Index] ["doubledmg"].ToString() == "1") temp_card.GetComponent<card> ().DoubleDamage = true;
 			//if (cardsDB [Index] ["takeshalfdmg"].ToString() == "1") temp_card.GetComponent<card> ().TakesHalfDamage = true;
-
 		} 
-	
-
-
 	}
 
 	GameObject AddCardComponent(string component_name, card parent)

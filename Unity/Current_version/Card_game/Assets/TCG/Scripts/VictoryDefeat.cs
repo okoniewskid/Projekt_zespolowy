@@ -9,15 +9,12 @@ public class VictoryDefeat : MonoBehaviour {
 	void Start () {
 		this.tag = "VictoryDefeat";
 	}
-	
-
 	void EndOfGame () {
 		if (Player.Lost) {
-
 			Currency.DoAssignCurrency(Currency.PlayerCurrency+DefeatCurrency); 
 			victoryordefeat = playerDeck.pD.defeat;
 			GetComponent<SpriteRenderer> ().sprite = victoryordefeat;
-				}
+		}
 		else if (Enemy.Lost)
 		{
 			Currency.DoAssignCurrency(Currency.PlayerCurrency+VictoryCurrency); 
@@ -25,9 +22,7 @@ public class VictoryDefeat : MonoBehaviour {
 			GetComponent<SpriteRenderer> ().sprite = victoryordefeat;
 		}
 		GetComponent<Renderer>().sortingOrder = 100;
-
 	}
-
 	void OnGUI()
 	{
 		Rect windowRect = new Rect(400,300,300,90);
@@ -39,19 +34,7 @@ public class VictoryDefeat : MonoBehaviour {
 		//if (Player.Lost)
 			//GUI.DrawTexture (victoryDefeatBox, (Texture)Resources.Load ("Defeat1"));
 	}
-
-
-
 	void DoMyWindow(int windowID) {
 		if (GUILayout.Button("Wróć do menu."))  Application.LoadLevel(MainMenu.SceneNameMainMenu);
-			
-		
 	}
-
-	
-
-
-
-
-
 }
