@@ -1,0 +1,35 @@
+CREATE TABLE player_collections(
+	id int NOT NULL AUTO_INCREMENT,
+	user_id int,
+	card_id int,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE player_decks(
+	ID int NOT NULL AUTO_INCREMENT,
+	user_id int,
+	card_id int,
+	PRIMARY KEY (ID) 
+);
+
+CREATE TABLE silver(
+	id int NOT NULL AUTO_INCREMENT,
+	user_id int,
+	silver int,
+	PRIMARY KEY (id) 
+);
+
+CREATE TABLE promo_cards(
+	ID int NOT NULL AUTO_INCREMENT,
+	card_id int,
+	cost int,
+	PRIMARY KEY (ID) 
+);
+
+CREATE TABLE users(
+	id int NOT NULL AUTO_INCREMENT,
+	username varchar(10),
+	password varchar(32),
+	email varchar(20),
+	PRIMARY KEY (id) 
+);
