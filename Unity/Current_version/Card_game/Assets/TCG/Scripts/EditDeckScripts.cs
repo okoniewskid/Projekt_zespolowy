@@ -312,9 +312,9 @@ public class EditDeckScripts : MonoBehaviour {
 			}
 		//}
 	
-		GUI.Label(new Rect(10,4, 228, 30), "EDIT DECK", "title");
+		GUI.Label(new Rect(10,4, 228, 30), "EDYTUJ TALIE", "title");
 
-		if (GUI.Button(new Rect(275, 555, 100, 50), "SAVE", "nobg"))
+		if (GUI.Button(new Rect(Screen.width * (3f / 13f), Screen.height * (7f / 8f), Screen.width * (1f / 13f), Screen.height * (1f / 14f)), "ZAPISZ"))
 		{
 			playerDeck.pD.Deck.Clear(); //deleting the old deck
 
@@ -338,7 +338,7 @@ public class EditDeckScripts : MonoBehaviour {
 			//Application.LoadLevel(MainMenu.SceneNameGame);
 		}
 
-		if (GUI.Button(new Rect(475,555, 100, 50), "CANCEL", "nobg"))
+		if (GUI.Button(new Rect(Screen.width * (9.3f / 13f), Screen.height * (7f / 8f), Screen.width * (1f / 13f), Screen.height * (1f / 14f)), "ANULUJ"))
 		{ Application.LoadLevel(MainMenu.SceneNameMainMenu);}
 	
 		/*if (GUI.Button(new Rect(120 ,40, 150, 50), "Table View"))
@@ -365,23 +365,23 @@ public class EditDeckScripts : MonoBehaviour {
 					}
 			}
 		}*/
-		GUI.Label(new Rect(7,46, 228, 30), "COLLECTION");
-		GUI.Label(new Rect(7,306, 228, 30), "DECK");
-		GUI.Label(new Rect(275,46, 228, 30), "SEARCH BY NAME");
+		GUI.Label(new Rect(Screen.width * (0.2f / 13f), Screen.height * (2.4f / 14f), Screen.width * (4f / 13f), Screen.height * (1f / 14f)), "KOLEKCJA");
+		GUI.Label(new Rect(Screen.width * (0.2f / 13f), Screen.height * (7.5f / 14f), Screen.width * (4f / 13f), Screen.height * (1f / 14f)), "TALIA");
+		GUI.Label(new Rect(Screen.width * (2.2f / 13f), Screen.height * (1.1f / 14f), Screen.width * (4f / 13f), Screen.height * (1f / 14f)), "SZUKAJ PO NAZWIE");
 
-		searchname = GUI.TextField(new Rect(430,46, 228, 30), searchname);
-		if (GUI.Button(new Rect(660,40, 80, 50), "GO"))
+		searchname = GUI.TextField(new Rect(Screen.width * (4f / 13f), Screen.height * (0.9f / 14f), Screen.width * (4f / 13f), Screen.height * (1f / 14f)), searchname);
+		if (GUI.Button(new Rect(Screen.width * (8f / 13f), Screen.height * (0.9f / 14f), Screen.width * (1f / 13f), Screen.height * (1f / 14f)), "SZUKAJ"))
 		{ UnFilterCollection();
 			FilterCollection();
 			FilterOn = true;
 		}
-		if (GUI.Button(new Rect(820 ,40, 180, 50), "CLEAR FILTERS"))
+		if (GUI.Button(new Rect(Screen.width * (9f / 13f), Screen.height * (0.9f / 14f), Screen.width * (2f / 13f), Screen.height * (1f / 14f)), "WYCZYŚĆ FILTR"))
 		{ UnFilterCollection();
 			ArrangeCards();
 			FilterOn = false;
 		}
 
-		if (GUI.Button(new Rect(984 ,160, 36, 50), ">"))
+		if (GUI.Button(new Rect(Screen.width*(12.4f / 13f), Screen.height * (4.3f / 14f), Screen.width * (0.5f / 13f), Screen.height * (1f / 14f)), ">"))
 		{ 
 			int cardstodisplay = 0;
 			foreach (card foundcard in  cards_in_collection)
@@ -396,7 +396,7 @@ public class EditDeckScripts : MonoBehaviour {
 			}
 		}
 
-		if (GUI.Button(new Rect(-5 ,160, 36, 50), "<"))
+		if (GUI.Button(new Rect(Screen.width * (0.1f / 13f), Screen.height * (4.3f / 14f), Screen.width * (0.5f / 13f), Screen.height * (1f / 14f)), "<"))
 		{ 
 			if (PageCollection>0) {
 				PageCollection--; //going to the previous page
@@ -405,7 +405,7 @@ public class EditDeckScripts : MonoBehaviour {
 		}
 
 
-		if (GUI.Button(new Rect(984 ,400, 36, 50), ">"))
+		if (GUI.Button(new Rect(Screen.width * (12.4f / 13f), Screen.height * (9.5f / 14f), Screen.width * (0.5f / 13f), Screen.height * (1f / 14f)), ">"))
 		{ 
 			int cardstodisplay = 0;
 			foreach (card foundcard in  cards_in_deck)
@@ -421,7 +421,7 @@ public class EditDeckScripts : MonoBehaviour {
 			}
 		}
 
-		if (GUI.Button(new Rect(-5 ,400, 36, 50), "<"))
+		if (GUI.Button(new Rect(Screen.width * (0.1f / 13f), Screen.height * (9.5f / 14f), Screen.width * (0.5f / 13f), Screen.height * (1f / 14f)), "<"))
 		{ 
 			if (PageDeck>0)
 			{ PageDeck--;//going to the previous page

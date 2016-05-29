@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/TCG/MainMenuScene.unity
+- path: Assets/TCG/EditDeckScene.unity
   isLoaded: 1
   isActive: 1
