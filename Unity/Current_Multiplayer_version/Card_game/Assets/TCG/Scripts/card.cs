@@ -12,15 +12,15 @@ public class card : MonoBehaviour {
 	public AudioClip sfxMove0;
 	public AudioClip sfxMove1;
 
-	public AudioClip sfxEntry; // sound effect to be played when card is cast
-	public AudioClip sfxAbility0; // sound effect for creature ability 0
+	public AudioClip sfxEntry; 
+	public AudioClip sfxAbility0; 
 
 	public List<Effect> Effects = new List<Effect>();  
 
 	public bool Secret = false;
 	public bool faceDown = false;
 
-	//public bool SpellUnresolved = false;
+	
 
 	public Sprite Art;
 	public int Index = 0;
@@ -28,9 +28,9 @@ public class card : MonoBehaviour {
 	public int Level = 0;
 	public string GrowID = "";
 
-	public int DiscardCost = 0; // a card can require a number of cards to be discarded as additional cost
+	public int DiscardCost = 0; 
 
-	public  int CostInCurrency = 0; //this is for buying cards from the shop, it doesn't affect gameplay
+	public  int CostInCurrency = 0; 
 
 	public Dictionary<string, int> CustomInts = new Dictionary<string, int>() ; 
 	public Dictionary<string, string> CustomStrings = new Dictionary<string, string>() ;
@@ -91,7 +91,7 @@ public class card : MonoBehaviour {
 	public bool Dead = false;
 	public bool ShowedByEnemy = false;
 
-	//default keyword abilities:
+	
 	public bool takes_no_combat_dmg = false;
 	public bool deals_no_combat_dmg = false;
 	public bool no_first_turn_sickness = false;
@@ -102,14 +102,14 @@ public class card : MonoBehaviour {
 	public bool extramovement = false;
 	public bool less_dmg_from_ranged = false;
 	public bool no_dmg_from_ranged = false;
-	//default keyword abilities
+	
 
 	public int AttackedThisTurn = 0;
 
-	//Z-s
+	
 	public bool Ranged = false;
 	public int MovedThisTurn = 0;
-	//Z-s
+	
 
 	public static float ZoomHeight; 
 
@@ -123,7 +123,7 @@ public class card : MonoBehaviour {
 
 	public bool Hero = false;
 
-	//variables for edit deck mode:
+	
 	public int Amount;
 	public bool FilteredOut = false;
 	public bool InCollection = false;
@@ -138,13 +138,13 @@ public class card : MonoBehaviour {
 	public bool checked_for_highlight = false;
 
 	public static bool WaitABit=false;
-	//for zoom/unzoom:
+	
 	float old_y;
 	int old_sortingorder;
 
-	// Seconds the mouse is hovering over a card
+	
 	float mouseHoverSeconds = 0;
-	float mouseHoverZoomTime = 1.5f; // amount of time of mousehover before showing full card
+	float mouseHoverZoomTime = 1.5f; 
 
 	static List<int> NoTargetEffects = new List<int> {2, 12, 15};
 
@@ -158,12 +158,11 @@ public class card : MonoBehaviour {
 		}
 	}
 	 
-	// Use this for initialization
+	
 	void Start () {
 
 
-		//foreach (CustomStat customstat in TCGMakerData.stats.CustomInts) //populating custom stats
-			//CustomInts.Add(customstat.m_name, )
+		
 
 		Hit = playerDeck.pD.Hit;
 		HitBySpell = playerDeck.pD.HitBySpell;
@@ -175,17 +174,12 @@ public class card : MonoBehaviour {
 
 	void AddHighlight()
 	{
-		//Debug.Log ("adding highlight to card: "+Name);
-		//highlight = (GameObject) Instantiate(Resources.Load("HandCardHighlight"), transform.position, Quaternion.Euler(90, 0, 0));
+		
 		highlight = (GameObject) Instantiate(CardTemplate.Instance.transform.Find("Highlight").gameObject);
-		//highlight.transform.parent = transform;
+		
 
 		playerDeck.pD.AssignParentWithLocalPos (highlight, gameObject);
-		//if (transform.parent) highlight.localScale =  
-
-
-		//float adjustment = 1f;
-		//highlight.transform.localScale =  new Vector3 (adjustment*transform.localScale.x, adjustment*transform.localScale.y, adjustment*transform.localScale.z);
+		
 	}
 
 	bool IsPlayable()
@@ -194,16 +188,16 @@ public class card : MonoBehaviour {
 		if (!Player.PlayersTurn) return false;
 
 		if (Player.cards_in_hand.Contains (this)) {
-						if (Type == 0 && Player.LandsPlayedThisTurn == 0) //land
+						if (Type == 0 && Player.LandsPlayedThisTurn == 0) 
 								return true;
 
 						if (Type == 1 && CanPayCosts (true)  ) 
-							if (Level < 1) return true;	//creature
-									else if (HasUpgradableCreature(Player.player_creatures)) return true; //creature upgrade
+							if (Level < 1) return true;	
+									else if (HasUpgradableCreature(Player.player_creatures)) return true; 
 
 						
 
-						if (Type > 1 && CanPayCosts (true) && ValidSpell (false)) //spells, enchantments, etc
+						if (Type > 1 && CanPayCosts (true) && ValidSpell (false)) 
 								return true;
 				} 
 		else if (Player.player_creatures.Contains (this))
@@ -230,7 +224,7 @@ public class card : MonoBehaviour {
 		
 			 if (Defense<=0 && !Dead ) 	
 			{
-				Kill();  //if it has just been killed
+				Kill();  
 
 				if (Hero)
 					if (ControlledByPlayer) Player.HeroIsDead = true;
@@ -258,7 +252,7 @@ public class card : MonoBehaviour {
 		bool positive = buff_to_remove.positive;
 		int param = buff_to_remove.param;
 
-		//OFFENSE BUFFS:
+		
 		switch (buff_to_remove.type) { 
 		case Buff.SET_ATTACK_TO: 	
 			CreatureOffense = CreatureStartingOffense;
@@ -271,7 +265,7 @@ public class card : MonoBehaviour {
 			if (!positive) param = 1/param;
 			CreatureOffense /= param;
 			break;
-		//DEFENSE BUFFS:
+		
 		case Buff.SET_DEFENSE_TO: 	
 			CreatureDefense = CreatureStartingDefense;
 			break;
@@ -283,7 +277,7 @@ public class card : MonoBehaviour {
 			if (!positive) param = 1/param;
 			CreatureDefense /= param;
 			break;
-		//MISC BUFFS:
+		
 		case Buff.SET_CRIT_CHANCE_TO: 	
 			CritChance = 0;
 			break;
@@ -311,7 +305,7 @@ public class card : MonoBehaviour {
 		no_dmg_from_ranged = dbcard.no_dmg_from_ranged;
 		
 		if (transform.Find("Description3DText")!=null)
-			transform.Find("Description3DText").GetComponent<TextMesh>().text = playerDeck.TextWrap(dbcard.text, 30); //clear the card text
+			transform.Find("Description3DText").GetComponent<TextMesh>().text = playerDeck.TextWrap(dbcard.text, 30); 
 	}
 
 	public void RemoveAllAbilities()
@@ -329,7 +323,7 @@ public class card : MonoBehaviour {
 		no_dmg_from_ranged = false;
 
 		if (transform.Find("Description3DText")!=null)
-			transform.Find("Description3DText").GetComponent<TextMesh>().text = ""; //clear the card text
+			transform.Find("Description3DText").GetComponent<TextMesh>().text = ""; 
 	}
 
 	public void AddBuff(bool positive, int param, int BuffType, bool EOT=false, card effectcard=null)
@@ -339,7 +333,7 @@ public class card : MonoBehaviour {
 			Buff newbuff = new Buff();
 			
 			switch (BuffType) {
-			//OFFENSE BUFFS:
+			
 				case Buff.SET_ATTACK_TO: 	
 						CreatureOffense = param;
 						break;
@@ -351,7 +345,7 @@ public class card : MonoBehaviour {
 						if (!positive) param = 1/param;
 						CreatureOffense *= param;
 						break;
-			//DEFENSE BUFFS:
+			
 				case Buff.SET_DEFENSE_TO: 	
 						CreatureDefense = param;
 						break;
@@ -363,7 +357,7 @@ public class card : MonoBehaviour {
 						if (!positive) param = 1/param;
 						CreatureDefense *= param;
 						break;
-			//MISC BUFFS:
+			
 				case Buff.SET_CRIT_CHANCE_TO: 	
 						CritChance = param;
 						break;
@@ -380,7 +374,7 @@ public class card : MonoBehaviour {
 			newbuff.param = param;
 			newbuff.EOT = EOT;
 						
-			if (effectcard.Type == 3 )newbuff.enchantmentcard = effectcard; // if it's an enchantment
+			if (effectcard.Type == 3 )newbuff.enchantmentcard = effectcard; 
 			buffs.Add(newbuff);
 	}
 
@@ -414,7 +408,7 @@ public class card : MonoBehaviour {
 
 	public void UpdateCreatureAtkDefLabels()
 	{
-//		Debug.Log("starting off: " + CreatureStartingOffense + "off:" + CreatureOffense );
+
 
 		transform.Find("Offense3DText").GetComponent<TextMesh>().text = CreatureOffense.ToString();
 
@@ -440,12 +434,12 @@ public class card : MonoBehaviour {
 		Debug.Log ("killing card:"+Name);
 
 		if (ControlledByPlayer) {
-						Player.TriggerCardAbilities(abilities.ON_FRIENDLY_DIES);	//triggering creature abilities and secrets
+						Player.TriggerCardAbilities(abilities.ON_FRIENDLY_DIES);	
 						Player.AlliesDestroyedThisTurn++;
 						Player.RemoveCreature(this);
 				}
 		else  {
-			Enemy.TriggerCardAbilities(abilities.ON_FRIENDLY_DIES);	//triggering creature abilities and secrets
+			Enemy.TriggerCardAbilities(abilities.ON_FRIENDLY_DIES);	
 			Enemy.AlliesDestroyedThisTurn++;
 			Enemy.RemoveCreature(this);
 		}
@@ -460,7 +454,7 @@ public class card : MonoBehaviour {
 
 	void MoveToGraveyard()
 	{
-		//if (IsZoomed)UnZoom ();
+		
 		if (IsTurned) UnTurn();
 		Dead = true;
 
@@ -474,11 +468,11 @@ public class card : MonoBehaviour {
 		
 		graveyard.AddCard (this);
 
-		if (Type == 1) { //if it's a creature
-			for (int i = 0; i < buffs.Count; i++)	//removing all buffs, note that "foreach" can't be used here
+		if (Type == 1) { 
+			for (int i = 0; i < buffs.Count; i++)	
 				RemoveBuff(buffs[i]);
 
-			CreatureOffense = CreatureStartingOffense; //removing all effects and damage from the atk/def labels
+			CreatureOffense = CreatureStartingOffense; 
 
 			transform.Find("Offense3DText").GetComponent<TextMesh>().text = CreatureOffense.ToString();
 
@@ -488,7 +482,7 @@ public class card : MonoBehaviour {
 				transform.Find("Defense3DText").GetComponent<TextMesh>().text = CreatureDefense.ToString();
 			}
 
-			UpdateCreatureAtkDefLabels(); //to make text white again
+			UpdateCreatureAtkDefLabels(); 
 		}
 
 
@@ -515,18 +509,18 @@ public class card : MonoBehaviour {
 	void OnMouseOver () 
 	{
 
-		if (MainMenu.TCGMaker.core.UseGrid && Player.NeedTarget == 1) //player needs to choose a target for an attack
+		if (MainMenu.TCGMaker.core.UseGrid && Player.NeedTarget == 1) 
 		{
-			//Debug.Log("mouseover for attack");
+			
 			if (Enemy.cards_in_game.Contains(this))
 				if (Player.AttackerCreature.slot.IsAdjacent(slot)) slot.Highlight();
 					else if (Player.AttackerCreature.Ranged)
 						{
 							Debug.Log("target valid if in line");
 							List<Slot> foundpath = Player.AttackerCreature.slot.IsInALine(slot);
-							//Debug.Log("foundpath: "+foundpath);
+							
 							if (foundpath != null)
-								foreach (Slot foundslot in  Player.AttackerCreature.slot.IsInALine(slot)) //if the target is in a line to our ranged creature, highlight the path to target
+								foreach (Slot foundslot in  Player.AttackerCreature.slot.IsInALine(slot)) 
 									foundslot.Highlight();
 
 						}
@@ -535,7 +529,7 @@ public class card : MonoBehaviour {
 		}
 
 		mouseHoverSeconds += Time.deltaTime;
-		//Debug.Log("onmouseover: "+ Name +", for time: "+mouseHoverSeconds);
+		
 		if (ShowedByEnemy)
 			return;
 		
@@ -571,7 +565,7 @@ public class card : MonoBehaviour {
 		if (ShowedByEnemy)
 			return;
 		if (IsZoomed == true) { 
-				//UnZoom();
+				
 			Debug.Log("OnMouseExit starting to unzoom if we're allowed");
 			UnZoom();
 		}
@@ -591,18 +585,18 @@ public class card : MonoBehaviour {
 						collider.size = EditDeckScripts.FirstCardColliderSize;
 						collider.offset = new Vector2 (0, 0);
 						foreach (Transform child in transform)
-								child.gameObject.layer = 8;  //the offense/defense text 
-						gameObject.layer = 8; //zoomedcards layer that appears on top of gui in editdeck mode
-				} else { 		// game scene
+								child.gameObject.layer = 8;  
+						gameObject.layer = 8; 
+				} else { 		
 
 		
 			BoxCollider2D thiscollider = GetComponent<BoxCollider2D> () as BoxCollider2D;
 			if (transform.parent !=null) Zoom = ZoomHeight / (thiscollider.size.y * transform.localScale.y * transform.parent.localScale.y);
-				else Zoom = ZoomHeight / (thiscollider.size.y * transform.localScale.y); //all cards should be the same size when zoomed, no matter their slot/zone size
+				else Zoom = ZoomHeight / (thiscollider.size.y * transform.localScale.y); 
 			Debug.Log ("zoomheight:"+ZoomHeight +"collider height:"+(thiscollider.size.y * transform.localScale.y));
 
 			if (Player.cards_in_game.Contains (this)) {
-								if (Type == 4) RevealSecretCard(); //secret 
+								if (Type == 4) RevealSecretCard(); 
 
 								foreach (card foundcard in Player.cards_in_game)
 										foundcard.GetComponent<Collider2D>().enabled = false;
@@ -610,9 +604,9 @@ public class card : MonoBehaviour {
 				
 			else if (Player.cards_in_hand.Contains(this)) foreach (card foundcard in Player.cards_in_hand) foundcard.GetComponent<Collider2D>().enabled = false;
 			else if (Enemy.cards_in_game.Contains(this)) foreach (card foundcard in Enemy.cards_in_game) foundcard.GetComponent<Collider2D>().enabled = false;
-			//GetComponent<SpriteRenderer>().sprite = playerDeck.pD.cardsImages[Index];
+			
 
-			//if (transform.position.y <= 0f) {IsMovedForZoom = true; old_y = transform.position.y; transform.position=new Vector3 (transform.position.x, 0f, transform.position.z);}
+			
 			if (transform.position.y <= -2.7f) {IsMovedForZoom = true; old_y = transform.position.y; transform.position=new Vector3 (transform.position.x, -2.3f, transform.position.z);}
 			if (transform.position.y >= 4f) {IsMovedForZoom = true; old_y = transform.position.y; transform.position=new Vector3 (transform.position.x, 3f, transform.position.z);}
 		}
@@ -620,7 +614,7 @@ public class card : MonoBehaviour {
 			
 		if (IsTurned == true && !MainMenu.TCGMaker.core.UseGrid) { 
 						
-			if (transform.parent)  transform.parent.Rotate(0, 0, -MainMenu.TCGMaker.core.OptionTurnDegrees); //unturning the slot
+			if (transform.parent)  transform.parent.Rotate(0, 0, -MainMenu.TCGMaker.core.OptionTurnDegrees); 
 				else transform.Rotate(0, 0, -MainMenu.TCGMaker.core.OptionTurnDegrees);
 				
 			IsRotatedForZoom = true; 
@@ -630,11 +624,11 @@ public class card : MonoBehaviour {
 		Vector3 theScale = transform.localScale;
 		if (Application.loadedLevelName == MainMenu.SceneNameEditDeck) {
 			EditDeckScripts.Zoomed = true;
-			theScale.x *= ZoomEditDeckMode; //make  bigger
-			theScale.y *= ZoomEditDeckMode; //make bigger
+			theScale.x *= ZoomEditDeckMode; 
+			theScale.y *= ZoomEditDeckMode; 
 		} else {
-			theScale.x *= Zoom; //make  bigger
-			theScale.y *= Zoom; //make bigger
+			theScale.x *= Zoom; 
+			theScale.y *= Zoom; 
 
 			if (Player.cards_in_game.Contains(this)) foreach (card foundcard in Player.cards_in_game) foundcard.GetComponent<Collider2D>().enabled = true;
 			else if (Player.cards_in_hand.Contains(this)) foreach (card foundcard in Player.cards_in_hand) foundcard.GetComponent<Collider2D>().enabled = true;
@@ -651,14 +645,14 @@ public class card : MonoBehaviour {
 
 			GetComponent<SpriteRenderer> ().sortingOrder = 101; 
 			foreach (Transform child in transform) child.GetComponent<Renderer>().sortingOrder = 101; 
-			transform.Find ("CardArt").GetComponent<Renderer>().sortingOrder = 100; //make zoomed card appear on top of all the cards
-			if (highlight) highlight.GetComponent<Renderer>().sortingOrder = 100; //make zoomed card appear on top of all the cards
+			transform.Find ("CardArt").GetComponent<Renderer>().sortingOrder = 100; 
+			if (highlight) highlight.GetComponent<Renderer>().sortingOrder = 100; 
 
 		}
 		else 
 		{
-			GetComponent<SpriteRenderer> ().sortingOrder = 100; //make zoomed card appear on top of all the cards
-			foreach (Transform child in transform) child.GetComponent<Renderer>().sortingOrder = 101; //the card's icons should still be on top of it
+			GetComponent<SpriteRenderer> ().sortingOrder = 100; 
+			foreach (Transform child in transform) child.GetComponent<Renderer>().sortingOrder = 101; 
 		}
 		
 		IsZoomed = true;
@@ -673,15 +667,15 @@ public class card : MonoBehaviour {
 
 	public void UnZoom()
 	{
-		//while (Player.CanUnzoom==false) yield return new WaitForSeconds (0.2f);
+		
 		if (Player.CanUnzoom) {
 		
 			Debug.Log("unzooming card:" + Name);
 
-			if (Player.cards_in_game.Contains (this) && Type == 4) HideSecretCard(); //secret 
+			if (Player.cards_in_game.Contains (this) && Type == 4) HideSecretCard(); 
 
-			gameObject.layer = 0; //default layer
-			foreach (Transform child in transform)	child.gameObject.layer = 0;  //the offense/defense text 
+			gameObject.layer = 0; 
+			foreach (Transform child in transform)	child.gameObject.layer = 0;  
 			if (IsRotatedForZoom == true) {
 				if (transform.parent && !MainMenu.TCGMaker.core.UseGrid)  transform.parent.Rotate(0, 0, MainMenu.TCGMaker.core.OptionTurnDegrees); 
 				else transform.Rotate(0, 0, MainMenu.TCGMaker.core.OptionTurnDegrees);
@@ -696,7 +690,7 @@ public class card : MonoBehaviour {
 			Vector3 theScale = transform.localScale;
 			if (Application.loadedLevelName == MainMenu.SceneNameEditDeck) {
 				BoxCollider2D collider = GetComponent<BoxCollider2D> () as BoxCollider2D;
-				collider.size = EditDeckScripts.OtherCardsColliderSize; // its smaller than the card itself, because the cards are covering each other
+				collider.size = EditDeckScripts.OtherCardsColliderSize; 
 				collider.offset = EditDeckScripts.OtherCardsColliderCenter;
 				EditDeckScripts.Zoomed = false;
 				theScale.x /= ZoomEditDeckMode; 
@@ -711,7 +705,7 @@ public class card : MonoBehaviour {
 			if (MainMenu.TCGMaker.core.OptionCardFrameIsSeparateImage) 
 				{	 
 					
-					foreach (Transform child in transform) child.GetComponent<Renderer>().sortingOrder = old_sortingorder + 1; //the card's icons should still be on top of it
+					foreach (Transform child in transform) child.GetComponent<Renderer>().sortingOrder = old_sortingorder + 1; 
 					GetComponent<SpriteRenderer> ().sortingOrder = old_sortingorder + 1;
 					transform.Find ("CardArt").GetComponent<Renderer>().sortingOrder = old_sortingorder; 
 				if (highlight) highlight.GetComponent<Renderer>().sortingOrder = old_sortingorder; 
@@ -719,7 +713,7 @@ public class card : MonoBehaviour {
 			else 
 				{
 					GetComponent<SpriteRenderer> ().sortingOrder = old_sortingorder;
-					foreach (Transform child in transform) child.GetComponent<Renderer>().sortingOrder = old_sortingorder + 1; //the card's icons should still be on top of it
+					foreach (Transform child in transform) child.GetComponent<Renderer>().sortingOrder = old_sortingorder + 1; 
 				}
 
 			transform.localScale = theScale;
@@ -727,16 +721,13 @@ public class card : MonoBehaviour {
 
 			IsZoomed = false;
 			ShowedByEnemy = false;
-			mouseHoverSeconds = 0; // reset mouse hover seconds
-			//yield return new WaitForSeconds (0.1f);
+			mouseHoverSeconds = 0; 
+			
 		} 
-		//else {
-		//	yield return 0f;
-		//	Debug.Log ("can't unzoom yet");
-		//}
+		
 	}
 
-	public bool IsACreature() //utility
+	public bool IsACreature() 
 	{
 		if (Type == 1) return true;
 		else return false;
@@ -765,33 +756,33 @@ public class card : MonoBehaviour {
 		if (CustomStrings.ContainsKey("flavor text"))
 		Debug.Log ("flavor text: "+CustomStrings["flavor text"]);
 
-		if (Application.loadedLevelName == MainMenu.SceneNameEditDeck)  //edit deck mode
+		if (Application.loadedLevelName == MainMenu.SceneNameEditDeck)  
 						EditDeckScripts.MoveCard (this);
 	
-		else if (Application.loadedLevelName == MainMenu.SceneNameMainMenu) //it's main menu, player wants to buy a promo card
+		else if (Application.loadedLevelName == MainMenu.SceneNameMainMenu) 
 		{
-			if (CostInCurrency <= Currency.PlayerCurrency) //if the player can afford this card
+			if (CostInCurrency <= Currency.PlayerCurrency) 
 			{
 
 			Currency.DoBuyCard(Index);
-			Currency.GetCurrency(); //updating the display of player's balance
+			Currency.GetCurrency(); 
 			Debug.Log("bought a card!");
 			MainMenu.message = "Bought a card!";
 			MainMenu.CollectionNeedsUpdate = true;
 			}
 			else { Debug.Log("can't afford"); MainMenu.message = "You don't have enough silver"; }  
 		}
-		else //		GAME MODE
+		else 
 		{
 		
 		
 			Debug.Log("card mousedown, needtarget: "+Player.NeedTarget );
 			switch (Player.NeedTarget) { 
-			case 1: 	//needs a target for creature attack
+			case 1: 	
 			
-					if (Enemy.enemy_creatures.Contains(this)) // if it's an enemy creature 
+					if (Enemy.enemy_creatures.Contains(this)) 
 					    {
-							if (MainMenu.TCGMaker.core.UseGrid) //using grid
+							if (MainMenu.TCGMaker.core.UseGrid) 
 							{
 								Slot attacker_slot = Player.AttackerCreature.slot;
 								
@@ -801,7 +792,7 @@ public class card : MonoBehaviour {
 					   
 						else AssignTarget(); 
 					}	
-					else 	//not an enemy creature
+					else 	
 					{
 						Debug.Log ("bad target");
 						Player.Warning = "To nie jest poprawny cel ataku.";
@@ -811,15 +802,15 @@ public class card : MonoBehaviour {
 			break;
 
 		
-			case 2: //target enemy player or creature (enemy player gets handled in Enemy.cs)
-				if (Enemy.enemy_creatures.Contains(this) ) AssignTarget(); // if it's an enemy creature 
+			case 2: 
+				if (Enemy.enemy_creatures.Contains(this) ) AssignTarget(); 
 
 				else BadTarget();
 			break;
 
-				//needs a target from opened deck/graveyard: (see effects help.txt)
+				
 			case 3:
-				if (Player.temp_cards.Contains(this)) { // if it's a card from opened deck
+				if (Player.temp_cards.Contains(this)) {
 					AssignTarget(gameObject);
 					
 					Player.temp_cards.Remove(this);
@@ -835,7 +826,7 @@ public class card : MonoBehaviour {
 				break;
 			case 50:
 			case 51:
-				if (Player.temp_cards.Contains(this)) { // if it's a card from opened graveyard
+				if (Player.temp_cards.Contains(this)) { 
 					AssignTarget (Player.cards_in_graveyard.Find(x => x.Index == Index).gameObject);
 
 					Destroy(GameObject.Find("ChooseCardText"));
@@ -847,7 +838,7 @@ public class card : MonoBehaviour {
 				break;
 	
 
-			case 4: //two creatures in game
+			case 4: 
 				if ( IsACreatureInGame() ) { 
 
 					if (Player.targets.Count>0)	{
@@ -860,37 +851,37 @@ public class card : MonoBehaviour {
 				else BadTarget();
 			break;
 			
-			case 5: //needs any target creature ( not a hero)
+			case 5: 
 				if (IsACreatureInGame() && !Hero) 		AssignTarget();
 
 				else BadTarget();
 			break;
 			
-			case 6: //needs any target creature that has attacked this turn
+			case 6: 
 				if (IsACreatureInGame() && this.AttackedThisTurn > 0) AssignTarget();
 						
 					else BadTarget();
 
 			break;
-			case 40: //needs a target ally
+			case 40: 
 				if (Player.player_creatures.Contains(this) && IsACreatureOrHeroInGame()) AssignTarget();
 				
 				else BadTarget();
 				
 				break;
-			case 41: //needs a target enemy creature or hero
+			case 41: 
 				if (Enemy.enemy_creatures.Contains(this) && IsACreatureOrHeroInGame()) AssignTarget();
 				
 				else BadTarget();
 				
 				break;
-			case 99:  //needs a player's creature to upgrade
+			case 99:  
 				if (IsACreature() && Level == Player.CurrentTargetParam && GrowID == Player.CurrentTargetParamString && Player.player_creatures.Contains (this)) AssignTarget();
-				else Player.Warning = "You need a level "+Player.CurrentTargetParam+" "+ Player.CurrentTargetParamString +" target for this upgrade"; //you need a level 1 Orc target for this upgrade
+				else Player.Warning = "You need a level "+Player.CurrentTargetParam+" "+ Player.CurrentTargetParamString +" target for this upgrade"; 
 				
 				
 				break;
-			case 7:  //needs a player's creature of certain type (for now only hero)
+			case 7:  
 				if (Hero && Player.player_creatures.Contains (this)) AssignTarget();
 					else Player.Warning = "You need a hero target for this spell";
 					
@@ -899,31 +890,31 @@ public class card : MonoBehaviour {
 			
 			case 8:
 			case 9:
-					//needs a player creature, needtarget=8 can also take player as a target but this gets handled by Player.OnMouseDown
+					
 				if (IsACreature() && Player.player_creatures.Contains (this)) AssignTarget();
 					else BadTarget();
 			break;		
 			
 			case 21:
-				//needs a card in hand to discard
+				
 				if (Player.cards_in_hand.Contains (this)) AssignTarget();
 				else BadTarget();
 			break;		
 			case 30:
-				//needs a creature with attack <= param 
+				
 				if (IsACreatureInGame() && CreatureOffense <= Player.CurrentTargetParam) AssignTarget();
 				else BadTarget();
 			break;
 			case 31:
-				//needs a creature with cost <= param 
+				 
 				if (IsACreatureInGame() && Cost.Count <= Player.CurrentTargetParam) AssignTarget();
 				else BadTarget();
 				break;	
 			default:
 			{
-				if (Player.NeedTarget >0 ) return;	// don't start playing a card or attacking if we are are waiting to the player to choose some target
+				if (Player.NeedTarget >0 ) return;	
 				
-				if (Player.PlayersTurn == false) {	Debug.Log ("not your turn!");	return; } //do nothing if it's not player's turn
+				if (Player.PlayersTurn == false) {	Debug.Log ("not your turn!");	return; } 
 				
 				if ((ControlledByPlayer == true)&&(Player.GameEnded==false)) 
 				{
@@ -952,7 +943,7 @@ public class card : MonoBehaviour {
 
 
 
-		} // if game mode
+		} 
 		
 	}
 
@@ -968,7 +959,7 @@ public class card : MonoBehaviour {
 
 	}
 
-	void AssignTargets(int targets_needed)	//if need two+ targets
+	void AssignTargets(int targets_needed)	
 	{
 
 			Player.targets.Add(gameObject);
@@ -1003,31 +994,31 @@ public class card : MonoBehaviour {
 
 	void SendCard()
 	{
-		Logic.ScenePhotonView.RPC("SendPlayedCard", PhotonTargets.Others, id_ingame); //sending played card to the other player
+		Logic.ScenePhotonView.RPC("SendPlayedCard", PhotonTargets.Others, id_ingame); 
 	}
 
 
 	void SendEffect(int effect_number)
 	{
-		Logic.ScenePhotonView.RPC("SendEffect", PhotonTargets.Others, effect_number, id_ingame); //sending played card to the other player
+		Logic.ScenePhotonView.RPC("SendEffect", PhotonTargets.Others, effect_number, id_ingame); 
 	}
 
 	public void SendHandCard()
 	{
 		Debug.Log ("sending played hand card:" + Name);
-		Logic.ScenePhotonView.RPC("SendPlayedHandCard", PhotonTargets.Others, Index, id_ingame); //sending played card to the other player
+		Logic.ScenePhotonView.RPC("SendPlayedHandCard", PhotonTargets.Others, Index, id_ingame); 
 	}
 
 	public void SendUpgradeCreature()
 	{
 		Debug.Log ("sending creature upgrade:" + Name);
-		Logic.ScenePhotonView.RPC("SendUpgradeCreature", PhotonTargets.Others, Index); //sending played card to the other player
+		Logic.ScenePhotonView.RPC("SendUpgradeCreature", PhotonTargets.Others, Index); 
 	}
 
 	public void PlayEnemyCardMultiplayer()
 	{
 
-		if (Type == 0) 	TurnLandForMana(true); //if it's a land
+		if (Type == 0) 	TurnLandForMana(true); 
 
 		else if (IsACreature ()) CreatureAttack(true);
 
@@ -1056,13 +1047,13 @@ public class card : MonoBehaviour {
 		if (MainMenu.TCGMaker.core.UseManaColors)
 			mana_to_gain = CardColor;
 		else
-			mana_to_gain = MainMenu.TCGMaker.core.colors [0]; //colorless
+			mana_to_gain = MainMenu.TCGMaker.core.colors [0]; 
 
 		if (AI)	Enemy.mana.Add(mana_to_gain);
 			else 
 		{
 			Player.mana.Add(mana_to_gain);
-			if (MainMenu.IsMulti) SendCard(); //sending played card to the other player
+			if (MainMenu.IsMulti) SendCard(); 
 		}
 
 
@@ -1072,8 +1063,8 @@ public class card : MonoBehaviour {
 	{
 		if (CanPayDiscardCost ())
 		{
-			if (potential_mana && CanPayManaCost (potential_mana)) return true; //if the player could get the required mana by tapping lands
-			if (CanPayManaCost()) return true; //if the player already has the required mana in their mana pool
+			if (potential_mana && CanPayManaCost (potential_mana)) return true; 
+			if (CanPayManaCost()) return true; 
 
 		}
 						
@@ -1140,8 +1131,8 @@ public class card : MonoBehaviour {
 		Debug.Log ("trying to play: "+Name );
 
 
-	if (Type == 0) {//if the card is a land 
-		if (Player.cards_in_hand.Contains(this)) { // and is in the player's hand, move it to lands zone if we can
+	if (Type == 0) {
+		if (Player.cards_in_hand.Contains(this)) { 
 			
 			
 			if (Player.LandsPlayedThisTurn > 0) 
@@ -1151,18 +1142,18 @@ public class card : MonoBehaviour {
 					Player.Warning = "Za malo miejsca na zasoby!";
 			else {
 					FromHandLand ();
-					if (MainMenu.IsMulti)  SendHandCard(); //sending played card to the other player
+					if (MainMenu.IsMulti)  SendHandCard(); 
 				} 	
 		}
 		
-			else if (Player.lands_in_game.Contains(this) && !IsTurned) //if the land is in the lands zone and not tapped, tap it for mana
+			else if (Player.lands_in_game.Contains(this) && !IsTurned) 
 				TurnLandForMana();
 		
 	}
 	
-		else if (Player.cards_in_hand.Contains(this)) { //if the card is in player's hand and is not a land
+		else if (Player.cards_in_hand.Contains(this)) { 
 		Debug.Log("Cost"+Cost);
-		if (CanPayManaCost() && CanPayDiscardCost()) { // if the player can pay the card's cost
+		if (CanPayManaCost() && CanPayDiscardCost()) { 
 				 
 				if (Type == 3  && !Player.CreaturesZone.CanPlace())
 					Player.Warning = "You don't have enough slots to place an enchantment!";
@@ -1172,7 +1163,7 @@ public class card : MonoBehaviour {
 		}
 			else Player.Warning = "Za malo zlota w skarbcu";
 	}
-		// the card is a creature in game
+		
 		else if (IsACreatureOrHeroInGame())
 			{ 
 				TryToAttack();
@@ -1202,7 +1193,7 @@ public class card : MonoBehaviour {
 	
 	}
 
-	public void Discard(bool AI = false) //discarding from hand
+	public void Discard(bool AI = false) 
 	{
 
 		if (AI) Enemy.RemoveHandCard(this);
@@ -1210,7 +1201,7 @@ public class card : MonoBehaviour {
 
 		if (MainMenu.TCGMaker.core.OptionGraveyard)	
 		{
-			//if (AI)		playerDeck.pD.AddArtAndText (gameObject); //first we need to add some image to display on the card in graveyard
+			
 			MoveToGraveyard();
 		}
 		else 	Destroy (gameObject);
@@ -1225,23 +1216,23 @@ public class card : MonoBehaviour {
 			Debug.Log("this card has an additional discard cost");
 						for (int i = 0; i < DiscardCost; i++) 
 								{
-									Player.NeedTarget = 21; // a card in hand to discard
+									Player.NeedTarget = 21; 
 									
 									while (Player.NeedTarget > 0) 		yield return new WaitForSeconds (0.1f);
 									if (Player.ActionCancelled) { Debug.Log("action cancelled"); return false; }
 								}
-			foreach (GameObject target in Player.targets) //discard
+			foreach (GameObject target in Player.targets) 
 					target.GetComponent<card>().Discard();
 
 		}
 
-		// the discard cost is paid, now play the card:
+		
 
 		if (IsACreature()) 	StartCoroutine(FromHandCreature()); 
 			
-		else if (Type == 2) FromHandSpell();  // is a spell
+		else if (Type == 2) FromHandSpell();  
 		
-		else if (Type == 3 || Type == 4)  StartCoroutine(FromHandEnchantment());  //enchantment or secret
+		else if (Type == 3 || Type == 4)  StartCoroutine(FromHandEnchantment());  
 	
 
 	}
@@ -1314,16 +1305,16 @@ public class card : MonoBehaviour {
 
 	public void Grow(card upgrade, bool AI=false)
 	{
-		//Debug.Log ("growing, iszoomed:"+IsZoomed);
+		
 		Index = upgrade.Index;
 
-		//if (IsZoomed) UnZoom();
+		
 		GetComponent<Collider2D>().enabled = false;
 
-		foreach (Transform child in transform) Destroy(child.gameObject); //destroying additional gameobjects for art, card name, description text, etc
+		foreach (Transform child in transform) Destroy(child.gameObject); 
 		playerDeck.pD.LoadCardStats(this);
 
-		if (IsTurned)	//temporary unturn
+		if (IsTurned)	
 			if (!MainMenu.TCGMaker.core.UseGrid) {
 				if (transform.parent)
 					transform.parent.Rotate (0, 0, -MainMenu.TCGMaker.core.OptionTurnDegrees);
@@ -1342,7 +1333,7 @@ public class card : MonoBehaviour {
 		Destroy (upgrade.gameObject);
 		GetComponent<Collider2D>().enabled = true;
 
-		if (IsTurned)	//return the turned rotation
+		if (IsTurned)	
 			if (!MainMenu.TCGMaker.core.UseGrid) {
 				if (transform.parent)
 					transform.parent.Rotate (0, 0, MainMenu.TCGMaker.core.OptionTurnDegrees);
@@ -1377,10 +1368,10 @@ public class card : MonoBehaviour {
 		
 		Debug.Log("playing a creature");
 
-		if (AI == false) {	// if it's the player who is playing a creature
+		if (AI == false) {	
 
 													
-						if (GrowID!="" && Level > 0 ) // a creature upgrade
+						if (GrowID!="" && Level > 0 )
 						{
 							if (HasUpgradableCreature(Player.player_creatures)) 
 																	
@@ -1388,7 +1379,7 @@ public class card : MonoBehaviour {
 														
 							else Player.Warning = "You don't have a creature to upgrade with this card";
 						}
-						else // a regular creature
+						else 
 						{	
 							
 							Zone creaturezone = Player.CreaturesZone;
@@ -1398,29 +1389,29 @@ public class card : MonoBehaviour {
 							creaturezone.StartCoroutine("CheckIfCanPlaceInZone",this);				
 							
 							while (Player.WaitForCheck) yield return new WaitForSeconds(0.15f);			
-							if (!Player.ActionCancelled) 	//if we can place a card in this zone and the player hasn't cancelled
+							if (!Player.ActionCancelled) 	
 										{	
 											if (MainMenu.IsMulti)  SendHandCard(); 
 											
 											PayManaCost();
-											Player.RemoveHandCard(this); //always remove before adding
-											Player.TriggerCardAbilities(abilities.ON_ENTER_CARDSUBTYPE, Subtype);	//before adding this card so it can't trigger itself					
+											Player.RemoveHandCard(this); 
+											Player.TriggerCardAbilities(abilities.ON_ENTER_CARDSUBTYPE, Subtype);						
 											Player.AddCreature(this);
 																	
 										}
 																	
-						} //regular creature end
+						} 
 						
 				} else 
 		
-			{ 				//it's the enemy who is playing a creature
+			{ 				
 
 				
 				PayManaCost(AI);
 			
-				Enemy.RemoveHandCard(this); //always remove before adding
+				Enemy.RemoveHandCard(this); 
 				
-				if (GrowID!="" && Level > 0 ) //if this is a creature upgrade
+				if (GrowID!="" && Level > 0 ) 
 					{
 						Enemy.ChooseTargetForUpgrade(this);
 						card oldcard = Enemy.targets[0].GetComponent<card>();
@@ -1454,7 +1445,7 @@ public class card : MonoBehaviour {
 
 	
 	}
-	else //it's the enemy who plays the land
+	else 
 	{
 			Debug.Log("playsland");
 			Debug.Log("Index:"+Index);
@@ -1475,9 +1466,9 @@ public class card : MonoBehaviour {
 		Debug.Log ("waiting for enemy to send target ienum...");
 				
 
-		while (Enemy.NeedTarget==100)	 yield return 0.3f;  //waiting for player to choose a target
+		while (Enemy.NeedTarget==100)	 yield return 0.3f;  
 		
-		//EffectManager.DoEffect (true, this, effect_number);
+		
 		EffectManager.AddToStack(true, this, effect_number);
 	}
 
@@ -1485,39 +1476,39 @@ public class card : MonoBehaviour {
 	IEnumerator WaitForTargetAndDoEffect(int Target, int TargetParam, int effect_number)
 	{
 		Debug.Log ("WaitForTargetAndDoEffect start");
-		Player.targets.Clear (); //clear previous targets
+		Player.targets.Clear (); 
 
 		Player.ActionCancelled = false;
-		Player.AttackerCreature = this; //for some cards like spectralist
+		Player.AttackerCreature = this; 
 		Player.CurrentTargetParam = TargetParam;
 		Player.NeedTarget = Target; 
 
-		if (Target == 3) Player.OpenIntListToChooseCard(playerDeck.pD.Deck); //need target:  card from deck
-		else if (Target == 50) 	Player.OpenListToChooseCard (Player.cards_in_graveyard, 2);	//need target:  spell from graveyard
-		else if (Target == 51) Player.OpenListToChooseCard (Player.cards_in_graveyard, 1);	//need target: creature from graveyard
+		if (Target == 3) Player.OpenIntListToChooseCard(playerDeck.pD.Deck); 
+		else if (Target == 50) 	Player.OpenListToChooseCard (Player.cards_in_graveyard, 2);	
+		else if (Target == 51) Player.OpenListToChooseCard (Player.cards_in_graveyard, 1);	
 
 
-		while (Player.NeedTarget>0)	 yield return 0.5f;  //waiting for player to choose a target
+		while (Player.NeedTarget>0)	 yield return 0.5f;  
 				
 
 
 		if (!Player.ActionCancelled) {
 						if (MainMenu.IsMulti) SendTargetsAndEffect(effect_number);
 											
-						//EffectManager.DoEffect (false, this, effect_number);
+						
 						EffectManager.AddToStack(false, this, effect_number);
 									}
-		else  //effect and got cancelled
+		else  
 		{
 			Debug.Log("choosing target... spell got cancelled");
-			if (Type == 2 ) {} //if it's a spell, just cancel 
+			if (Type == 2 ) {} 
 
-			else  if (Effects[effect_number].trigger == 1) //same for activated abilities
+			else  if (Effects[effect_number].trigger == 1) 
 			{}
 
-			else if (effect_number == (Effects.Count-1)) //abilities that are triggered and can't be prevented. If it was the last effect, finish the ability
+			else if (effect_number == (Effects.Count-1)) 
 			{
-				if ( Type == 4 ) SecretAfterEffects(); //secret
+				if ( Type == 4 ) SecretAfterEffects(); 
 				else Player.SpellInProcess = false; 
 			}
 		}
@@ -1534,16 +1525,16 @@ public class card : MonoBehaviour {
 
 		if (IsACreature())	
 			{
-				if (Effects[effect_number].trigger == 1 )	// if this was an activated ability. Other abilities are handled on multiplayer opponent's side automatically
+				if (Effects[effect_number].trigger == 1 )	
 					 SendEffect(effect_number); 
 			}
 
-			else if (Type!=3 && Type!=4) SendHandCard (); // send info about this play to the opponent, secrets and enchantments are handles automatically
+			else if (Type!=3 && Type!=4) SendHandCard (); 
 			
 
 	}
 
-	bool ChooseAutomaticTargetsAndDoEffect(int effect_number, bool AI=false) //don't change from effect_number (to Effect for ex.) because of multiplayer
+	bool ChooseAutomaticTargetsAndDoEffect(int effect_number, bool AI=false) 
 	{
 
 		bool TargetIsAutomatic = true;
@@ -1555,9 +1546,9 @@ public class card : MonoBehaviour {
 			Debug.Log("no target effect");
 				if (MainMenu.IsMulti){
 					if (IsACreature() && effect.trigger != 0)
-						SendEffect (effect_number);	//a creature's ability but not its activated ability
+						SendEffect (effect_number);	
 				
-					else if (Type == 2)	SendHandCard (); // send info about this play to the opponent
+					else if (Type == 2)	SendHandCard (); 
 				}
 			}
 			
@@ -1565,24 +1556,24 @@ public class card : MonoBehaviour {
 		else switch (effect.target) { 
 				
 					
-				case 12: 	// all friendly creatures
+				case 12: 	
 						if (AI)
 								Enemy.targets = Enemy.Creatures ();
 						else
 								Player.targets = Player.Creatures ();
 				
 						break;
-				case 13:	//all creatures
+				case 13:	
 						if (AI) Enemy.targets = EffectManager.CreaturesInGame();
 								
 						else 	Player.targets = EffectManager.CreaturesInGame();
 								break;
-				case 14:	//all enemy creatures
+				case 14:	
 						if (AI) Enemy.targets = Player.Creatures ();
 					
 					else 	Player.targets = Enemy.Creatures ();
 					break;
-				case 16:	//all enemy creatures or heroes
+				case 16:	
 					if (AI) 
 							{
 								Enemy.targets.Clear();
@@ -1590,7 +1581,7 @@ public class card : MonoBehaviour {
 							}		
 					else 	foreach (card foundcard in Enemy.enemy_creatures) Player.targets.Add(foundcard.gameObject);
 					break;
-				case 200:	//random enemy creature
+				case 200:	
 						if (AI)
 							{	Enemy.targets.Clear();
 								Enemy.targets.Add(Player.RandomCreature());
@@ -1601,10 +1592,10 @@ public class card : MonoBehaviour {
 							
 						
 						break;
-				case 201:	//param0-param1 random enemy creatures
+				case 201:	
 						int number_from = effect.targetparam0; 
 						int number_to = effect.targetparam1; 
-						int number_of_creatures = Random.Range (number_from, number_to + 1); //+1 because upper int is not included
+						int number_of_creatures = Random.Range (number_from, number_to + 1); 
 			
 						if (AI)
 								Enemy.targets = EffectManager.RandomCreatures (number_of_creatures, Player.player_creatures);
@@ -1612,7 +1603,7 @@ public class card : MonoBehaviour {
 								Player.targets = EffectManager.RandomCreatures (number_of_creatures, Enemy.enemy_creatures);
 				
 						break;
-				case 202: //random enemy creature with cost < x
+				case 202: 
 						if (AI) 				
 							{	Enemy.targets.Clear();
 								Enemy.targets.Add(Player.RandomCreatureWithCostEqualOrLowerThan(effect.targetparam0));
@@ -1621,7 +1612,7 @@ public class card : MonoBehaviour {
 						else	Player.targets.Add(Enemy.RandomCreatureWithCostEqualOrLowerThan(effect.targetparam0));
 								
 						break;
-				case 203: //random enemy creature or hero
+				case 203: 
 					if (AI) 				
 					{	Enemy.targets.Clear();
 						Enemy.targets.Add(Player.RandomAlly());
@@ -1630,7 +1621,7 @@ public class card : MonoBehaviour {
 					else	Player.targets.Add(Enemy.RandomAlly());
 					
 					break;
-				case 230: //random ally
+				case 230: 
 					if (AI){
 								Enemy.targets.Clear();		
 								Enemy.targets.Add(Enemy.RandomAlly());
@@ -1639,21 +1630,21 @@ public class card : MonoBehaviour {
 						else	Player.targets.Add(Player.RandomAlly());
 							
 						break;
-				case 261: //random X creatures in game (no heroes)
+				case 261: 
 					if (AI)
 						Enemy.targets = EffectManager.RandomGameObjects(effect.targetparam0, EffectManager.CreaturesInGame());
 					else
 						Player.targets = EffectManager.RandomGameObjects(effect.targetparam0, EffectManager.CreaturesInGame());
 					break;
-				case 300: //random creature in hand
+				case 300: 
 					if (AI){
 						Enemy.targets.Clear();	
-						Enemy.targets.Add(EffectManager.RandomCard(Enemy.cards_in_hand, 1)); //second param is type
+						Enemy.targets.Add(EffectManager.RandomCard(Enemy.cards_in_hand, 1)); 
 							}
 					else
 						Player.targets.Add(EffectManager.RandomCard(Player.cards_in_hand, 1));
 					break;
-				case 301: //random creature in deck
+				case 301: 
 			if (AI){
 						Enemy.targets.Clear();	
 						Enemy.targets.Add(EffectManager.RandomCardFromIntList(Enemy.Deck));
@@ -1661,23 +1652,23 @@ public class card : MonoBehaviour {
 					else
 						Player.targets.Add(EffectManager.RandomCardFromIntList(playerDeck.pD.Deck));
 					break;
-				case 302: //random creature from graveyard
+				case 302: 
 				if (AI){
 						Enemy.targets.Clear();	
-						Enemy.targets.Add(EffectManager.RandomCard(Enemy.cards_in_graveyard, 1)); //second param is type
+						Enemy.targets.Add(EffectManager.RandomCard(Enemy.cards_in_graveyard, 1)); 
 						}
 					else
 						Player.targets.Add(EffectManager.RandomCard(Player.cards_in_graveyard, 1));
 					break;
-				case 303: //random spell from graveyard
+				case 303: 
 					if (AI){
 						Enemy.targets.Clear();
-						Enemy.targets.Add(EffectManager.RandomCard(Enemy.cards_in_graveyard, 2)); //second param is type
+						Enemy.targets.Add(EffectManager.RandomCard(Enemy.cards_in_graveyard, 2)); 
 					}
 					else
 						Player.targets.Add(EffectManager.RandomCard(Player.cards_in_graveyard, 2));
 					break;
-				case 304: //random creature in enemy deck
+				case 304: 
 						if (AI){
 						Enemy.targets.Clear();	
 						Enemy.targets.Add(EffectManager.RandomCardFromIntList(playerDeck.pD.Deck));
@@ -1685,7 +1676,7 @@ public class card : MonoBehaviour {
 					else
 						Player.targets.Add(EffectManager.RandomCardFromIntList(Enemy.Deck));
 					break;
-				case 10: //  current player
+				case 10: 
 		
 						if (AI)
 								{
@@ -1698,7 +1689,7 @@ public class card : MonoBehaviour {
 								
 				
 						break;
-				case 11: //the target is the enemy
+				case 11: 
 						if (AI)
 						{
 							Enemy.targets.Clear();
@@ -1710,7 +1701,7 @@ public class card : MonoBehaviour {
 						
 						
 						break;
-				case 15: //this creature (for creature abilities)
+				case 15: 
 
 						if (AI)
 								{
@@ -1721,7 +1712,7 @@ public class card : MonoBehaviour {
 									Player.targets.Add (gameObject);
 								
 								break;
-				case 60: //top card from deck
+				case 60: 
 					
 					if (AI)
 					{
@@ -1744,9 +1735,9 @@ public class card : MonoBehaviour {
 		
 	if (TargetIsAutomatic)
 			{
-				//if (!AI && MainMenu.IsMulti && RandomTargetsList.Contains(Target)) Player.SendTargets(); 
-				if (!AI && MainMenu.IsMulti) SendTargetsAndEffect(effect_number); //if not an enchantment
-				//EffectManager.DoEffect (AI, this, effect_number);
+				
+				if (!AI && MainMenu.IsMulti) SendTargetsAndEffect(effect_number); 
+				
 				EffectManager.AddToStack(AI, this, effect_number);
 				return true;
 			}
@@ -1770,14 +1761,14 @@ public class card : MonoBehaviour {
 		int effect = Effects[effect_number].type;
 		Debug.Log ("EnemyNeedTarget:" + Enemy.NeedTarget);
 
-		if (MainMenu.IsMulti && Enemy.NeedTarget == 100) StartCoroutine(WaitForMultiplayerTargetAndDoEffect (effect_number)); //for creature entry abilities only
+		if (MainMenu.IsMulti && Enemy.NeedTarget == 100) StartCoroutine(WaitForMultiplayerTargetAndDoEffect (effect_number)); 
 
-		else if (ChooseAutomaticTargetsAndDoEffect(effect_number, AI) == false) { //if the target needs to be chosen
+		else if (ChooseAutomaticTargetsAndDoEffect(effect_number, AI) == false) { 
 					
 				if (AI) {
 							Debug.Log("Effect Target:" + Target);
 								
-							 if (!MainMenu.IsMulti) {	//AI enemy, it needs to choose a target
+							 if (!MainMenu.IsMulti) {	
 										Enemy.NeedTarget = Target;
 										Enemy.CurrentTargetParam = TargetParam;
 										Enemy.ChooseTarget (effect);
@@ -1785,18 +1776,16 @@ public class card : MonoBehaviour {
 							 EffectManager.AddToStack(AI, this, effect_number);
 						} 
 	
-			else StartCoroutine (WaitForTargetAndDoEffect (Target, TargetParam, effect_number));	//player needs to choose a target
+			else StartCoroutine (WaitForTargetAndDoEffect (Target, TargetParam, effect_number));	
 
 			}
 
 	}
 	
 
-	public void SecretAfterEffects(bool AI=false) //secrets can have only 1 effect for now
+	public void SecretAfterEffects(bool AI=false) 
 	{
-		//while (SpellUnresolved) {
-		//	yield return new WaitForSeconds (0.5f);
-		//}
+		
 
 		RevealSecretCard ();
 
@@ -1816,10 +1805,7 @@ public class card : MonoBehaviour {
 	public void SpellAfterEffects(bool AI=false)
 	{
 		Debug.Log ("starting spell aftereffects");
-		//while (SpellUnresolved) {
-		//	yield return new WaitForSeconds (0.5f);
-		//}
-
+		
 			if (AI) {
 						if (IsZoomed)
 								UnZoom ();
@@ -1849,7 +1835,7 @@ public class card : MonoBehaviour {
 	}
 
 
-	bool ValidSpell(bool warning = true)	//validating abilities that can't be cancelled, mostly for random abilities 
+	bool ValidSpell(bool warning = true)	
 	{
 
 
@@ -1857,62 +1843,62 @@ public class card : MonoBehaviour {
 		foreach (Effect foundeffect in Effects)
 			 {
 				target = foundeffect.target;
-				//Debug.Log ("doing ValidSpell, target:"+target);
+				
 
-				if (target == 7 && Effects.Count == 1) { //if target is a creature of certain type (for now only hero type)
+				if (target == 7 && Effects.Count == 1) { 
 
 								if (!Player.HasAHero ()) {
 										if (warning) Player.Warning = "This card needs a hero for its target";
 										return false;
 								}
 					}
-			else if (target == 203 || target == 16) //random enemy creature or hero
+			else if (target == 203 || target == 16) 
 			{
 				if (!Enemy.HasACreature() && !Enemy.HasAHero()){
 					if (warning) Player.Warning = "Nie ma celu dla tej karty";
 					return false;
 				}
 			}
-			else if (target == 202) { //random enemy creature with cost <= x
+			else if (target == 202) { 
 							
 				if (!Enemy.RandomCreatureWithCostEqualOrLowerThan(foundeffect.targetparam0)) {
 					if (warning) Player.Warning = "Nie ma celu dla tej karty";
 					return false;
 				}
 			}
-				else if (target == 200 || target == 201 || target == 14 ){ //random enemy creature (no heroes)
+				else if (target == 200 || target == 201 || target == 14 ){ 
 				
 								if (!Enemy.HasACreature ()) {
 										if (warning) Player.Warning = "Nie ma celu dla tej karty";
 										return false;
 									}
 					}
-				else if (target == 230) { //random ally
+				else if (target == 230) { 
 								if (!Player.HasACreature () && !Player.HasAHero()) {
 									if (warning) Player.Warning = "Nie ma celu dla tej karty";
 									return false;
 								}
 				}
-				else if (target == 261) //random x creatures
+				else if (target == 261) 
 				{
 					if (EffectManager.CreaturesInGame().Count < foundeffect.targetparam0) {
 					if (warning) Player.Warning = "Nie ma celu dla tej karty";
 						return false;
 					}
 				}
-				else if (target == 13) { //from all creatures
+				else if (target == 13) { 
 								if (!Player.HasACreature () && !Enemy.HasACreature()) {
 								if (warning) Player.Warning = "Nie ma celu dla tej karty";
 									return false;
 								}
 				}
-				else if (target == 302) {//random creature from graveyard
+				else if (target == 302) {
 							if (EffectManager.RandomCard(Player.cards_in_graveyard, 1) == null) {
 								if (warning) Player.Warning = "Nie ma celu dla tej karty";
 								return false;
 							}
 				}
-				else if (target == 303) //random spell from graveyard
+				else if (target == 303) 
 				if (EffectManager.RandomCard(Player.cards_in_graveyard, 2) == null) {
 					if (warning) Player.Warning = "Nie ma celu dla tej karty";
 					return false;
@@ -1952,7 +1938,7 @@ public class card : MonoBehaviour {
 	public IEnumerator FromHandEnchantment(bool AI=false)	
 	{
 
-		if (Type == 4) 	HideSecretCard (); //secret
+		if (Type == 4) 	HideSecretCard (); 
 
 
 		if (AI) {
@@ -1961,7 +1947,7 @@ public class card : MonoBehaviour {
 			Enemy.AddEnchantment(this);
 
 				} 
-		else { //player
+		else { 
 
 			Zone enchzone = Player.CreaturesZone;
 			
@@ -1970,7 +1956,7 @@ public class card : MonoBehaviour {
 			enchzone.StartCoroutine("CheckIfCanPlaceInZone",this);				
 			
 			while (Player.WaitForCheck) yield return new WaitForSeconds(0.15f);			
-			if (!Player.ActionCancelled) 	//if we can place a card in this zone and the player hasn't cancelled
+			if (!Player.ActionCancelled) 	
 			{	
 				if (MainMenu.IsMulti)  SendHandCard(); 
 				PayManaCost();
@@ -1987,22 +1973,22 @@ public class card : MonoBehaviour {
 	public void FromHandSpell(bool AI=false)	{
 		Player.ActionCancelled = false;
 	
-		if (AI == true) {	//enemy 
+		if (AI == true) {	
 
 			PayManaCost(AI);
 			Enemy.cards_in_hand.Remove (this);
 			Enemy.CardsInHand -= 1;
-			//SpellUnresolved = true;
+			
 
 			StartCoroutine(ShowCardAndWait(true));
 				}
-		else {			// player
+		else {			
 
 
 				if (ValidSpell()) 
 				{
-					//SpellUnresolved = true;
-					if (Effects.Count == 0) SpellAfterEffects(); //if the spell has no effects for some reason
+					
+					if (Effects.Count == 0) SpellAfterEffects(); 
 						else {
 								for(int i = 0; i< Effects.Count; i++) ApplyEffect(i, AI);
 									
@@ -2026,7 +2012,7 @@ public class card : MonoBehaviour {
 
 		Player.SpellInProcess = true;
 
-		transform.position = new Vector3 (0f, 0f, 0f); //show the card to the player
+		transform.position = new Vector3 (0f, 0f, 0f); 
 	
 		if (faceDown)	FaceUp ();
 		if (!GetComponent<Renderer>()) playerDeck.pD.AddArtAndText (this); 
@@ -2036,7 +2022,7 @@ public class card : MonoBehaviour {
 	
 		yield return new WaitForSeconds (1.3f);
 
-		if (Effects.Count == 0) SpellAfterEffects (AI);	//if the spell has no effect for some reason
+		if (Effects.Count == 0) SpellAfterEffects (AI);	
 						
 			else {
 					for (int i = 0; i< Effects.Count; i++) ApplyEffect (i, AI);
@@ -2050,8 +2036,8 @@ public class card : MonoBehaviour {
 	IEnumerator AttackTarget()
 	{
 
-		while (Player.NeedTarget>0) yield return 0.5f; //waiting for player to choose a target
-		if (MainMenu.IsMulti && !Player.ActionCancelled) { //sending info about this play to the enemy
+		while (Player.NeedTarget>0) yield return 0.5f; 
+		if (MainMenu.IsMulti && !Player.ActionCancelled) { 
 			Player.SendTargets();
 			SendCard();
 
@@ -2060,7 +2046,7 @@ public class card : MonoBehaviour {
 		if(!Player.ActionCancelled) {
 
 			Player.targets[0].SendMessage("IsAttacked", this);
-			abilities.TriggerAbility (abilities.ON_ATTACK); //should be after sendmessage
+			abilities.TriggerAbility (abilities.ON_ATTACK); 
 
 			if (AttackedThisTurn>0 || !free_attack) Turn();
 			AttackedThisTurn++;
@@ -2083,7 +2069,7 @@ public class card : MonoBehaviour {
 						StartCoroutine (AttackTarget ());
 						
 					
-				} else {		//enemy
+				} else {		
 					
 						if (MainMenu.IsMulti || MainMenu.TCGMaker.core.UseGrid) { 
 
@@ -2091,7 +2077,7 @@ public class card : MonoBehaviour {
 								ourtarget = Enemy.targets[0];
 											}	 
 							else
-								{												//AI
+								{												
 								Debug.Log ("AI is attacking");
 								
 								ourtarget = Enemy.ChooseTargetForAttacking (); 
@@ -2099,7 +2085,7 @@ public class card : MonoBehaviour {
 				
 						
 						ourtarget.SendMessage ("IsAttacked", this);
-						abilities.TriggerAbility (abilities.ON_ATTACK, true); //should be after sendmessage
+						abilities.TriggerAbility (abilities.ON_ATTACK, true); 
 
 						if (AttackedThisTurn>0 || !free_attack) Turn();
 						AttackedThisTurn++;
@@ -2130,10 +2116,10 @@ public class card : MonoBehaviour {
 	public void PlayFX(Transform particle)
 	{
 		Transform newobj = (Transform)Instantiate(particle, transform.position, transform.rotation); 
-		newobj.GetComponent<Renderer>().sortingOrder = 99; //particle should be on top of the card
+		newobj.GetComponent<Renderer>().sortingOrder = 99; 
 	}
 
-	public void IsAttacked (card Attacker) //invokes when this card (probably a creature) is attacked
+	public void IsAttacked (card Attacker) 
 	{
 		if (Player.player_creatures.Contains(this)) Player.TriggerCardAbilities(abilities.ON_FRIENDLY_ISATTACKED);
 			else Enemy.TriggerCardAbilities(abilities.ON_FRIENDLY_ISATTACKED);
@@ -2147,7 +2133,7 @@ public class card : MonoBehaviour {
 			else 	GetComponent<AudioSource>().PlayOneShot (Hit);
 				
 		GetComponent<Renderer>().material.color = Color.red;
-		Invoke ("RestoreColor", 0.3f); //we make the avatar red for 0.3 seconda
+		Invoke ("RestoreColor", 0.3f); 
 
 
 		int DamageToCreature; 
@@ -2158,7 +2144,7 @@ public class card : MonoBehaviour {
 			DamageToCreature = Attacker.CreatureOffense;
 
 			if (Attacker.IsCriticalStrike ()) {
-							Player.Warning = "Critical strike!"; //you could change it to some fx
+							Player.Warning = "Critical strike!";
 							DamageToCreature = (int)(Attacker.CreatureOffense * Attacker.CritDamageMultiplier);
 											}
 
@@ -2182,10 +2168,10 @@ public class card : MonoBehaviour {
 		}
 
 		if (MainMenu.TCGMaker.core.OptionRetaliate && !noDamage(this, Attacker)) {
-						// the attacked creature deals damage back to the attacker:
+						
 			if (!MainMenu.TCGMaker.core.UseGrid || Ranged || slot.IsAdjacent(Attacker.slot) )
 							{
-								int DamageToAttacker = CreatureOffense;	//default damage
+								int DamageToAttacker = CreatureOffense;	
 
 								if (IsCriticalStrike ())
 												DamageToAttacker = (int)(CreatureOffense * CritDamageMultiplier);
@@ -2206,7 +2192,7 @@ public class card : MonoBehaviour {
 
 		Player.CreatureStatsNeedUpdating = true;
 
-		if (Defense <=0 ) {	//the attack target died
+		if (Defense <=0 ) {	
 
 			if (Player.player_creatures.Contains(Attacker) || Player.cards_in_graveyard.Contains(Attacker))		Attacker.abilities.TriggerAbility (abilities.ON_KILL);
 
@@ -2229,33 +2215,32 @@ public class card : MonoBehaviour {
 
 		Debug.Log ("CreatureStartingDefense: "+StartingDefense);
 		Debug.Log ("param: "+param);
-		if (StartingDefense < Defense + param ) Defense = StartingDefense; //we can't raise creature's health above its starting health by healing
+		if (StartingDefense < Defense + param ) Defense = StartingDefense; 
 			else Defense += param;
 		 
 		PlayFX(playerDeck.pD.healfx); 
 		GetComponent<AudioSource>().PlayOneShot(Healed);
-		//renderer.material.color = Color.green;
-		//Invoke("RestoreColor", 0.3f); //we make our enemy's avatar change color for 0.3 seconda
+		
 		Player.CreatureStatsNeedUpdating = true;
 	}
 
-	public void IsHitBySpell (Vector3 param) //second param: 0=fire , 1=normal dmg
+	public void IsHitBySpell (Vector3 param) 
 	{
 		Debug.Log ("creature is hit by spell");
 		int amount = (int)param.x;
 		int damagetype = (int)param.y;
 		int cardid = (int)param.z;
 
-		if (damagetype == 0)	//fire
+		if (damagetype == 0)	
 		{
 			PlayFX(playerDeck.pD.firefx); 
 			GetComponent<AudioSource>().PlayOneShot(HitBySpell);
 		}
-		if (damagetype == 1)	//physical
+		if (damagetype == 1)	
 		{
 			GetComponent<AudioSource>().PlayOneShot (Hit);
 			GetComponent<Renderer>().material.color = Color.red;
-			Invoke ("RestoreColor", 0.3f); //we make the avatar red for 0.3 seconda
+			Invoke ("RestoreColor", 0.3f); 
 		}
 		if (!takes_no_spell_dmg) StartCoroutine (IsDealtSpellDamage (amount, cardid));
 	}
@@ -2279,7 +2264,7 @@ public class card : MonoBehaviour {
 					Debug.Log ("triggering OnKill on creature:" +effectcard.Name); 
 					if (Player.player_creatures.Contains(effectcard) || Player.cards_in_graveyard.Contains(effectcard))		effectcard.abilities.TriggerAbility (abilities.ON_KILL);
 						else effectcard.abilities.TriggerAbility (abilities.ON_KILL, true);
-				}//if it was a creature ability and the target died, trigger OnKill on the creature that used the ability
+				}
 		}
 
 
@@ -2288,6 +2273,6 @@ public class card : MonoBehaviour {
 
 	public void RestoreColor()
 	{
-		GetComponent<Renderer>().material.color = Color.white; //this actually doesn't paint the avatar white, but restores it to its original colors
+		GetComponent<Renderer>().material.color = Color.white; 
 	}
 }

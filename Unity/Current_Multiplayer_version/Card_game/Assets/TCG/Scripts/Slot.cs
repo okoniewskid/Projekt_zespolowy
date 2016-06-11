@@ -29,7 +29,7 @@ public class Slot : MonoBehaviour {
 
 	public void OnMouseDown(){
 		Debug.Log("slot mousedown!");
-		if (highlighted) //the slot is available
+		if (highlighted) 
 		{
 			Player.targets.Add(gameObject);
 			Debug.Log("chose a slot!");
@@ -50,8 +50,8 @@ public class Slot : MonoBehaviour {
 
 	void OnMouseOver () 
 	{	
-		//		Debug.Log("mouseover slot");
-		if (highlighted) //the slot is available
+		
+		if (highlighted) 
 				 if (GetComponent<MeshRenderer>()) GetComponent<Renderer>().material = playerDeck.pD.slot_mouseover;
 				 
 
@@ -60,23 +60,23 @@ public class Slot : MonoBehaviour {
 
 	void OnMouseExit () 
 	{
-		//Debug.Log("mouse exit slot");
+		
 
-		if (highlighted) //the slot is available, change "mouseover" material back to "highlighted"
+		if (highlighted) 
 			if (GetComponent<MeshRenderer>()) GetComponent<Renderer>().material = playerDeck.pD.slot_highlighted;
 
 	}
 
 	void OnGUI() {
 
-		if (zone.PlayerIsChoosingASlot && !MainMenu.TCGMaker.core.UseGrid) //if player needs to choose a slot
+		if (zone.PlayerIsChoosingASlot && !MainMenu.TCGMaker.core.UseGrid) 
 		{
-			if (highlighted) GUI.DrawTexture(Zone.GUIRectWithObject(gameObject), Zone.hl_all_texture); //highlighting regular slots)
+			if (highlighted) GUI.DrawTexture(Zone.GUIRectWithObject(gameObject), Zone.hl_all_texture); 
 
 			Vector3 mouse_pos= Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		                         
 			if (GetComponent<Collider>().bounds.Contains(new Vector3(mouse_pos.x,mouse_pos.y, 0f))) 
-			{ //if mouse is over this slot
+			{ 
 
 				 GUI.DrawTexture(Zone.GUIRectWithObject(gameObject), Zone.hl_mouseover_texture);
 
@@ -90,7 +90,7 @@ public class Slot : MonoBehaviour {
 			foreach (Transform child in transform.parent)
 			{
 				otherslot = child.GetComponent<Slot>();
-					if (otherslot!=null && child.childCount == 0) //and is empty
+					if (otherslot!=null && child.childCount == 0) 
 					if ((row%2) == 0)
 				{
 					if (
@@ -121,8 +121,8 @@ public class Slot : MonoBehaviour {
 		path.Add(otherslot);
 		int i = 0;
 		int maxsteps = 6;
-//		Debug.Log("row "+row+" other row: "+otherslot.row);
-		if (row == otherslot.row) //up/down direction
+
+		if (row == otherslot.row) 
 		{
 			while ( i<maxsteps )
 			{
@@ -135,7 +135,7 @@ public class Slot : MonoBehaviour {
 
 		int currentrow = row, currentcolumn = column;
 
-		//upper left:
+		
 		i = 0;
 		if (row%2 == 0) i = 1;
 
@@ -149,14 +149,14 @@ public class Slot : MonoBehaviour {
 				path.Add(playerDeck.pD.Grid[currentrow, currentcolumn]);
 
 				if (playerDeck.pD.Grid[currentrow, currentcolumn]!=null)
-					if (playerDeck.pD.Grid[currentrow, currentcolumn].transform.childCount>0) //if it has a card
+					if (playerDeck.pD.Grid[currentrow, currentcolumn].transform.childCount>0) 
 						if (playerDeck.pD.Grid[currentrow, currentcolumn] != otherslot) break;
 							else return path; 
 
 				i++;
 			}
 
-		//lower left:
+		
 		i = 0;
 		if (row%2 == 0) i = 1;
 		currentrow = row;
@@ -173,14 +173,14 @@ public class Slot : MonoBehaviour {
 			path.Add(playerDeck.pD.Grid[currentrow, currentcolumn]);
 
 			if (playerDeck.pD.Grid[currentrow, currentcolumn]!=null)
-				if (playerDeck.pD.Grid[currentrow, currentcolumn].transform.childCount>0) //if it has a card
+				if (playerDeck.pD.Grid[currentrow, currentcolumn].transform.childCount>0) 
 					if (playerDeck.pD.Grid[currentrow, currentcolumn] != otherslot) break;
 						else return path; 
 			
 			i++;
 		}
 
-		//upper right:
+		
 		i = 0;
 		if (row%2 == 0) i = 1;
 		currentrow = row;
@@ -197,13 +197,13 @@ public class Slot : MonoBehaviour {
 			path.Add(playerDeck.pD.Grid[currentrow, currentcolumn]);
 
 			if (playerDeck.pD.Grid[currentrow, currentcolumn]!=null)
-				if (playerDeck.pD.Grid[currentrow, currentcolumn].transform.childCount>0) //if it has a card
+				if (playerDeck.pD.Grid[currentrow, currentcolumn].transform.childCount>0) 
 					if (playerDeck.pD.Grid[currentrow, currentcolumn] != otherslot) break;
 						else return path; 
 			
 			i++;
 		}
-		//lower right:
+		
 		i = 0;
 		if (row%2 == 0) i = 1;
 		currentrow = row;
@@ -222,7 +222,7 @@ public class Slot : MonoBehaviour {
 
 
 			if (playerDeck.pD.Grid[currentrow, currentcolumn]!=null)
-				if (playerDeck.pD.Grid[currentrow, currentcolumn].transform.childCount>0) //if it has a card
+				if (playerDeck.pD.Grid[currentrow, currentcolumn].transform.childCount>0) 
 					if (playerDeck.pD.Grid[currentrow, currentcolumn] != otherslot) break;
 						else return path; 
 			
@@ -234,7 +234,7 @@ public class Slot : MonoBehaviour {
 
 	public bool IsAdjacent(Slot otherslot)
 	{
-//		Debug.Log("checking row "+row+" other row: "+otherslot.row);
+
 		if (row%2 == 0)
 		{
 			if (otherslot.row - row == 1 && otherslot.column - column == 1) return false;
@@ -248,10 +248,10 @@ public class Slot : MonoBehaviour {
 		}
 
 		if (Mathf.Abs(row - otherslot.row) < 2  &&
-		    Mathf.Abs(column - otherslot.column) < 2 ) { //Debug.Log("adjacent"); 
+		    Mathf.Abs(column - otherslot.column) < 2 ) { 
 			return true; }
 			
-		{ //Debug.Log("not adjacent");  
+		{  
 			return false; }
 
 	}

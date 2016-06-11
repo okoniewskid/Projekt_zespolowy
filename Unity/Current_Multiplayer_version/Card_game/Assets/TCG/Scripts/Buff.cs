@@ -7,7 +7,7 @@ public class Buff  {
 	public bool EOT;
 	public bool positive;
 
-	public card enchantmentcard; //the (de)buff will end if this card leaves play
+	public card enchantmentcard; 
 
 	public const int SET_ATTACK_TO = 1;
 	public const int RAISE_ATTACK_BY = 2;
@@ -20,7 +20,7 @@ public class Buff  {
 	public const int SET_CRIT_CHANCE_TO = 13;
 	public const int ASSIGN_ABILITY = 20;
 
-	//ability codes for "assign ability" buff
+	
 	public const int NO_FIRST_TURN_SICKNESS = 0;
 	public const int CANT_ATTACK = 1;
 	public const int TAKES_NO_COMBAT_DMG = 2;
