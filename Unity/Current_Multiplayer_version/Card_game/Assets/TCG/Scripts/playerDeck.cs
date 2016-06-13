@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 public class playerDeck : MonoBehaviour   {
 
-	public static playerDeck pD ; //instance of this singleton
+	public static playerDeck pD ;
 
 	string[,] cardsInfo;
 
@@ -20,8 +20,6 @@ public class playerDeck : MonoBehaviour   {
 	public List<int> SavedDeck = new List<int>();
 	[HideInInspector] 
 	public List<int> Collection;
-	 
-	//this setting is parsed from the database:
 
 	[HideInInspector] 
 	public  Slot[,] Grid = new Slot[7,7];
@@ -69,7 +67,7 @@ public class playerDeck : MonoBehaviour   {
 		DontDestroyOnLoad(gameObject);
 	
 		Debug.Log("awaking playerdeck");
-		if (playerDeck.pD == null)	playerDeck.pD = this;	//singleton
+		if (playerDeck.pD == null)	playerDeck.pD = this;
 		
 		templateTransform = CardTemplate.Instance.transform;
 	}
@@ -134,21 +132,17 @@ public class playerDeck : MonoBehaviour   {
 	}
 
 
-	// Update is called once per frame
 	void Update () {
 	
 
 	}
 
 
-
-
-
 	public card MakeCard (int Index, bool AI=false)
 	{
 		GameObject new_card_obj = new GameObject();
 		
-		card new_card = new_card_obj.AddComponent<card>() as card; //adding card script
+		card new_card = new_card_obj.AddComponent<card>() as card;
 
 		new_card_obj.AddComponent<AudioSource>();
 			
@@ -160,13 +154,13 @@ public class playerDeck : MonoBehaviour   {
 
 		LoadCardStats(new_card);
 
-		new_card.GetComponent<AudioSource>().clip = new_card.sfxEntry; //play entry sound, works
+		new_card.GetComponent<AudioSource>().clip = new_card.sfxEntry;
 
 		return new_card;
 	}
 
 
-	public  void PlaceCreatureInGame(card creaturecard, bool ForEnemy=false) //utility 
+	public  void PlaceCreatureInGame(card creaturecard, bool ForEnemy=false) 
 	{
 		if (ForEnemy == false) {
 
@@ -174,7 +168,7 @@ public class playerDeck : MonoBehaviour   {
 
 		}
         else		
-		{ 				//it's the enemy who is placing a creature						
+		{ 								
 			Enemy.AddCreature(creaturecard); 
 		}
 		creaturecard.id_ingame = System.Int32.Parse("4"+nexttokenid.ToString());
@@ -186,14 +180,13 @@ public class playerDeck : MonoBehaviour   {
 		int Index = temp_card.Index;
 		Debug.Log ("index:"+Index);
 
-		//Debug.Log ("name:"+cardsDB[Index]["name"].ToString());
+		
 		DbCard dbcard = MainMenu.TCGMaker.cards.Where(x => x.id == Index).SingleOrDefault();
 		if (dbcard == null) Debug.LogWarning("card not found in the new db!");
-		temp_card.gameObject.name =  dbcard.name; //for easier debugging with inspector, otherwise there will be a ton of NewGameObjects 
-
+		temp_card.gameObject.name =  dbcard.name; 
 		temp_card.Name = dbcard.name; 
 
-		//Debug.Log ("type:"+cardsDB[Index]["type"].ToString());
+		
 		temp_card.Type = dbcard.type;
 		temp_card.Subtype = dbcard.subtype;
 		temp_card.CardColor = dbcard.color;
@@ -202,7 +195,7 @@ public class playerDeck : MonoBehaviour   {
 
 			temp_card.Cost = dbcard.cost;
 
-		} else { //gonna ensure every cost is colorless
+		} else { 
 			ManaColor colorless = MainMenu.TCGMaker.core.colors [0];
 
 			temp_card.Cost = new List<ManaColor>();
@@ -214,14 +207,12 @@ public class playerDeck : MonoBehaviour   {
 		temp_card.Art = dbcard.art;
 
 		temp_card.DiscardCost = dbcard.discardcost;
-
-//		Debug.Log("gonna update effects");		
+	
 		foreach (Effect effect in dbcard.effects){
-//			Debug.Log("added effect");
+
 			temp_card.Effects.Add(effect);
 		}
 				
-//		Debug.Log ("updated effects on card "+temp_card.Name);
 		if (!temp_card.abilities ) temp_card.abilities = temp_card.gameObject.AddComponent <abilities>() as abilities;
 				
 		temp_card.sfxEntry =  dbcard.sfxentry;
@@ -229,7 +220,7 @@ public class playerDeck : MonoBehaviour   {
 		temp_card.sfxMove1 =  dbcard.sfxmove1;
 		temp_card.sfxAbility0 =  dbcard.sfxability0;
 
-		if (temp_card.IsACreature()) { //if its a creature
+		if (temp_card.IsACreature()) { 
 
 			if (temp_card.buffs == null) temp_card.buffs = new List<Buff>();
 		
@@ -239,7 +230,6 @@ public class playerDeck : MonoBehaviour   {
 			temp_card.Hero =  dbcard.hero;
 			temp_card.Ranged =  dbcard.ranged;
 
-			//default keyword abilities:
 			temp_card.takes_no_combat_dmg = dbcard.takes_no_combat_dmg;
 			temp_card.deals_no_combat_dmg = dbcard.deals_no_combat_dmg;
 			temp_card.no_first_turn_sickness = dbcard.no_first_turn_sickness;
@@ -255,7 +245,7 @@ public class playerDeck : MonoBehaviour   {
 			temp_card.CreatureStartingOffense = temp_card.CreatureOffense = dbcard.offense;
 			temp_card.CreatureStartingDefense = temp_card.CreatureDefense = dbcard.defense;
 
-			temp_card.CustomInts.Clear();	//otherwise creature upgrades won't work
+			temp_card.CustomInts.Clear();	
 			temp_card.CustomStrings.Clear();
 
 			foreach (CustomInt c_int in dbcard.CustomInts)
@@ -269,10 +259,6 @@ public class playerDeck : MonoBehaviour   {
 				temp_card.CustomStrings.Add(c_string.h_name, c_string.value);
 				
 			}
-
-			//if (cardsDB [Index] ["defender"].ToString() == "1") temp_card.GetComponent<card> ().CanAttack = false;
-			//if (cardsDB [Index] ["doubledmg"].ToString() == "1") temp_card.GetComponent<card> ().DoubleDamage = true;
-			//if (cardsDB [Index] ["takeshalfdmg"].ToString() == "1") temp_card.GetComponent<card> ().TakesHalfDamage = true;
 		} 
 	}
 
@@ -280,7 +266,7 @@ public class playerDeck : MonoBehaviour   {
 	{
 		GameObject template_obj = templateTransform.Find(component_name).gameObject;
 		GameObject new_obj = (GameObject)Instantiate (template_obj);
-		new_obj.name = template_obj.name; //Don't change it, it can be used later
+		new_obj.name = template_obj.name;
 		
 		AssignParentWithLocalPos(new_obj, parent.gameObject);
 
@@ -290,25 +276,25 @@ public class playerDeck : MonoBehaviour   {
 	public void AssignParentWithLocalPos(GameObject child, GameObject parent)
 	{
 		float slot_scale = 1;
-		if (parent.transform.parent != null) //if the card is in a slot
+		if (parent.transform.parent != null) 
 			slot_scale = parent.transform.parent.localScale.x;
 
 		child.transform.localScale = new Vector2 (slot_scale*child.transform.localScale.x * parent.transform.localScale.x, slot_scale*child.transform.localScale.y * parent.transform.localScale.y);
 		Vector3 localpos = child.transform.position;
 
 		child.transform.position =  parent.transform.position; 
-		child.transform.parent = parent.transform; //this will make our art follow the card
+		child.transform.parent = parent.transform; 
 		child.transform.localPosition = localpos;
 	}
 
 	
 	void AddStringStat(card card_to_update, string statname, Transform templateTransform)
 	{
-		if (CardTemplate.Instance.transform.Find (statname + "3DText")) { //example: specialpower3DText
+		if (CardTemplate.Instance.transform.Find (statname + "3DText")) { 
 			if (card_to_update.CustomStrings.ContainsKey (statname)) {
 				GameObject cstat = (GameObject)Instantiate (templateTransform.Find (statname + "3DText").gameObject);
-				cstat.name = statname + "3DText"; //Don't change it, it's used later
-				cstat.GetComponent<TextMesh> ().text = card_to_update.CustomStrings [statname]; //custom stat value
+				cstat.name = statname + "3DText"; 
+				cstat.GetComponent<TextMesh> ().text = card_to_update.CustomStrings [statname]; 
 				AssignParentWithLocalPos (cstat, card_to_update.gameObject);
 			} else
 				Debug.LogWarning ("no such custom stat found: " + statname);
@@ -318,11 +304,11 @@ public class playerDeck : MonoBehaviour   {
 
 	void AddIntStat(card card_to_update, string statname, Transform templateTransform)
 	{
-		if (templateTransform.Find (statname + "3DText")) { //example: specialpower3DText
+		if (templateTransform.Find (statname + "3DText")) { 
 						if (card_to_update.CustomInts.ContainsKey (statname)) {
 				GameObject cstat = (GameObject)Instantiate (templateTransform.Find (statname + "3DText").gameObject);
-								cstat.name = statname + "3DText"; //Don't change it, it's used later
-								cstat.GetComponent<TextMesh> ().text = card_to_update.CustomInts [statname].ToString (); //custom stat value
+								cstat.name = statname + "3DText"; 
+								cstat.GetComponent<TextMesh> ().text = card_to_update.CustomInts [statname].ToString ();
 								AssignParentWithLocalPos (cstat, card_to_update.gameObject);
 						} else
 								Debug.LogWarning ("no such custom stat found: " + statname);
@@ -357,7 +343,7 @@ public class playerDeck : MonoBehaviour   {
 						card_to_update.gameObject.AddComponent <BoxCollider2D>();  
 						BoxCollider2D collider = card_to_update.GetComponent<BoxCollider2D> () as BoxCollider2D;
 						
-						collider.size = new Vector3 (MainMenu.ColliderWidth, MainMenu.ColliderHeight, 0f); // this defines the clickable area size of each card
+						collider.size = new Vector3 (MainMenu.ColliderWidth, MainMenu.ColliderHeight, 0f); 
 				}
 
 		if (!card_to_update.GetComponent<SpriteRenderer>()) card_to_update.gameObject.AddComponent<SpriteRenderer>();
@@ -377,7 +363,7 @@ public class playerDeck : MonoBehaviour   {
 		card_to_update.GetComponent<Renderer>().sortingOrder = 2;
 
 
-		foreach (string c_stat in card_to_update.CustomInts.Keys)	//adding custom stats:
+		foreach (string c_stat in card_to_update.CustomInts.Keys)
 						AddIntStat(card_to_update, c_stat, templateTransform);
 
 		foreach (string c_stat in card_to_update.CustomStrings.Keys)
@@ -386,7 +372,7 @@ public class playerDeck : MonoBehaviour   {
 
 		GameObject card_name = AddCardComponent("Name3DText", card_to_update);
 
-		card_name.GetComponent<TextMesh> ().text = card_to_update.Name.ToString (); //creature offense
+		card_name.GetComponent<TextMesh> ().text = card_to_update.Name.ToString ();
 
 
 		string cardtext = dbcard.text;
@@ -394,11 +380,10 @@ public class playerDeck : MonoBehaviour   {
 			{
 				GameObject card_description = AddCardComponent("Description3DText", card_to_update);
 				
-				card_description.GetComponent<TextMesh> ().text = TextWrap(cardtext, 30);  //card description
-						
+				card_description.GetComponent<TextMesh> ().text = TextWrap(cardtext, 30);  
 			} 
 			
-		if (card_to_update.Type != 0) //if it's not a land, add mana text 
+		if (card_to_update.Type != 0)  
 			{
 				if (MainMenu.TCGMaker.core.UseManaColors)
 				{
@@ -411,10 +396,10 @@ public class playerDeck : MonoBehaviour   {
 						GameObject mana_icon = AddCardComponent("ManaIcon", card_to_update);
 						
 						Sprite thisicon = foundcolor.icon;
-						mana_icon.GetComponent<SpriteRenderer>().sprite = thisicon; //mana cost
+						mana_icon.GetComponent<SpriteRenderer>().sprite = thisicon;
 						
 						Vector3 pos = mana_icon.transform.localPosition;
-						pos.x -= i * thisicon.bounds.size.x * mana_icon.transform.localScale.x * 1.1f; //by default, the distance between mana icons is 10% of an icon's width
+						pos.x -= i * thisicon.bounds.size.x * mana_icon.transform.localScale.x * 1.1f; 
 						mana_icon.transform.localPosition = pos;
 						}
 
@@ -425,7 +410,7 @@ public class playerDeck : MonoBehaviour   {
 				{	
 					GameObject card_mana = AddCardComponent("Mana3DText", card_to_update);
 					
-					card_mana.GetComponent<TextMesh> ().text = card_to_update.Cost.Count.ToString (); //mana cost
+					card_mana.GetComponent<TextMesh> ().text = card_to_update.Cost.Count.ToString (); 
 					
 					GameObject card_cost_icon = AddCardComponent("CostIcon", card_to_update);
 						
@@ -434,16 +419,15 @@ public class playerDeck : MonoBehaviour   {
 
 		if (card_to_update.IsACreature())
 		{
-			//the atk/def numbers that will be displayed on top of the card:
 			GameObject card_atk = AddCardComponent("Offense3DText", card_to_update);
 			GameObject card_atk_icon = AddCardComponent("OffenseIcon", card_to_update);			
-			card_atk.GetComponent<TextMesh> ().text = card_to_update.CreatureOffense.ToString ();  //creature offense
+			card_atk.GetComponent<TextMesh> ().text = card_to_update.CreatureOffense.ToString (); 
 
 			if (!MainMenu.TCGMaker.core.OptionOneCombatStatForCreatures)
 				{
 					GameObject card_def = AddCardComponent("Defense3DText", card_to_update);
 					GameObject card_def_icon = AddCardComponent("DefenseIcon", card_to_update);		
-					card_def.GetComponent<TextMesh> ().text = card_to_update.CreatureDefense.ToString (); //creature offense
+					card_def.GetComponent<TextMesh> ().text = card_to_update.CreatureDefense.ToString ();
 						
 				}
 		}

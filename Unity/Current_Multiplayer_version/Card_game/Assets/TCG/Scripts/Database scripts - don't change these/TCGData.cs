@@ -16,13 +16,12 @@ public class TCGData : ScriptableObject {
 
 	public List<DbCard> cards;
 
-	//public Combat combat;
-	// Use this for initialization
+
 	void Start () {
 	
 	}
 	
-	// Update is called once per frame
+
 	void Update () {
 	
 	}

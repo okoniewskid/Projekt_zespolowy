@@ -21,7 +21,6 @@ public class DbCard
 	public bool hero = false;
 	public bool ranged = false;
 
-	//default keyword abilities:
 	public bool takes_no_combat_dmg = false;
 	public bool deals_no_combat_dmg = false;
 	public bool no_first_turn_sickness = false;
@@ -32,9 +31,6 @@ public class DbCard
 	public bool extramovement = false;
 	public bool less_dmg_from_ranged = false;
 	public bool no_dmg_from_ranged = false;
-	//public bool adjacent_enemy_creatures_cant_move = false;
-
-	//
 
 	public int type=2;
 	public int subtype=-1;
@@ -51,18 +47,12 @@ public class DbCard
 	public AudioClip sfxmove0;
 	public AudioClip sfxmove1;
 	
-	public AudioClip sfxentry; // sound effect to be played when card is cast
-	public AudioClip sfxability0; // sound effect for creature ability 0
-
+	public AudioClip sfxentry; 
+	public AudioClip sfxability0; 
 
 	public List<Effect> effects = new List<Effect>();
 
-	//public DbCard(string c_name="", int c_type=2)
-	//{
-	//	name = c_name;
-	//	type = c_type;
-	//	
-	//}
+
 		
 	void Awake()
 	{

@@ -66,13 +66,10 @@ public class Stats  {
 	public Vector2 scrollPos = Vector2.zero;
 
 
-
-	// Use this for initialization
 	void Start () {
 	
 	}
 	
-	// Update is called once per frame
 	void Update () {
 	
 	}

@@ -8,7 +8,7 @@ using System.Linq;
 [System.Serializable]
 public class DBZone  {
 
-	public DBZone(DBZone original)	//copying
+	public DBZone(DBZone original)
 	{
 		Name = original.Name;
 		RotateDegrees = original.RotateDegrees;
@@ -52,10 +52,8 @@ public class DBZone  {
 }
 
 public class Zone : MonoBehaviour  {
-	//using a custom inspector so no need to hide anything from inspector
-	public DBZone dbzone;
 
-	// for newly drawn cards ids:
+	public DBZone dbzone;
 	private static int last_id;
 
 	public int zone_id;
@@ -105,13 +103,13 @@ public class Zone : MonoBehaviour  {
 
 	public Transform slot_to_use;
 
-	public bool PlayerIsChoosingASlot = false;	//using this in addition to a target type because we need to know which zone to highlight
+	public bool PlayerIsChoosingASlot = false;	
 
 	public static Texture2D hl_mouseover_texture;
 
 	public static Texture2D hl_all_texture;
 
-	public  float ZoneDefaultScale = 1f; //we assume that all cards are the same size 
+	public  float ZoneDefaultScale = 1f;
 	 
 	public  float ZoneScale = 1f; 
 
@@ -119,20 +117,19 @@ public class Zone : MonoBehaviour  {
 
 	public void Awake(){
 
-		if (!UseSlots)	// disabling the slots' colliders if we don't use slots for this zone
+		if (!UseSlots)	
 		{ Debug.Log("disabling colliders:"+dbzone.Name);
 			foreach (Transform child in transform)
 								if (child.GetComponent<Slot> ())
 									child.GetComponent<Collider>().enabled = false;
 		}
-		//calculate the scale required to fit ONE card in the zone
 		
 		float realHeight = MainMenu.ColliderHeight;
 		float realWidth = MainMenu.ColliderWidth;
 		
 		bool arrangevertical = false;
 		
-		if (RotateDegrees == 90 || RotateDegrees == -90) { // only supporting these rotations for now
+		if (RotateDegrees == 90 || RotateDegrees == -90) { 
 			realWidth = realHeight;
 			realHeight = MainMenu.ColliderWidth;
 		}
@@ -143,17 +140,16 @@ public class Zone : MonoBehaviour  {
 		else 	ZoneDefaultScale = GetComponent<Collider>().bounds.size.y / realHeight ;
 
 		ZoneScale = ZoneDefaultScale;
-//		Debug.Log ("ZoneDefaultScale:"+ZoneScale);
+
 		}
 
-	public void RecalculateScale(){	//calculating the scale needed to fit ALL the cards in the zone
-		//Debug.Log ("recalculating scale");
+	public void RecalculateScale(){	
 		float realHeight = MainMenu.ColliderHeight;
 		float realWidth = MainMenu.ColliderWidth;
 		
 		bool arrangevertical = false;
 		
-		if (RotateDegrees == 90 || RotateDegrees == -90) { // only supporting these rotations for now
+		if (RotateDegrees == 90 || RotateDegrees == -90) { 
 			realWidth = realHeight;
 			realHeight = MainMenu.ColliderWidth;
 		}
@@ -164,11 +160,8 @@ public class Zone : MonoBehaviour  {
 		if (arrangevertical) ZoneScale = GetComponent<Collider>().bounds.size.y / (realHeight*cards.Count + minspacing*(cards.Count-1)) ;
 		else 	ZoneScale = GetComponent<Collider>().bounds.size.x / (realWidth*cards.Count + (realWidth*0.65f)*(cards.Count-1)) ; 
 
-//		Debug.Log ("realwidth:"+realWidth+"collider.bounds.size.x:"+collider.bounds.size.x+"cards.Count:"+cards.Count);
-
 		if (ZoneDefaultScale < ZoneScale)
 						ZoneScale = ZoneDefaultScale;
-		//Debug.Log ("ZoneScale:"+ZoneScale);
 
 		foreach (card foundcard in cards)
 						foundcard.transform.localScale = new Vector3 (ZoneScale, ZoneScale, 1f);
@@ -189,7 +182,6 @@ public class Zone : MonoBehaviour  {
 		hl_mouseover_texture.Apply();
 	}
 	
-	// Update is called once per frame
 	void Update () {
 	
 	}
@@ -210,31 +202,31 @@ public class Zone : MonoBehaviour  {
 			if (foundslot != false)
 			{
 
-				if (dbzone.Name == "Grid" && initialslot == null ) //inital placement
+				if (dbzone.Name == "Grid" && initialslot == null ) 
 				{
-					if (foundslot.HeroIsAdjacent(AI) && child.childCount == 0) return child; //initial placement
+					if (foundslot.HeroIsAdjacent(AI) && child.childCount == 0) return child; 
 				}
-				else if (dbzone.Name == "Grid" && foundslot.IsAdjacent(initialslot) && child.childCount == 0) return child; //movement
-						else if (child.childCount == 0 || StackAllInOneSlot) return child; //if there are no cards in this slot or we stack the cards
+				else if (dbzone.Name == "Grid" && foundslot.IsAdjacent(initialslot) && child.childCount == 0) return child; 
+						else if (child.childCount == 0 || StackAllInOneSlot) return child;
 			}
 		}
 		return null;
 	}
 
-	public void AddCard(card card_to_add)	//when the card enters the zone, rotate and resize it
+	public void AddCard(card card_to_add)	
 	{
 	
 
 		Debug.Log ("adding card:"+card_to_add.Name +"to zone: "+dbzone.Name+", Belongs to player: " +  card_to_add.ControlledByPlayer);
-		//if (card_to_add.collider != null ) card_to_add.collider.enabled = false;
+		
 		if (card_to_add.IsZoomed) card_to_add.UnZoom();
 
 
-		if (card_to_add.faceDown && !FaceDown) { //it it was face down and the zone has cards face up, make the card face up again 
+		if (card_to_add.faceDown && !FaceDown) { 
 			card_to_add.FaceUp();
 		}
 
-		if (!Invisible && !card_to_add.GetComponent<SpriteRenderer> ()) //if no sprite renderer was added, time to add it now 
+		if (!Invisible && !card_to_add.GetComponent<SpriteRenderer> ()) 
 			playerDeck.pD.AddArtAndText(card_to_add);
 
 		cards.Add(card_to_add);
@@ -251,16 +243,16 @@ public class Zone : MonoBehaviour  {
 			{
 				if (slot_to_use!=null) { Debug.Log("slot was chosen before"); ScaleAndPlaceIntoSlot(card_to_add); }
 
-					else if (card_to_add.ControlledByPlayer) //player, grid or no grid
+					else if (card_to_add.ControlledByPlayer)
 						 StartCoroutine(ChooseSlotAndPlace(card_to_add));
 							
 							
 								
-								else { //enemy
+								else { 
 					
 									if (card_to_add.transform.parent!=null && card_to_add.transform.parent.IsChildOf(transform))  
-										 slot_to_use = FirstAvailableSlot(card_to_add.transform.parent.GetComponent<Slot>()); //movement
-												else slot_to_use = FirstAvailableSlot(true); //initial placement
+										 slot_to_use = FirstAvailableSlot(card_to_add.transform.parent.GetComponent<Slot>()); 
+												else slot_to_use = FirstAvailableSlot(true); 
 										
 									ScaleAndPlaceIntoSlot(card_to_add);
 									}
@@ -272,8 +264,6 @@ public class Zone : MonoBehaviour  {
 				int FrameSortingOrder;
 				int ArtSortingOrder;
 
-//				Debug.Log("cards stacked in slot already:" + FirstAvailableSlot().childCount );
-
 				FrameSortingOrder = (slot_to_use.childCount+1)*2;
 				ArtSortingOrder = (slot_to_use.childCount+1)*2 - 1;
 
@@ -281,11 +271,11 @@ public class Zone : MonoBehaviour  {
 				foreach (Transform child in card_to_add.transform) child.GetComponent<Renderer>().sortingOrder = FrameSortingOrder;
 				card_to_add.transform.Find ("CardArt").GetComponent<Renderer>().sortingOrder = ArtSortingOrder;
 
-				foreach (Transform child in slot_to_use) child.GetComponent<Renderer>().GetComponent<Collider2D>().enabled = false; // disabling the collider of the underneath cards so they don't cause glitches OnMouseOver etc
+				foreach (Transform child in slot_to_use) child.GetComponent<Renderer>().GetComponent<Collider2D>().enabled = false; 
 				ScaleAndPlaceIntoSlot(card_to_add);
 			}
 
-			else	{ //normal slot, choosing disabled
+			else	{ 
 			
 			slot_to_use = FirstAvailableSlot();
 			ScaleAndPlaceIntoSlot(card_to_add);
@@ -294,11 +284,10 @@ public class Zone : MonoBehaviour  {
 
 
 		}
-		else //not using slots
+		else
 		{
 			card_to_add.transform.Rotate(0, 0, RotateDegrees); 
 			RecalculateScale();
-//			Debug.Log ("gonna set scale to:"+ZoneScale);
 			card_to_add.transform.localScale = new Vector3 (ZoneScale, ZoneScale, 1f);
 
 			RearrangeCards();
@@ -315,13 +304,11 @@ public class Zone : MonoBehaviour  {
 	}
 
 
-	public IEnumerator ChooseSlotAndPlace(card card_to_place) //not used for initial creature placement 
+	public IEnumerator ChooseSlotAndPlace(card card_to_place)
 	{	
 		Player.ActionCancelled = false;	
 		bool for_movement = false;
-		if (card_to_place.transform.parent!=null) for_movement = (card_to_place.transform.parent.IsChildOf(transform)); //if the card is already in this zone
-
-		//card_to_place.Hide ();
+		if (card_to_place.transform.parent!=null) for_movement = (card_to_place.transform.parent.IsChildOf(transform)); 
 				
 		Player.targets.Clear ();
 		Player.NeedTarget = 400;
@@ -329,7 +316,7 @@ public class Zone : MonoBehaviour  {
 		if (MainMenu.TCGMaker.core.UseGrid) 
 			{
 				if (for_movement) HighlightSlotsForMovement(card_to_place.transform.parent.GetComponent<Slot>());
-						else HighlightAvailableSlots(); //initial placement
+						else HighlightAvailableSlots();
 			}
 
 		while (PlayerIsChoosingASlot && !Player.ActionCancelled)
@@ -347,14 +334,12 @@ public class Zone : MonoBehaviour  {
 				}
 		else {
 			PlayerIsChoosingASlot = false;
-			RemoveHighlightedSlots(); //placement got cancelled
+			RemoveHighlightedSlots(); 
 		}
 
-
-		 //card_to_place.Show ();
 	}
 
-	IEnumerator CheckIfCanPlaceInZone(card card_to_place) //used for initial creature placement
+	IEnumerator CheckIfCanPlaceInZone(card card_to_place)
 	{	
 		Debug.Log ("checking if can place in zone: "+name);
 		Player.ActionCancelled = false;	
@@ -367,9 +352,7 @@ public class Zone : MonoBehaviour  {
 		else if (UseSlots) {	
 			Debug.Log ("The zone uses slots");
 
-			if (PlayerCanChooseSlot) {	//if there is an available slot
-				
-				//card_to_place.Hide ();
+			if (PlayerCanChooseSlot) {	
 				
 				Player.targets.Clear ();
 				Player.NeedTarget = 400;
@@ -378,7 +361,7 @@ public class Zone : MonoBehaviour  {
 				if (MainMenu.TCGMaker.core.UseGrid) 
 				{
 					if (card_to_place.transform.parent==null) HighlightAvailableSlots();
-						else if (card_to_place.transform.parent.IsChildOf(transform))	//if the card is already in this zone
+						else if (card_to_place.transform.parent.IsChildOf(transform))	
 							HighlightSlotsForMovement(card_to_place.transform.parent.GetComponent<Slot>());
 								else HighlightAvailableSlots();
 				}
@@ -392,10 +375,9 @@ public class Zone : MonoBehaviour  {
 				}
 				else {
 					PlayerIsChoosingASlot = false;
-					RemoveHighlightedSlots(); //placement got cancelled
+					RemoveHighlightedSlots(); 
 				}
 			
-				//card_to_place.Show ();
 			}
 			
 			
@@ -406,8 +388,8 @@ public class Zone : MonoBehaviour  {
 	void ScaleAndPlaceIntoSlot(card card_to_add) {
 		if (slot_to_use != null) 
 		{
-			if (card_to_add.transform.parent != null) //if the card already was in some slot, enable that slot's collider again
-				card_to_add.transform.parent.gameObject.layer = 0; //default
+			if (card_to_add.transform.parent != null) 
+				card_to_add.transform.parent.gameObject.layer = 0; 
 			else TriggerOnEnter(card_to_add);				
 
 			if (card_to_add.IsZoomed) card_to_add.UnZoom();
@@ -415,14 +397,14 @@ public class Zone : MonoBehaviour  {
 			float realWidth = MainMenu.ColliderWidth;
 			
 			float ScaleForSlot = slot_to_use.GetComponent<Collider>().bounds.size.y / realHeight / slot_to_use.transform.localScale.y;
-			if (ScaleForSlot > slot_to_use.GetComponent<Collider>().bounds.size.x / realWidth) ScaleForSlot = slot_to_use.GetComponent<Collider>().bounds.size.x / realWidth; //if we need to scale more to fit the width than to fit the height
-//			Debug.Log("gonna apply scale for slot: "+ ScaleForSlot);
+			if (ScaleForSlot > slot_to_use.GetComponent<Collider>().bounds.size.x / realWidth) ScaleForSlot = slot_to_use.GetComponent<Collider>().bounds.size.x / realWidth; 
+
 
 			card_to_add.transform.position = slot_to_use.position;
-			card_to_add.transform.parent = slot_to_use; //putting the card into the first available slot
+			card_to_add.transform.parent = slot_to_use;
 			card_to_add.transform.localScale = new Vector3 (ScaleForSlot, ScaleForSlot, 1f);
 
-			slot_to_use.gameObject.layer = 2; //ignore raycast 
+			slot_to_use.gameObject.layer = 2; 
 
 
 
@@ -433,21 +415,19 @@ public class Zone : MonoBehaviour  {
 
 			slot_to_use = null;
 		}
-//		Debug.Log("local scale: "+card_to_add.transform.localScale);
-	
 
 	}
 
 	void TriggerOnEnter(card card_to_add)
-	{   if (Player.CreaturesZone == this && card_to_add.ControlledByPlayer)	card_to_add.abilities.OnEnter();  // if this is creatures' zone
-			else if (Enemy.CreaturesZone == this) card_to_add.abilities.OnEnter(true); //true indicates it's the enemy, not the player, who is playing this creature
+	{   if (Player.CreaturesZone == this && card_to_add.ControlledByPlayer)	card_to_add.abilities.OnEnter(); 
+			else if (Enemy.CreaturesZone == this) card_to_add.abilities.OnEnter(true);
 	}
 
 
 
 	void OnGUI()
 	{
-		if (PlayerIsChoosingASlot) //if player needs to choose a slot 
+		if (PlayerIsChoosingASlot) 
 		{
 			if (!MainMenu.TCGMaker.core.UseGrid)  HighlightAvailableSlots();
 
@@ -470,14 +450,13 @@ public class Zone : MonoBehaviour  {
 
 	void HighlightAvailableSlots()
 	{
-//		Debug.Log("highlighting available slots");
 		foreach (Transform child in transform)  {
 			if (child.GetComponent<Slot>() != false) 
-				if (child.childCount == 0 || StackAllInOneSlot) //if the slot is empty or the cards can be stacked in it
-					{ //if the slot is available, highlight it
+				if (child.childCount == 0 || StackAllInOneSlot) 
+					{ 
 						
 
-						if (MainMenu.TCGMaker.core.UseGrid) //highlighting grid slots
+						if (MainMenu.TCGMaker.core.UseGrid)
 						{
 							if (child.GetComponent<Slot>().HeroIsAdjacent())
 							
@@ -496,25 +475,23 @@ public class Zone : MonoBehaviour  {
 
 		foreach (Transform child in transform)  {
 			if (child.GetComponent<Slot>() != false) 
-				if (child.childCount == 0 && child.GetComponent<Slot>().IsAdjacent(current_slot) ) //if the slot is empty and adjacent
+				if (child.childCount == 0 && child.GetComponent<Slot>().IsAdjacent(current_slot) )
 			
 						child.GetComponent<Slot>().Highlight();
 		}
 	}
 
-	public void RemoveCard(card card_to_remove)	//set the rotation and scale back to normal
+	public void RemoveCard(card card_to_remove)	
 	{
-	
-//		Debug.Log("removing card from zone:" + name);
 
 		cards.Remove(card_to_remove);
 
-		if (UseSlots) //emptying the parent slot and making its collider enabled again
+		if (UseSlots) 
 		{
 			if (card_to_remove.IsTurned && !MainMenu.TCGMaker.core.UseGrid) 
-				card_to_remove.transform.parent.Rotate(0, 0, -MainMenu.TCGMaker.core.OptionTurnDegrees);  //unturn the slot
+				card_to_remove.transform.parent.Rotate(0, 0, -MainMenu.TCGMaker.core.OptionTurnDegrees); 
 
-			card_to_remove.transform.parent.gameObject.layer = 0; //default
+			card_to_remove.transform.parent.gameObject.layer = 0;
 
 			card_to_remove.transform.parent = null;
 		}
@@ -525,7 +502,7 @@ public class Zone : MonoBehaviour  {
 			
 			card_to_remove.transform.localScale = new Vector3 (1f, 1f, 1f);
 
-			if (ZoneScale < ZoneDefaultScale) RecalculateScale (); //since we have more space now
+			if (ZoneScale < ZoneDefaultScale) RecalculateScale (); 
 			RearrangeCards();
 		
 		}
@@ -538,15 +515,15 @@ public class Zone : MonoBehaviour  {
 		if (!ourcard.transform.parent.parent.GetComponent<Zone> ()) 			
 				Debug.LogWarning ("the card is not in a zone - can't find the opposite slot");
 
-		else {	//if this card is in a zone
+		else {
 			thisslot = ourcard.transform.parent.GetComponent<Slot>();
 			thiszone = thisslot.transform.parent.GetComponent<Zone>();
 
 			foreach (Zone foundzone in playerDeck.pD.zones) 
-				if (foundzone.zone_id == thiszone.zone_id && foundzone.BelongsToPlayer != thiszone.BelongsToPlayer )	//if this is the opposite zone
+				if (foundzone.zone_id == thiszone.zone_id && foundzone.BelongsToPlayer != thiszone.BelongsToPlayer )
 						foreach (Transform child in foundzone.transform)
 							if (child.GetComponent<Slot>()) 
-								if (thisslot.number_in_zone == child.GetComponent<Slot>().number_in_zone) 	//if this is the opposite slot
+								if (thisslot.number_in_zone == child.GetComponent<Slot>().number_in_zone) 
 									if (child.GetComponent<Slot>().transform.childCount > 0) 
 										return true;
 		}
@@ -576,17 +553,15 @@ public class Zone : MonoBehaviour  {
 	}
 
 	 public  void DrawCard() {
-		//Debug.Log("drawing a card");
-		//draw a card
 
 		if (BelongsToPlayer)
 		{
-			if (playerDeck.pD.Deck.Count <= 0)	return;			//no cards to draw
+			if (playerDeck.pD.Deck.Count <= 0)	return;		
 			if (Player.HandZone == this && Player.cards_in_hand.Count == MainMenu.TCGMaker.core.MaxHandSize) { Player.GraveyardZone.DrawCard(); return; }	
 		}
 
 		else {
-			if (Enemy.Deck.Count <= 0)	return;			//no cards to draw
+			if (Enemy.Deck.Count <= 0)	return;	
 			if (Enemy.HandZone == this && Enemy.cards_in_hand.Count == MainMenu.TCGMaker.core.MaxHandSize) { Enemy.GraveyardZone.DrawCard(); return; }	
 		}
 
@@ -594,7 +569,7 @@ public class Zone : MonoBehaviour  {
 
 				new_card_obj.AddComponent <AudioSource>();
 
-				card new_card = new_card_obj.AddComponent <card>() as card; //adding card script
+				card new_card = new_card_obj.AddComponent <card>() as card;
 
 									
 				if (BelongsToPlayer) {
@@ -610,45 +585,33 @@ public class Zone : MonoBehaviour  {
 						Enemy.Deck.RemoveAt (0);
 					}
 
-			
-				//Debug.Log ("index:" + new_card.Index);
-				playerDeck.pD.LoadCardStats (new_card); //the card is still invisible at this point
+				playerDeck.pD.LoadCardStats (new_card); 
 				
 				if (BelongsToPlayer) {
-		
-						//new_card_obj.GetComponent<AudioSource> ().clip = new_card.sfxEntry;	//play card entry audio
 
 						new_card.ControlledByPlayer = true;
 
 				} else {
-						Enemy.CardsInHand += 1;	//drawing a card for the enemy
+						Enemy.CardsInHand += 1;	
 						Enemy.NumberOfCardsInDeck--;
 				}
 					
 							
 		AddCard (new_card);
 
-		if (MainMenu.IsMulti) {	//making the card ids and sending the updated hand and deck card count
+		if (MainMenu.IsMulti) {
 			
-			new_card.id_ingame = System.Int32.Parse(playerDeck.pD.first_or_second.ToString() + last_id.ToString()); //makes card ids like 1<cardid>, 2<cardid> depending on whether the player is first or second (so they dont have the same ids)
+			new_card.id_ingame = System.Int32.Parse(playerDeck.pD.first_or_second.ToString() + last_id.ToString()); 
 			last_id++;
 			
 			Debug.Log("ismulti");
-			Logic.ScenePhotonView.RPC("UpdateEnemyCardsInHand", PhotonTargets.Others, Player.cards_in_hand.Count); //sending hand cards to the other player
-			Logic.ScenePhotonView.RPC("UpdateEnemyCardsInDeck", PhotonTargets.Others, playerDeck.pD.Deck.Count); //sending hand cards to the other player
+			Logic.ScenePhotonView.RPC("UpdateEnemyCardsInHand", PhotonTargets.Others, Player.cards_in_hand.Count); 
+			Logic.ScenePhotonView.RPC("UpdateEnemyCardsInDeck", PhotonTargets.Others, playerDeck.pD.Deck.Count); 
 			}
 		}
 	public void RearrangeCards() {
-		//Debug.Log ("rearranging cards, zone" + gameObject.name);
-		//float spacing = 0.5f; //we don't try to fill all the space in the zone, this is the max distance we will use between cards
-
-
-		//float freespace = 0f;
-
+		
 		bool arrangevertical = false; 
-
-//		float DegreesInRadians = RotateDegrees * Mathf.Deg2Rad;
-
 
 		if (GetComponent<Collider>().bounds.size.y > GetComponent<Collider>().bounds.size.x)
 		
@@ -664,36 +627,28 @@ public class Zone : MonoBehaviour  {
 			realHeight = MainMenu.ColliderWidth * ZoneScale;
 		}
 
-
-		//if (arrangevertical) freespace = (collider.bounds.size.y - (cards.Count * realHeight));
-		//else freespace = (collider.bounds.size.x - (cards.Count * realWidth));
-
-
 		float startX = 0f;
 		float startY = 0f;
 		startX = GetComponent<Collider>().bounds.min.x;
 		startY = GetComponent<Collider>().bounds.max.y;
-		//collider.enabled = false;
-		startX += realWidth / 2; //card width/2
-		startY -= realHeight / 2; //card height/2
-	
+		startX += realWidth / 2; 
+		startY -= realHeight / 2; 
 
 		int i = 0;
 		foreach (card foundcard in cards) {
-		//	Debug.Log("arranging card:"+foundcard.Name+"localscalex:"+foundcard.transform.localScale.x);
+		
 			if (foundcard.IsZoomed) { foundcard.IsZoomed = false; }
 
-			//foundcard.transform.position = new Vector3 (-5.79f + i * density, -1.9f, 0f); //don't change z
+		
 			if (arrangevertical)
-				foundcard.transform.position = new Vector3 (startX, startY - i * (realHeight + spacing), 0f); //don't change z
+				foundcard.transform.position = new Vector3 (startX, startY - i * (realHeight + spacing), 0f);
 			else
 				foundcard.transform.position = new Vector3 (startX + i * (realWidth + spacing), startY, 0f); 
 		i++;
-//			Debug.Log("finished arranging card:"+foundcard.Name);
 				}
 		}
 
-	public static Vector2 ScreenToGUIPoint (Vector2 screenPoint) //because GUIUtility.ScreenToGUIPoint doesn't seem to work
+	public static Vector2 ScreenToGUIPoint (Vector2 screenPoint)
 	{
 		Vector2 guiPoint = screenPoint;
 		guiPoint.y = Screen.height-guiPoint.y;

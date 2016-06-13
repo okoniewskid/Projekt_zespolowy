@@ -5,7 +5,7 @@ public class VictoryDefeat : MonoBehaviour {
 	Sprite victoryordefeat;
 	public int VictoryCurrency = 50;
 	public int DefeatCurrency = 20;
-	// Use this for initialization
+
 	void Start () {
 		this.tag = "VictoryDefeat";
 	}
@@ -28,11 +28,7 @@ public class VictoryDefeat : MonoBehaviour {
 		Rect windowRect = new Rect(400,300,300,90);
 		if (Player.Life <= 0)  windowRect = GUI.Window(0, windowRect, DoMyWindow, "Otrzymałeś " + DefeatCurrency +  " srebra!"); 
 		if (Enemy.Life <= 0)  windowRect = GUI.Window(0, windowRect, DoMyWindow, "Otrzymałeś " + VictoryCurrency +  " srebra!"); 	
-		//Rect victoryDefeatBox = new Rect (Screen.width * 0.5f, Screen.height * 0.5f, 370, 324);
-		//if (Enemy.Lost)
-					//	GUI.DrawTexture (victoryDefeatBox, (Texture)Resources.Load ("Victory1"));
-		//if (Player.Lost)
-			//GUI.DrawTexture (victoryDefeatBox, (Texture)Resources.Load ("Defeat1"));
+		
 	}
 	void DoMyWindow(int windowID) {
 		if (GUILayout.Button("Wróć do menu."))  Application.LoadLevel(MainMenu.SceneNameMainMenu);

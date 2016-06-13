@@ -9,7 +9,7 @@ public class Player : MonoBehaviour {
 	public  GUISkin customskin = null;
 	public static int Turn;
 
-	public static int Life; //starting life
+	public static int Life;
 	public static List<ManaColor> mana = new List<ManaColor>();
 	public static int Lands = 0;
 
@@ -27,7 +27,7 @@ public class Player : MonoBehaviour {
 	public static bool WaitForCheck = false;
 
 	public  Texture2D TargetCursorTexture;  
-	public static int NeedTarget = 0;  // 0- doesn't need a target, 1 - needs a target for creature attack, 2 - for a damage spell, etc...
+	public static int NeedTarget = 0; 
 	public static int CurrentTargetParam = 0;
 	public static string CurrentTargetParamString = "";
 
@@ -36,7 +36,7 @@ public class Player : MonoBehaviour {
 	public static bool Lost;
 
 	public static float TurnPopUpTimer = 1.5f;
-	public static float TurnPopUpTimerMax = 1.5f; // seconds for the turn popup timer to last
+	public static float TurnPopUpTimerMax = 1.5f; 
 
 	public static List<GameObject> targets = new List<GameObject>(); 
 
@@ -97,11 +97,9 @@ public class Player : MonoBehaviour {
 		this.tag = "Player";
 	}
 
-	public static void StartGame() //reset everything for a new game
+	public static void StartGame() 
 	{
 
-	
-		Debug.Log ("starting game - player");
 		AlliesDestroyedThisTurn = 0;
 		CanDoStack = false;
 
@@ -116,7 +114,7 @@ public class Player : MonoBehaviour {
 		player_creatures.Clear();
 		targets.Clear ();
 		
-		Life = MainMenu.TCGMaker.core.OptionStartingLife; //starting life
+		Life = MainMenu.TCGMaker.core.OptionStartingLife;
 		Turn = 0;
 		mana.Clear();
 
@@ -135,12 +133,11 @@ public class Player : MonoBehaviour {
 
 		Lost = false;
 		HeroIsDead = false;
-		// Set up music playlist
+	
 		GameObject ourCamera = GameObject.FindGameObjectWithTag ("MainCamera");
 		ourCamera.AddComponent <AudioSource>();
 		ourCamera.GetComponent<AudioSource>().volume = 0.12f;
-		//camera.audio.volume = 0f;
-		BattleMusic = Resources.LoadAll ("audio/music/battle");	//music
+		BattleMusic = Resources.LoadAll ("audio/music/battle");
 
 
 	}
@@ -173,7 +170,7 @@ public class Player : MonoBehaviour {
 
 	public static void AddCreature (card card_to_add)
 	{
-//		Debug.Log ("starting AddCreature");
+
 		cards_in_game.Add(card_to_add);
 		player_creatures.Add (card_to_add);
 
@@ -183,12 +180,10 @@ public class Player : MonoBehaviour {
 	
 		creaturezone.AddCard (card_to_add); 
 
-		// this is the same for player and enemy creatures
 
-		card_to_add.FirstTurnInGame = true; //important, because of the "return to deck" spells
 
-		//AudioSource cardSFX = card_to_add.GetComponent<AudioSource>();
-		//cardSFX.Play();
+		card_to_add.FirstTurnInGame = true; 
+
 		card_to_add.GetComponent<AudioSource>().PlayOneShot(card_to_add.sfxEntry);
 
 		Player.CreatureStatsNeedUpdating = true;
@@ -237,11 +232,9 @@ public class Player : MonoBehaviour {
 		TriggerInProcess = false;
 	}
 
-	// Use this for initialization
+
 	void Start () {
-//		if (MainMenu.IsMulti) StartCoroutine("GetAverageTime"); 
-		//Camera.main.orthographicSize = Screen.height / 2.0f /100f;
-	
+
 
 		StartCoroutine ("MusicPlaylist");
 
@@ -249,7 +242,7 @@ public class Player : MonoBehaviour {
 
 	void OnMouseDown()
 	{
-		if (Player.NeedTarget==8) {  //own creature or own player
+		if (Player.NeedTarget==8) {  
 			
 
 			AssignTarget();
@@ -319,35 +312,33 @@ public class Player : MonoBehaviour {
 		Player.targets.Clear ();
 
 		GameScript.RemoveAllEOTBuffsAndDebuffs();
-		Player.Turn++; //starting a new turn
+		Player.Turn++; 
 
 		TriggerCardAbilities(abilities.ON_START_OF_YOUR_TURN);
 
-		if (!MainMenu.TCGMaker.core.OptionManaDoesntReset)  mana.Clear(); //no mana yet
+		if (!MainMenu.TCGMaker.core.OptionManaDoesntReset)  mana.Clear();
 
-		if (MainMenu.TCGMaker.core.OptionManaAutoIncrementsEachTurn) // mana gain, Hearthstone-style
+		if (MainMenu.TCGMaker.core.OptionManaAutoIncrementsEachTurn) 
 		    {
 			int newManaGain;
 			if (playerDeck.pD.first_or_second == 1) newManaGain = (Turn+1) / 2;
 			else  newManaGain = Turn / 2;
 
-			if (newManaGain < MainMenu.TCGMaker.core.OptionManaMaxIncrement) AddMana(newManaGain); //adding colorless mana
-			else AddMana(MainMenu.TCGMaker.core.OptionManaMaxIncrement); //adding colorless mana
+			if (newManaGain < MainMenu.TCGMaker.core.OptionManaMaxIncrement) AddMana(newManaGain);
+			else AddMana(MainMenu.TCGMaker.core.OptionManaMaxIncrement); 
 
 			}
 
-		Player.LandsPlayedThisTurn = 0; //no lands has been played yet
-		//Debug.Log ("gonna unturn");
+		Player.LandsPlayedThisTurn = 0; 
 		foreach (card foundcard in cards_in_game) {
 
 			foundcard.FirstTurnInGame = false; 
 
-			//Z-s
+		
 			foundcard.MovedThisTurn = 0; 
-			//Z-s
+		
 
-			if (foundcard.IsTurned) { //unturning all turned cards
-				Debug.Log ("unturning");
+			if (foundcard.IsTurned) { 
 				foundcard.transform.Rotate(0, 0, -MainMenu.TCGMaker.core.OptionTurnDegrees);
 				foundcard.IsTurned = false;
 				foundcard.AttackedThisTurn = 0;
@@ -358,24 +349,24 @@ public class Player : MonoBehaviour {
 		foreach (card foundcard in cards_in_hand)
 			foundcard.checked_for_highlight = false;
 
-		Player.HandZone.DrawCard();  // drawing a new card
+		Player.HandZone.DrawCard();  
 
 	}
 
 
-	// Update is called once per frame
+
 	void Update () {
 
 		TurnPopUpTimer += Time.deltaTime;
 
 
-		if(Input.GetMouseButtonDown(1))		// right-click
+		if(Input.GetMouseButtonDown(1))		
 			{
 				if (Player.NeedTarget>0) 
 					{ 
 						ActionCancelled = true; 
 						Debug.Log ("cancelled"); 
-						Player.NeedTarget = 0;  //cancel the spell
+						Player.NeedTarget = 0;  
 					}
 				else if (Player.DisplayingCreatureMenu)
 					{
@@ -400,18 +391,16 @@ public class Player : MonoBehaviour {
 
 		}
 
-		if ((Life <= 0 || (MainMenu.TCGMaker.core.OptionGameLostIfHeroDead && HeroIsDead)) && !GameEnded) //the player has just lost!
+		if ((Life <= 0 || (MainMenu.TCGMaker.core.OptionGameLostIfHeroDead && HeroIsDead)) && !GameEnded) 
 					{ 
 		
-			//Debug.Log("player lost because of life<=0");			
+		
 			GameLost();
 						
 					} 
-		else if ((Enemy.Life <= 0 || (MainMenu.TCGMaker.core.OptionGameLostIfHeroDead && Enemy.HeroIsDead)) && !GameEnded) //the enemy has just lost!
-					{ 
-		//	Debug.Log("enemy lost because of life<=0");			
+		else if ((Enemy.Life <= 0 || (MainMenu.TCGMaker.core.OptionGameLostIfHeroDead && Enemy.HeroIsDead)) && !GameEnded) 
+					{ 	
 						GameWon();
-						
 					} 
 
 	}
@@ -451,11 +440,11 @@ public class Player : MonoBehaviour {
 
 	public void IsAttacked (card Attacker)
 	{
-		int DamageToPlayer = Attacker.CreatureOffense; //default damage
+		int DamageToPlayer = Attacker.CreatureOffense; 
 				
 		if (Attacker.IsCriticalStrike ()) 
 			{
-				Player.Warning = "Critical strike!"; //you could change it to some fx
+				Player.Warning = "Critical strike!"; 
 				DamageToPlayer = (int)(Attacker.CreatureOffense * Attacker.CritDamageMultiplier);
 			}
 		
@@ -465,7 +454,7 @@ public class Player : MonoBehaviour {
 
 		GetComponent<AudioSource>().PlayOneShot(Hit);
 		GetComponent<Renderer>().material.color = Color.red;
-		Invoke("RestoreColor", 0.3f); //we make the avatar red for 0.3 seconda
+		Invoke("RestoreColor", 0.3f);
 	}
 
 	public void IsHealed (int param)
@@ -496,19 +485,19 @@ public class Player : MonoBehaviour {
 		int amount = (int)param.x;
 		int damagetype = (int)param.y;
 
-		if (damagetype == 0)	//fire
+		if (damagetype == 0)	
 		{
 			Instantiate (firefx, new Vector3(transform.position.x,transform.position.y,transform.position.z-1), transform.rotation);
 			GetComponent<AudioSource>().PlayOneShot(HitBySpell);
 			GetComponent<Renderer>().material.color = Color.red;
-			Invoke("RestoreColor", 0.3f); //we make the avatar red for 0.3 seconda
+			Invoke("RestoreColor", 0.3f); 
 		}
 
-		else if (damagetype == 1)	//physical
+		else if (damagetype == 1)	
 		{
 			GetComponent<AudioSource>().PlayOneShot (Hit);
 			GetComponent<Renderer>().material.color = Color.red;
-			Invoke ("RestoreColor", 0.3f); //we make the avatar red for 0.3 seconda
+			Invoke ("RestoreColor", 0.3f); 
 		}
 
 		Life -= amount;
@@ -518,20 +507,20 @@ public class Player : MonoBehaviour {
 
 	public void RestoreColor()
 	{
-		GetComponent<Renderer>().material.color = Color.white; //this actually doesn't paint the avatar white, but restores it to its original colors
+		GetComponent<Renderer>().material.color = Color.white; 
 	}
 
 
 	public static void SendTargets ()
 	{
-		string list_to_string="";	//because we can't just RPC send lists
+		string list_to_string="";	
 		
 		foreach (GameObject target in Player.targets) {
 			
 			if (target.name == "player") list_to_string += "1"; 
 				else if (target.name == "enemy") list_to_string += "2";
 					else if (target.GetComponent<Slot>()) 
-						{		//sending "52110003" <-  slot number "3" in THE ENEMY's ("2") zone with id "11"
+						{		
 							Zone parentzone = target.GetComponent<Slot>().transform.parent.GetComponent<Zone>();
 							list_to_string += "5";
 
@@ -565,7 +554,6 @@ public class Player : MonoBehaviour {
 		foreach (card foundcard in player_creatures)
 			if (foundcard.Hero) return true; 
 
-		//Debug.Log("no hero");	
 		return false;
 	}
 
@@ -612,7 +600,7 @@ public class Player : MonoBehaviour {
 				GameObject choosecardtext = (GameObject)Instantiate (playerDeck.pD.choosecardprefab);
 				choosecardtext.name = "ChooseCardText";
 
-				choosecardtext.GetComponent<Renderer>().sortingOrder = 90; //zoomed cards still appear on top with sorting order = 100
+				choosecardtext.GetComponent<Renderer>().sortingOrder = 90; 
 				
 				if (MainMenu.TCGMaker.core.UseGrid)
 						foreach (Transform foundslot in Player.CreaturesZone.transform)
@@ -626,10 +614,10 @@ public class Player : MonoBehaviour {
 								
 								tempcard.GetComponent<Renderer>().sortingOrder = 91; 
 								foreach (Transform child in tempcard.transform) child.GetComponent<Renderer>().sortingOrder = 91; 
-								tempcard.transform.Find ("CardArt").GetComponent<Renderer>().sortingOrder = 90;  //zoomed cards still appear on top with sorting order = 100
+								tempcard.transform.Find ("CardArt").GetComponent<Renderer>().sortingOrder = 90; 
 								
 								tempcard.transform.position = new Vector3 (1f + 0.5f * i, 1f, 0.1f);
-								temp_cards.Add (tempcard); //only the cards from the temp_cards list will be valid targets when clicked on
+								temp_cards.Add (tempcard);
 								i++;
 						}
 				}
@@ -674,9 +662,9 @@ public class Player : MonoBehaviour {
 
 					tempcard.GetComponent<Renderer>().sortingOrder = 91; 
 					foreach (Transform child in tempcard.transform) child.GetComponent<Renderer>().sortingOrder = 91; 
-					tempcard.transform.Find ("CardArt").GetComponent<Renderer>().sortingOrder = 90;  //zoomed cards still appear on top with sorting order = 100
+					tempcard.transform.Find ("CardArt").GetComponent<Renderer>().sortingOrder = 90; 
 
-					temp_cards.Add(tempcard); //only the cards from the temp_cards list will be valid targets when clicked on
+					temp_cards.Add(tempcard); 
 			}
 			i++;
 		}
@@ -691,7 +679,7 @@ public class Player : MonoBehaviour {
 		
 						GUI.skin.label.alignment = TextAnchor.MiddleLeft; 
 						GUI.skin.label.fontStyle = FontStyle.Normal;
-						//GUI.Label(new Rect(24, 36, 220, 50), "Your actions have been reset to 3.");
+						
 											}
 	}
 
@@ -701,7 +689,7 @@ public class Player : MonoBehaviour {
 
 		TriggerCardAbilities(abilities.ON_END_OF_YOUR_TURN);
 		while (SpellInProcess) 	yield return new WaitForSeconds(0.2f);
-		PlayersTurn = false; //it's the opponent's turn now
+		PlayersTurn = false;
 		Enemy.NewTurn ();
 	}
 
@@ -782,15 +770,10 @@ public class Player : MonoBehaviour {
 			}
 		else GUI.Label(new Rect(Screen.width * (0.5f / 130f), Screen.height * (6.1f / 8f), Screen.width * (1.5f / 13f), Screen.height * (1f / 14f)), "Skarbiec: "+ Player.mana.Count);				
 
-		//if (MainMenu.TCGMaker.core.OptionGraveyard) GUI.Label(new Rect(800,400,180,30), "Karty w cmentarzu: " + cards_in_graveyard.Count.ToString());
-
-		//GUI.Label(new Rect(740,2,300,100), "Tap lands to gain mana\nUse mana to cast creatures and spells\nTap creatures to attack\nRMB on a creature to use its abilities\nHave fun!");
-
 		
-
-		if (Warning != "") { //if there is a warning to display
+		if (Warning != "") { 
 						
-								WarningTimeToDisplay = 5; // we will display the warning for this number of seconds
+								WarningTimeToDisplay = 5; 
 								WarningText = Warning;
 								Warning = "";
 						}
