@@ -27,13 +27,13 @@ public  class Enemy : MonoBehaviour {
 	public static int Lands = 0;
 
 	public static float TurnPopUpTimer = 0;
-	public static float TurnPopUpTimerMax = 1.5f; // seconds for the turn popup timer to last
+	public static float TurnPopUpTimerMax = 1.5f; 
 
 	public static List<int> Deck;
-	public static int NumberOfCardsInDeck;		//important for multiplayer, don't remove
+	public static int NumberOfCardsInDeck;	
 
 	public static int PotentialMana = 0;
-	public static int CardsInHand = 0;	//important for multiplayer, don't remove
+	public static int CardsInHand = 0;	
 
 
 	public static string EnemyName;
@@ -68,7 +68,7 @@ public  class Enemy : MonoBehaviour {
 		AlliesDestroyedThisTurn = 0;
 		HeroIsDead = false;
 		Debug.Log ("awaking enemy");
-		Life = MainMenu.TCGMaker.core.OptionStartingLife; //startinglife
+		Life = MainMenu.TCGMaker.core.OptionStartingLife;
 		mana.Clear();
 
 		Lands = 0;
@@ -108,9 +108,6 @@ public  class Enemy : MonoBehaviour {
 		Zone creaturezone = Enemy.CreaturesZone;
 		
 		creaturezone.AddCard (card_to_add);
-
-
-		// this is the same for player and enemy creatures
 
 		card_to_add.FirstTurnInGame = true;
 
@@ -170,14 +167,11 @@ public  class Enemy : MonoBehaviour {
 				
 	}
 
-
-	// Use this for initialization
 	void Start () {
 		if (MainMenu.IsMulti) EnemyName = "Waiting for someone to join";
 
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		TurnPopUpTimer += Time.deltaTime;
 	}
@@ -219,7 +213,7 @@ public  class Enemy : MonoBehaviour {
 		Debug.Log ("AI wybiera cel dla efektu:"+Effect);
 		targets.Clear ();
 		bool NegativeEffect = true;
-		if (Effect == 11 || Effect == 0)	NegativeEffect = false; //buff or heal 
+		if (Effect == 11 || Effect == 0)	NegativeEffect = false;
 
 		List<card> creatures_to_search = new List<card>();
 				
@@ -233,44 +227,44 @@ public  class Enemy : MonoBehaviour {
 		}
 
 
-		if (NeedTarget == 2 ) targets.Add(GameObject.FindWithTag("Player"));	// target : enemy player or creature
+		if (NeedTarget == 2 ) targets.Add(GameObject.FindWithTag("Player"));
 
-		else if (NeedTarget == 9 || NeedTarget == 40 || (NeedTarget == 5 && !NegativeEffect))	targets.Add (EffectManager.HighestAttackCreature (enemy_creatures)); // target : friendly creature (ex. for heal/buff), AI chooses his strongest creature 
+		else if (NeedTarget == 9 || NeedTarget == 40 || (NeedTarget == 5 && !NegativeEffect))	targets.Add (EffectManager.HighestAttackCreature (enemy_creatures)); 
 
-		else if (NeedTarget == 30 ) { //target: a creature with power X or less
+		else if (NeedTarget == 30 ) {
 		
 			foreach (card foundcreature in creatures_to_search)
 			if (foundcreature.CreatureOffense <= CurrentTargetParam) { targets.Add(foundcreature.gameObject); break; } 
 		}
-		else if (NeedTarget == 31 ) { //target: a creature with cost X or less
+		else if (NeedTarget == 31 ) {
 
 			foreach (card foundcreature in creatures_to_search)
 			if (foundcreature.Cost.Count <= CurrentTargetParam) { targets.Add(foundcreature.gameObject); break; } 
 		}
 
-		else if (NeedTarget == 6 ) {	//target : a turned creature 
+		else if (NeedTarget == 6 ) {
 			
 			List<card> TurnedPlayercreatures = EffectManager.TurnedCreatures(creatures_to_search);
 			
-			targets.Add (EffectManager.HighestAttackCreature(TurnedPlayercreatures).gameObject);	 //AI chooses player's strongest turned creature
+			targets.Add (EffectManager.HighestAttackCreature(TurnedPlayercreatures).gameObject);
 		}
 	
-		else if (NeedTarget == 3 ) // target: a card from deck
+		else if (NeedTarget == 3 )
 		{ 
 			int cardid = 0;
 
-			if (Effect == 4) cardid = EffectManager.RandomCardIdFromIntList(Deck, 0); //land
-				else if (Effect == 13) cardid =  EffectManager.RandomCardIdFromIntList(Deck, 1);//creature
+			if (Effect == 4) cardid = EffectManager.RandomCardIdFromIntList(Deck, 0);
+				else if (Effect == 13) cardid =  EffectManager.RandomCardIdFromIntList(Deck, 1);
 					else cardid = Deck[Random.Range(0,Deck.Count)];
 
 			targets.Add (playerDeck.pD.MakeCard(cardid, true).gameObject);	
 			Deck.Remove(cardid);
 		}
 
-		else if (NeedTarget == 21) //target: card in hand
+		else if (NeedTarget == 21)
 			Enemy.targets.Add(EffectManager.RandomCard(cards_in_hand));
 
-		else if (NeedTarget == 50 || NeedTarget == 51) //target : a spell/creature from graveyard
+		else if (NeedTarget == 50 || NeedTarget == 51)
 
 				foreach (card graveyardcard in Enemy.cards_in_graveyard)
 				{
@@ -278,18 +272,17 @@ public  class Enemy : MonoBehaviour {
 					if (graveyardcard.Type == 2 && NeedTarget == 50) { Enemy.targets.Add(graveyardcard.gameObject); break; }
 				}
 
-		else if (NeedTarget == 41) targets.Add (EffectManager.HighestAttackCreature (Player.player_creatures)); //target enemy creature or hero
+		else if (NeedTarget == 41) targets.Add (EffectManager.HighestAttackCreature (Player.player_creatures));
 
 
 
-		else if (Effect == 6 && NeedTarget == 4) {	//fight between two creatures
+		else if (Effect == 6 && NeedTarget == 4) {
 			Debug.Log("assigning brawl AI targets");
 			if (Player.player_creatures.Count > 1)
 			{
 				
 				GameObject ourtarget = Player.player_creatures[Random.Range(0, Player.player_creatures.Count)].gameObject;
 				GameObject secondtarget = Player.player_creatures[Random.Range(0, Player.player_creatures.Count)].gameObject;
-				//make sure we don't select the same creature twice
 				while (secondtarget == ourtarget)
 				{
 					secondtarget = Player.player_creatures[Random.Range(0, Player.player_creatures.Count)].gameObject;
@@ -306,8 +299,7 @@ public  class Enemy : MonoBehaviour {
 			}		
 		
 		}
-		else if (NegativeEffect) targets.Add (EffectManager.HighestAttackCreature (creatures_to_search)); //should be last, AI chooses to debuff/damage/kill player's strongest creature, doesn't work for multitarget atm
-
+		else if (NegativeEffect) targets.Add (EffectManager.HighestAttackCreature (creatures_to_search)); 
 	}
 
 
@@ -374,7 +366,7 @@ public  class Enemy : MonoBehaviour {
 
 	void OnMouseDown()
 	{
-		if (Player.NeedTarget==1) {  //creature attack
+		if (Player.NeedTarget==1) {
 
 			if (MainMenu.TCGMaker.core.OptionCantAttackPlayerThatHasHeroes) {
 				if (Enemy.HasAHero()) Player.Warning = "You can't attack a player if he has a hero in game";
@@ -383,7 +375,7 @@ public  class Enemy : MonoBehaviour {
 			else AssignTarget();
 			
 		}
-		else 	if (Player.NeedTarget==2) { //damaging spell
+		else 	if (Player.NeedTarget==2) {
 			
 			AssignTarget();
 		}
@@ -420,30 +412,30 @@ public  class Enemy : MonoBehaviour {
 		TurnPopUpTimer = 0;
 		Enemy.targets.Clear ();
 		GameScript.RemoveAllEOTBuffsAndDebuffs ();
-		Player.Turn++; //starting a new turn
+		Player.Turn++;
 
 		TriggerCardAbilities(abilities.ON_START_OF_YOUR_TURN);
 
-		if (!MainMenu.TCGMaker.core.OptionManaDoesntReset) mana.Clear(); //no mana yet
-		if (MainMenu.TCGMaker.core.OptionManaAutoIncrementsEachTurn) // mana gain, Hearthstone-style
+		if (!MainMenu.TCGMaker.core.OptionManaDoesntReset) mana.Clear();
+		if (MainMenu.TCGMaker.core.OptionManaAutoIncrementsEachTurn)
 		{
 			int newManaGain;
 			if (playerDeck.pD.first_or_second == 2) newManaGain = (Player.Turn+1) / 2;
 			else  newManaGain = Player.Turn / 2;
 			
-			if (newManaGain < MainMenu.TCGMaker.core.OptionManaMaxIncrement) AddMana(newManaGain); //adding colorless mana
-			else AddMana(MainMenu.TCGMaker.core.OptionManaMaxIncrement); //adding colorless mana
+			if (newManaGain < MainMenu.TCGMaker.core.OptionManaMaxIncrement) AddMana(newManaGain);
+			else AddMana(MainMenu.TCGMaker.core.OptionManaMaxIncrement);
 			
 		}
 
-		Enemy.EnemyTurn = true; //indicate it is the AI's turn.
+		Enemy.EnemyTurn = true;
 
 		
 		foreach (card foundcard in cards_in_game) {
 
 			if (foundcard.FirstTurnInGame) {foundcard.FirstTurnInGame = false;}
 
-			if (foundcard.IsTurned == true) { //unturning all turned cards
+			if (foundcard.IsTurned == true) {
 			
 				foundcard.transform.Rotate(0, 0, -MainMenu.TCGMaker.core.OptionTurnDegrees);
 				foundcard.IsTurned = false;
@@ -453,23 +445,23 @@ public  class Enemy : MonoBehaviour {
 		}
 
 
-		if (!MainMenu.IsMulti)	//AI
+		if (!MainMenu.IsMulti)
 		
 		{
-			Enemy.HandZone.DrawCard(); //AI draws a card
+			Enemy.HandZone.DrawCard();
 
 		foreach (card foundcard in cards_in_hand) {
 	
 			if (foundcard.Type == 0) { 
 					if (AITurn.CheckCard(foundcard))
 						{
-							foundcard.FromHandLand(false); //if the enemy has a land to play, he plays it
+							foundcard.FromHandLand(false);
 							break;
 						}
 				} 
 		}
 
-		AITurn.DoCoroutine (); //playing cards
+		AITurn.DoCoroutine ();
 			
 		}
 	
@@ -485,8 +477,8 @@ public  class Enemy : MonoBehaviour {
 						GUI.skin = GameObject.FindWithTag ("Player").GetComponent<Player> ().customskin;
 			GUI.Label(new Rect(Screen.width * (0.5f / 130f), Screen.height * (1.4f / 8f), Screen.width * (1f / 13f), Screen.height * (1f / 14f)), Enemy.EnemyName);
 			GUI.Label(new Rect(Screen.width * (0.5f / 130f), Screen.height * (1.6f / 8f), Screen.width * (1.5f / 13f), Screen.height * (1f / 14f)), "Zycie: "+ Life.ToString());
-			GUI.Label(new Rect(Screen.width * (0.5f / 130f), Screen.height * (1.8f / 8f), Screen.width * (1.5f / 13f), Screen.height * (1f / 14f)), "Karty w reku: "+ CardsInHand.ToString()); //important for multi, don't change CardsInHand to Count or smth
-		GUI.Label(new Rect(Screen.width * (0.5f / 130f), Screen.height * (2f / 8f), Screen.width * (1.5f / 13f), Screen.height * (1f / 14f)), "Karty w talii: "+ NumberOfCardsInDeck.ToString()); //important for multi, don't change NumberOfCardsInDeck to Count or smth
+			GUI.Label(new Rect(Screen.width * (0.5f / 130f), Screen.height * (1.8f / 8f), Screen.width * (1.5f / 13f), Screen.height * (1f / 14f)), "Karty w reku: "+ CardsInHand.ToString()); 
+		GUI.Label(new Rect(Screen.width * (0.5f / 130f), Screen.height * (2f / 8f), Screen.width * (1.5f / 13f), Screen.height * (1f / 14f)), "Karty w talii: "+ NumberOfCardsInDeck.ToString()); 
 
 		if (MainMenu.TCGMaker.core.UseManaColors) 
 		{
@@ -511,17 +503,6 @@ public  class Enemy : MonoBehaviour {
 			}
 		}
 		else GUI.Label(new Rect(Screen.width * (0.5f / 130f), Screen.height * (2.2f / 8f), Screen.width * (1.5f / 13f), Screen.height * (1f / 14f)), "Skarbiec: "+ mana.Count);
-
-        /*	if (MainMenu.TCGMaker.core.OptionGraveyard) GUI.Label(new Rect(800,210,180,30), "Cards in graveyard: " + cards_in_graveyard.Count.ToString());
-                            //GUI.Label (new Rect (4, 150, 160, 25), "Actions: " + Actions.ToString ());
-
-                            //if (Grid.UseGrid) GUI.Label(new Rect(800,210,180,30), "Cards in graveyard: " + cards_in_graveyard.Count.ToString());
-
-                            if ((TurnPopUpTimer < TurnPopUpTimerMax) && !Player.TutorialOn) {
-                                    //GUI.Window (0, new Rect ((Screen.width * 0.5f) - 160, (Screen.height * 0.5f) - 50		                       
-                                     //  , 250, 100), OpponentTurnPopup, "");
-                            }
-        */
     }
     
 	public void GainsMana (int amount)
@@ -536,15 +517,14 @@ public  class Enemy : MonoBehaviour {
 	{
 		Debug.Log("enemy is attacked directly");
 		Life -= Attacker.CreatureOffense;
-		//Debug.Log ("gonna play sound");
 		GetComponent<AudioSource>().PlayOneShot(Hit);
 		GetComponent<Renderer>().material.color = Color.red;
-		Invoke("RestoreColor", 0.3f); //we make our enemy's avatar red for 0.3 seconda
+		Invoke("RestoreColor", 0.3f);
 	}
 
 	public void RestoreColor()
 	{
-		GetComponent<Renderer>().material.color = Color.white; //this actually doesn't paint the avatar white, but restores it to its original colors
+		GetComponent<Renderer>().material.color = Color.white;
 	}
 
 	public void TakesCardSFX ()
@@ -559,18 +539,18 @@ public  class Enemy : MonoBehaviour {
 		int amount = (int)param.x;
 		int damagetype = (int)param.y;
 		
-		if (damagetype == 0)	//fire
+		if (damagetype == 0)
 		{
 			Instantiate (firefx, new Vector3(transform.position.x,transform.position.y,transform.position.z-1), transform.rotation);
 			GetComponent<AudioSource>().PlayOneShot(HitBySpell);
 			GetComponent<Renderer>().material.color = Color.red;
-			Invoke("RestoreColor", 0.3f); //we make the avatar red for 0.3 seconda
+			Invoke("RestoreColor", 0.3f);
 		}
-		if (damagetype == 1)	//physical
+		if (damagetype == 1)
 		{
 			GetComponent<AudioSource>().PlayOneShot (Hit);
 			GetComponent<Renderer>().material.color = Color.red;
-			Invoke ("RestoreColor", 0.3f); //we make the avatar red for 0.3 seconda
+			Invoke ("RestoreColor", 0.3f);
 		}
 		
 		

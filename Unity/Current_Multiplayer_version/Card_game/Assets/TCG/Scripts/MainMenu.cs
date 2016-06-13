@@ -30,10 +30,6 @@ public class MainMenu : MonoBehaviour
 	public static bool FirstLoadMenu = true;
 
 	public static bool IsMulti = true;
-//    private Vector2 scrollPos = Vector2.zero;
-
-//    private bool connectFailed = false;
-
 	public static GUIStyle mystyle;
 
 	public static bool CollectionNeedsUpdate = false;
@@ -68,9 +64,6 @@ public class MainMenu : MonoBehaviour
 	public static bool LoggedIn = false;
 
 	private bool register = false;
-
-	//public static bool DeckAndCollectionFromOnlineDB = false; //this will change if the user logs in
-
 	public static string message;
 
 	public static float ColliderWidth, ColliderHeight;
@@ -125,7 +118,6 @@ public class MainMenu : MonoBehaviour
 	{		
 		string[] lines = cardsstring.Split("\n"[0]); 
 		string[] linearray;
-		// finds the number of cards
 		
 		Hashtable[] output = new Hashtable[lines.Length-1];
 		for (int i = 0; i < (lines.Length-1); i++)
@@ -295,7 +287,6 @@ public class MainMenu : MonoBehaviour
 				LoggedIn = true;
 				Currency.GetCurrency();
 				DoGetLatestCards();
-			//	DeckAndCollectionFromOnlineDB = true;
 				DoGetPlayerDeck();
 				DoGetPlayerCollection();
 
@@ -316,8 +307,6 @@ public class MainMenu : MonoBehaviour
 			}
 
 		}
-		//GUILayout.Label("deck count" + playerDeck.Deck.Count.ToString());
-
 		GUI.Label(new Rect(Screen.width / 2 -30, ((Screen.height - 350) / 2)+300, 600, 150), Currency.messagecurrency);
         GUI.skin.box.fontStyle = FontStyle.Bold;
         GUI.Box(new Rect((Screen.width - 400) / 2, (Screen.height - 350) / 2, 400, 300), "Tarotia, gra karciana");
@@ -326,8 +315,7 @@ public class MainMenu : MonoBehaviour
         GUILayout.Space(50);
 
 		GUILayout.BeginHorizontal();
-
-		//if (message!="") GUILayout.Box(message);
+        
 		GUILayout.EndHorizontal();
 	
 		if (register)
@@ -360,7 +348,7 @@ public class MainMenu : MonoBehaviour
 			{
 				message ="";
 				if (username=="" || pswd=="" || repass=="" || email=="") message+="Please enter all the fields \n";
-				else if (pswd==repass) DoRegister();       			  // Registration
+				else if (pswd==repass) DoRegister();
 				else message+="Your password does not match \n";
 			}
 			GUILayout.EndHorizontal();	
@@ -410,7 +398,6 @@ public class MainMenu : MonoBehaviour
 			GUILayout.BeginHorizontal();
 			GUILayout.FlexibleSpace();
 			GUILayout.Label("Password:");
-			//GUILayout.FlexibleSpace();
 			pswd = GUILayout.PasswordField(pswd, "*"[0], GUILayout.Width(150));
 			GUILayout.FlexibleSpace();
 			GUILayout.EndHorizontal();
@@ -420,7 +407,7 @@ public class MainMenu : MonoBehaviour
 
 			if (GUILayout.Button("Login")) {
 					if (username=="" || pswd=="") message+="Please enter all the fields \n";
-					else DoLogin();           // Login
+					else DoLogin(); 
 			}
 			if (GUILayout.Button("Register")){ register=true; } 
 			GUILayout.FlexibleSpace();

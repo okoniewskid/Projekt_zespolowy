@@ -5,11 +5,11 @@ using System.Collections;
 
 public class Currency : MonoBehaviour
 {
-	static public Currency instance; //the instance of our class that will do the work
-	private static string secretKey = "WorkSucks"; // Edit this value and make sure it's the same as the one stored on the server
-	public static string addSilverURL = "http://losange-vision.com/addsilver.php?"; //be sure to add a ? to your url
+	static public Currency instance;
+	private static string secretKey = "WorkSucks"; 
+	public static string addSilverURL = "http://losange-vision.com/addsilver.php?";
 
-	public static string buyCardURL = "http://losange-vision.com/buycard.php?"; //be sure to add a ? to your url
+	public static string buyCardURL = "http://losange-vision.com/buycard.php?";
 
 
 	public static string mycurrencyURL = "http://localhost/tcg/mycurrency.php";
@@ -22,11 +22,9 @@ public class Currency : MonoBehaviour
 		System.Text.UTF8Encoding ue = new System.Text.UTF8Encoding();
 		byte[] bytes = ue.GetBytes(strToEncrypt);
 		
-		// encrypt bytes
 		System.Security.Cryptography.MD5CryptoServiceProvider md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
 		byte[] hashBytes = md5.ComputeHash(bytes);
 		
-		// Convert the encrypted bytes back to a string (base 16)
 		string hashString = "";
 		
 		for (int i = 0; i < hashBytes.Length; i++)
@@ -39,9 +37,9 @@ public class Currency : MonoBehaviour
 
 
 
-	void Awake(){ //called when an instance awakes in the game
+	void Awake(){
 		DontDestroyOnLoad(transform.gameObject);
-		instance = this; //set our static reference to our newly initialized instance
+		instance = this;
 	}
 
 
@@ -81,9 +79,8 @@ public class Currency : MonoBehaviour
 		
 		string post_url = addSilverURL + "userid=" + WWW.EscapeURL(MainMenu.userid.ToString()) + "&silver=" + score + "&hash=" + hash;
 		
-		// Post the URL to the site and create a download object to get the result.
 		WWW hs_post = new WWW(post_url);
-		yield return hs_post; // Wait until the download is done
+		yield return hs_post;
 		
 		if (hs_post.error != null)
 		{
@@ -107,9 +104,8 @@ public class Currency : MonoBehaviour
 		
 		string post_url = buyCardURL + "userid=" + WWW.EscapeURL(MainMenu.userid.ToString()) + "&index=" + Index + "&hash=" + hash;
 		
-		// Post the URL to the site and create a download object to get the result.
 		WWW hs_post = new WWW(post_url);
-		yield return hs_post; // Wait until the download is done
+		yield return hs_post;
 		
 		if (hs_post.error != null)
 		{

@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-
-// for multiplayer only
 public class Logic : MonoBehaviour
 {
 
@@ -21,8 +19,7 @@ public class Logic : MonoBehaviour
 
 	public static readonly string SceneNameMainMenu = "MainMenuScene";
 	public static readonly string SceneNameGame = "GameScene";
-
-    // Use this for initialization
+    
     public void Start()
     {
       if (MainMenu.IsMulti) {
@@ -40,13 +37,11 @@ public class Logic : MonoBehaviour
 
 
 		if (IsMultiplayer) { 
-						// in case we started this demo with the wrong scene being active, simply load the menu scene
 						if (!PhotonNetwork.connected)
 						{
 							Application.LoadLevel(LobbyMenu.SceneNameMenu);
 							return;
 						}
-						//Debug.Log("checking if isfirstplayer");
 						if (PhotonNetwork.playerList.Length == 1) {
 								Debug.Log ("isfirstplayer");
 								IsFirstPlayer = true;
@@ -67,14 +62,11 @@ public class Logic : MonoBehaviour
 	{
 		if (IsMultiplayer) {
 						if (GUILayout.Button ("Return to Lobby")) {
-								PhotonNetwork.LeaveRoom ();  // we will load the menu level when we successfully left the room
+								PhotonNetwork.LeaveRoom (); 
 								Application.LoadLevel(SceneNameMainMenu);
 						}
 		
 						if (PhotonNetwork.connectionStateDetailed == PeerState.Joined) {
-								
-								//Debug.Log("playerID: " + PhotonNetwork.player.ID);
-								
 								if (Logic.IsFirstPlayer)
 										GUI.Label (new Rect (440, 2, 200, 20), PhotonNetwork.connectionStateDetailed.ToString () + " as Player1");
 								else
@@ -91,8 +83,6 @@ public class Logic : MonoBehaviour
 
     public void OnPhotonPlayerConnected(PhotonPlayer player)
     {
-	
-	//	PhotonNetwork.LoadLevel(SceneNameGame); //rand matchmaker
 
 	    Debug.Log("OnPhotonPlayerConnected: " + player);
 
@@ -102,7 +92,7 @@ public class Logic : MonoBehaviour
         {
 			Logic.ScenePhotonView.RPC("SendEnemyName", PhotonTargets.Others, PhotonNetwork.playerName);
 			Debug.Log ("sending name to 2d player");
-			ScenePhotonView.RPC("UpdateEnemyCardsInHand", PhotonTargets.Others, Player.cards_in_hand.Count); //sending player1 hand cards to the new player
+			ScenePhotonView.RPC("UpdateEnemyCardsInHand", PhotonTargets.Others, Player.cards_in_hand.Count);
           
         }
     }
@@ -122,7 +112,7 @@ public class Logic : MonoBehaviour
 
 	}
 
-	public GameObject FindSlotByID(string targetstring) //ex. 5280003  : 5(always) 2(enemy zone) 8(zone id) 000 (always) 3 (slot number) 
+	public GameObject FindSlotByID(string targetstring)
 	{
 		Debug.Log ("trying to find slot: "+targetstring);
 		string[] stringSeparators = new string[] {"000"};
@@ -131,11 +121,11 @@ public class Logic : MonoBehaviour
 		if (targetstring [1] == '2') 
 						playerszone = true; 
 
-		targetstring = targetstring.Substring (2); //ex. 80003
+		targetstring = targetstring.Substring (2); 
 
 
-		int zoneid = System.Int32.Parse(targetstring.Split(stringSeparators, System.StringSplitOptions.None)[0]);	// ex. 8 - zone id
-		int slotnumber = System.Int32.Parse(targetstring.Split(stringSeparators, System.StringSplitOptions.None)[1]); // ex. 3 - slot number in zone
+		int zoneid = System.Int32.Parse(targetstring.Split(stringSeparators, System.StringSplitOptions.None)[0]);
+		int slotnumber = System.Int32.Parse(targetstring.Split(stringSeparators, System.StringSplitOptions.None)[1]);
 
 		foreach (Zone foundzone in playerDeck.pD.zones) 
 						if (foundzone.zone_id == zoneid && foundzone.BelongsToPlayer == playerszone) {
@@ -170,9 +160,9 @@ public class Logic : MonoBehaviour
 					target_id = System.Int32.Parse(targetstring);
 
 					if (targetstring.StartsWith("5")) Enemy.targets.Add ( FindSlotByID(targetstring));
-					else if (target_id>2) Enemy.targets.Add ( FindCardByID(target_id).gameObject ); //enemy targets some card
-					else if (target_id==2) Enemy.targets.Add (  GameObject.FindWithTag ("Player") as GameObject ); //enemy targets our player
-					else if (target_id==1) Enemy.targets.Add (  GameObject.FindWithTag ("Enemy") as GameObject ); //enemy targets self
+					else if (target_id>2) Enemy.targets.Add ( FindCardByID(target_id).gameObject );
+					else if (target_id==2) Enemy.targets.Add (  GameObject.FindWithTag ("Player") as GameObject );
+					else if (target_id==1) Enemy.targets.Add (  GameObject.FindWithTag ("Enemy") as GameObject );
 			}
 		}
 
@@ -207,8 +197,7 @@ public class Logic : MonoBehaviour
 	public void SendEffect(int effect_number, int creature_id)
 	{	
 		card creaturecard = FindCardByID (creature_id);
-
-		//creaturecard.Tap ();
+        
 		EffectManager.DoEffect (true, creaturecard, effect_number, Enemy.targets);
 	}
 
@@ -220,15 +209,6 @@ public class Logic : MonoBehaviour
 
 		
 	}
-
-	//[RPC]
-	//public void SendTarget(int id)
-	//{	
-	//	Debug.Log("received enemy target");
-	//	FindCardByID(id).AssignEnemyTargetMultiplayer();
-		
-		
-	//}
 
 	[RPC]
 	public void SendEnemyName(string enemyname)
@@ -245,7 +225,7 @@ public class Logic : MonoBehaviour
 	public void SendEndTurn()
 	{	
 		if (Player.Turn==1) playerDeck.pD.TheSecondPlayerCanPlay = true;
-		Player.PlayersTurn = true; //it's the player's turn now
+		Player.PlayersTurn = true;
 		Player.NewTurn ();
 			
 	}

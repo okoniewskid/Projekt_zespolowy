@@ -2,10 +2,6 @@
 using System.Collections;
 public class CardTemplate : MonoBehaviourSingleton<CardTemplate>{
 
-
-
-
-	// Use this for initialization
 	void Start () {
 		if (GetComponent<BoxCollider2D>())
 		{
@@ -18,14 +14,10 @@ public class CardTemplate : MonoBehaviourSingleton<CardTemplate>{
 		}
 
 		gameObject.SetActive(false);
-		//if (renderer) renderer.enabled = false;	//hiding our card template
-		//foreach (Transform child in transform)
-		//	child.renderer.enabled = false;
 		
 		card.ZoomHeight = MainMenu.ColliderHeight * 2.75f;
 	}
 	
-	// Update is called once per frame
 	void Update () {
 	
 	}

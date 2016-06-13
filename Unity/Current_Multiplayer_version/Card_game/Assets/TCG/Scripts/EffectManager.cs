@@ -20,9 +20,6 @@ public class EffectManager : MonoBehaviour {
 
 	public static List<EffectToDo> Stack = new List<EffectToDo>();
 
-
-
-	// Use this for initialization
 	void Awake()
 	{
 		instance = this;
@@ -31,13 +28,9 @@ public class EffectManager : MonoBehaviour {
 
 	}
 	
-	// Update is called once per frame
 	void Update () {
-		//Debug.Log("Player.CanDoStack:"+Player.CanDoStack);
-		//try to execute the first effect from stack
 		if (Stack.Count > 0 && !Player.EffectInProcess && Player.CanDoStack) {
-
-			// here an option to counter the spell/ cast an instant will be added
+            
 			Player.EffectInProcess = true;
 			Debug.Log ("starting to do the last added effect from the stack");
 			EffectToDo lastadded = new EffectToDo();
@@ -80,9 +73,9 @@ public class EffectManager : MonoBehaviour {
 
 			Debug.Log("gonna play audio: ");
 			GameObject.FindWithTag("Player").GetComponent<AudioSource>().PlayOneShot(effectcard.sfxAbility0);
-			if (effectcard.Type == 2 ) effectcard.StartCoroutine("SpellAfterEffects", AI); //if it's a spell 
-			else if ( effectcard.Type == 4 ) effectcard.StartCoroutine("SecretAfterEffects", AI); // or a secret
-			else Player.SpellInProcess = false; //some ability
+			if (effectcard.Type == 2 ) effectcard.StartCoroutine("SpellAfterEffects", AI);
+			else if ( effectcard.Type == 4 ) effectcard.StartCoroutine("SecretAfterEffects", AI);
+			else Player.SpellInProcess = false;
 				
 		}
 
@@ -94,16 +87,16 @@ public class EffectManager : MonoBehaviour {
 
 		int effect = effectcard.Effects[effect_number].type;
 
-		if (effectcard.Type == 1 && effectcard.Effects[effect_number].trigger == 1) //if it's a creature's activated ability
+		if (effectcard.Type == 1 && effectcard.Effects[effect_number].trigger == 1)
 			effectcard.Turn ();
 
 		Debug.Log ("gonna do effect type: " + effect);
 	
-		if (param0type == 1)	//number of allies
+		if (param0type == 1)
 			if (effectcard.ControlledByPlayer) Param0 = Player.player_creatures.Count();
 				else Param0 = Enemy.enemy_creatures.Count();
 		
-		else if (param0type == 2) //number of allies destroyed this turn
+		else if (param0type == 2)
 			if (effectcard.ControlledByPlayer) Param0 = Player.AlliesDestroyedThisTurn;
 				else Param0 = Enemy.AlliesDestroyedThisTurn;
 
@@ -112,30 +105,27 @@ public class EffectManager : MonoBehaviour {
 
 		bool EOT = false;
 		int BuffDebuffType = 0;
-		//int card_index = effectcard.Index;
-
-	
 
 		Debug.Log ("param0:" + Param0);
 
 		ourtargets = effecttargets;
 
-		switch (effect) { // check the index of the 1st effect and call the appropriate function
-		case 0: 	//heal  
+		switch (effect) {
+		case 0:  
 			Debug.Log ("heal");
 			Heal (Param0); 
 			break;
-		case 1:		// damage 
+		case 1:
 			Debug.Log ("damage");
 			if (Player.player_creatures.Contains(effectcard) || Enemy.enemy_creatures.Contains(effectcard)) Damage (Param0, effectcard.id_ingame);
 			else Damage (Param0, effectcard.id_ingame);
 			Debug.Log(" effectcard:"+effectcard.Name + "idingame:" +effectcard.id_ingame);
 			break;
-		case 2:		//draw card(s)
+		case 2:	
 			Debug.Log ("draw card(s)");
 			DrawCard (AI, Param0);
 			break;
-		case 4: //place a card in your land zone (from deck, graveyard, etc)
+		case 4: 
 			
 			Debug.Log ("place card in land zone");
 			
@@ -143,7 +133,7 @@ public class EffectManager : MonoBehaviour {
 			
 			
 			break;		
-		case 5: //place a card in your hand (from deck, graveyard, etc)
+		case 5: 
 
 			Debug.Log ("place card in hand");
 
@@ -151,20 +141,20 @@ public class EffectManager : MonoBehaviour {
 			
 		
 			break;
-		case 6: //fight between two creatures
+		case 6: 
 			Debug.Log ("brawl");
 			Brawl();
 			break;
 	
-		case 8: //untap 
+		case 8:  
 			Debug.Log ("untapattackingtarget");
 			UntapTarget();
 			break;
-		case 9: //kill
+		case 9: 
 			Debug.Log ("destroy");
 			 DestroyCreature();
 			break;
-		case 10: //debuff.  If the EOT boolean is true, this effect only lasts until end of turn.
+		case 10:
 
 			EOT = effectcard.Effects[effect_number].eot;
 
@@ -173,25 +163,25 @@ public class EffectManager : MonoBehaviour {
 			DoBuff(false, Param0, BuffDebuffType, EOT, effectcard);
 			break;
 
-		case 11: //buff 
+		case 11: 
 
 			EOT = effectcard.Effects[effect_number].eot;
 
 			Debug.Log ("buff");
 			BuffDebuffType = effectcard.Effects[effect_number].bufftype;
-			DoBuff(true, Param0, BuffDebuffType, EOT, effectcard); //we pass effect to let Buff know what type of buff we want
+			DoBuff(true, Param0, BuffDebuffType, EOT, effectcard); 
 			break;
-		case 12: //place creature, param is card index
+		case 12: 
 
 			Debug.Log ("place creature");
 			PlaceCreature(AI, Param0, effectcard); 
 			break;
-		case 13: //place target creature in game under your control
+		case 13: 
 			
 			Debug.Log ("place creature");
 			PlaceCreature(AI); 
 			break;
-		case 15: //gain mana
+		case 15: 
 			
 			Debug.Log ("gain mana");
 			GainMana(AI, Param0); 
@@ -203,12 +193,6 @@ public class EffectManager : MonoBehaviour {
 		}
 
 		Player.EffectInProcess = false;
-
-
-
-	
-
-
 	}
 
 
@@ -220,7 +204,7 @@ public class EffectManager : MonoBehaviour {
 		if (Index != -1)
 		{
 			newcreature = playerDeck.pD.MakeCard (Index);
-			if (MainMenu.TCGMaker.core.UseGrid) Player.CreaturesZone.slot_to_use = effectcard.transform.parent.GetComponent<Slot>().RandomEmptyAdjacentSlot(); //grid is used by both so we can use just Player.CreaturesZone
+			if (MainMenu.TCGMaker.core.UseGrid) Player.CreaturesZone.slot_to_use = effectcard.transform.parent.GetComponent<Slot>().RandomEmptyAdjacentSlot();
 			playerDeck.pD.PlaceCreatureInGame (newcreature, AI);
 		}
 			else 
@@ -268,7 +252,6 @@ public class EffectManager : MonoBehaviour {
 			targetcard = target.GetComponent<card>();
 			if (Player.cards_in_graveyard.Contains(targetcard))   Player.cards_in_graveyard.Remove(targetcard);  
 			else if (Enemy.cards_in_graveyard.Contains(targetcard))  Enemy.cards_in_graveyard.Remove(targetcard);
-			//here will be checks if the card was from enemy creatures, lands, own creatures, etc
 			if (!AI) {
 				
 				Player.AddLand(targetcard);
@@ -297,12 +280,10 @@ public class EffectManager : MonoBehaviour {
 				else if (Enemy.cards_in_graveyard.Contains(targetcard))  Enemy.cards_in_graveyard.Remove(targetcard);
 					else if (Player.player_creatures.Contains(targetcard)) Player.RemoveCreature(targetcard);
 						else if (Enemy.enemy_creatures.Contains(targetcard))  Enemy.RemoveCreature(targetcard);
-
-			//here will be checks if the card was from enemy creatures, lands, own creatures, etc
+            
 			if (!AI) {
 
 				Player.AddHandCard(targetcard);
-				//targetcard.renderer.sortingOrder = 0;
 				targetcard.ControlledByPlayer = true;
 
 					}
@@ -316,7 +297,7 @@ public class EffectManager : MonoBehaviour {
 
 
 
-	public static void DrawCard(bool AI, int param) // 
+	public static void DrawCard(bool AI, int param)
 	{
 
 		instance.StartCoroutine (DrawCards(param, AI));
@@ -340,7 +321,7 @@ public class EffectManager : MonoBehaviour {
 		
 	}
 
-	public static void Heal(int param) // heal 
+	public static void Heal(int param) 
 	{
 
 		foreach (GameObject target in ourtargets)
@@ -351,7 +332,7 @@ public class EffectManager : MonoBehaviour {
 	}
 	
 
-	public static void Damage(int param, int cardid=-1) // damage 
+	public static void Damage(int param, int cardid=-1)
 	{
 	
 		foreach (GameObject target in ourtargets)
@@ -371,7 +352,7 @@ public class EffectManager : MonoBehaviour {
 		card card_to_buff;
 		foreach (GameObject target in ourtargets)
 		{
-			card_to_buff = target.GetComponent<card>();	//only cards can be buffed for now (not players)
+			card_to_buff = target.GetComponent<card>();
 
 			card_to_buff.AddBuff(positive, param, BuffType, EOT, effectcard);
 
@@ -407,8 +388,6 @@ public class EffectManager : MonoBehaviour {
 
 	}
 
-	//Utility methods:
-
 	public static List<GameObject> CreaturesInGame(bool alsoHeroes = false)
 	{
 		List<GameObject> output = new List<GameObject>();
@@ -426,7 +405,7 @@ public class EffectManager : MonoBehaviour {
 	{
 		List<GameObject> output = new List<GameObject>();
 		
-		if (cardslist.Count <= need_creatures) //just all all of them
+		if (cardslist.Count <= need_creatures)
 		{ 
 			foreach (card foundcard in cardslist) output.Add(foundcard.gameObject);
 			
@@ -450,7 +429,7 @@ public class EffectManager : MonoBehaviour {
 	{
 		List<GameObject> output = new List<GameObject>();
 		
-		if (gameobjlist.Count <= need_objects) //just all all of them
+		if (gameobjlist.Count <= need_objects)
 		{ 
 			foreach (GameObject foundobj in gameobjlist) output.Add(foundobj);
 			
@@ -471,7 +450,7 @@ public class EffectManager : MonoBehaviour {
 	}
 
 
-	public static List<card> TurnedCreatures(List<card> creatureslist) //Make a list of all tapped creatures in this list
+	public static List<card> TurnedCreatures(List<card> creatureslist)
 	{
 
 		List<card> output = new List<card>();
@@ -517,7 +496,6 @@ public class EffectManager : MonoBehaviour {
 						foundcards = cardlist;
 
 		int randomcard = foundcards[Random.Range(0,foundcards.Count)];
-		//add removal from deck here?
 
 		return playerDeck.pD.MakeCard(randomcard).gameObject;
 	}
@@ -546,19 +524,17 @@ public class EffectManager : MonoBehaviour {
 
 	public static GameObject HighestAttackCreature(List<card> creatureslist, bool alsoHeroes = false)
 	{
-		int highestAttackValue = -1; // this will store the highest attack value of player creatures on the field
+		int highestAttackValue = -1; 
 		foreach (card foundcreature in creatureslist)
 		{
 			if (foundcreature.CreatureOffense > highestAttackValue && (alsoHeroes || !foundcreature.Hero))
 			    highestAttackValue = foundcreature.CreatureOffense;
 		}
-		List<card> biggestCreatures = new List<card>(); // holds every player creature that has the highest attack value
+		List<card> biggestCreatures = new List<card>(); 
 			    foreach (card foundcreature in creatureslist)
 		{
 				if (foundcreature.CreatureOffense == highestAttackValue) biggestCreatures.Add (foundcreature);
 		}
-		// Now that we have a list of the biggest creatures, choose a random one.
-		//return biggestCreatures[Random.Range (0, biggestCreatures.Count)].gameObject;
 		return biggestCreatures[0].gameObject;
 	}
 
